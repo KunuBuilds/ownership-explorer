@@ -1,0 +1,142 @@
+.layout {
+  display:               grid;
+  grid-template-columns: 280px 1fr;
+  min-height:            calc(100vh - 56px);
+}
+
+.sidebar {
+  border-right:   1px solid var(--border);
+  background:     var(--surface);
+  display:        flex;
+  flex-direction: column;
+  position:       sticky;
+  top:            56px;
+  height:         calc(100vh - 56px);
+  overflow:       hidden;
+}
+
+.sidebarHeader {
+  padding:       18px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink:   0;
+}
+
+.catTree {
+  flex:       1;
+  overflow-y: auto;
+  padding:    8px 0;
+}
+.catTree::-webkit-scrollbar       { width: 3px; }
+.catTree::-webkit-scrollbar-thumb { background: var(--border); }
+
+/* L1 */
+.l1         { border-bottom: 1px solid var(--border); }
+.l1Header {
+  display:     flex;
+  align-items: center;
+  gap:         10px;
+  padding:     11px 18px;
+  cursor:      pointer;
+  transition:  background 0.15s;
+  user-select: none;
+}
+.l1Header:hover { background: var(--surface2); }
+.l1Active       { background: var(--surface2); }
+.l1Icon         { font-size: 16px; flex-shrink: 0; width: 22px; text-align: center; }
+.l1Name         { font-size: 12px; font-weight: 500; flex: 1; color: var(--text); }
+.l1Count        { font-size: 9px; color: var(--muted); background: var(--tag-bg); border: 1px solid var(--border); padding: 1px 6px; }
+
+/* L2 */
+.l2Header {
+  display:     flex;
+  align-items: center;
+  gap:         8px;
+  padding:     8px 18px 8px 36px;
+  cursor:      pointer;
+  transition:  background 0.15s;
+  border-left: 2px solid transparent;
+}
+.l2Header:hover { background: var(--surface2); }
+.l2Active       { background: var(--surface2); border-left-color: var(--accent); }
+.l2Name         { font-size: 11px; flex: 1; color: var(--muted); transition: color 0.15s; }
+.l2Header:hover .l2Name, .l2Active .l2Name { color: var(--text); }
+.l2Count        { font-size: 9px; color: var(--muted); }
+
+/* L3 */
+.l3Row {
+  display:     flex;
+  align-items: center;
+  gap:         6px;
+  padding:     6px 18px 6px 52px;
+  cursor:      pointer;
+  transition:  background 0.15s;
+  border-left: 2px solid transparent;
+}
+.l3Row:hover { background: var(--surface2); }
+.l3Active    { background: var(--surface2); border-left-color: var(--accent2); }
+.l3Dot       { width: 4px; height: 4px; border-radius: 50%; background: var(--border); flex-shrink: 0; }
+.l3Active .l3Dot { background: var(--accent2); }
+.l3Name      { font-size: 10px; color: var(--muted); flex: 1; }
+.l3Row:hover .l3Name, .l3Active .l3Name { color: var(--text); }
+.l3Count     { font-size: 9px; color: var(--muted); }
+
+/* Chevron */
+.chevron   { font-size: 9px; color: var(--muted); transition: transform 0.2s; flex-shrink: 0; }
+.chevronSm { font-size: 8px; }
+.chevronOpen { transform: rotate(90deg); }
+
+/* Main */
+.main    { padding: 36px 40px 80px; overflow-y: auto; }
+
+.mainHeader   { margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+.breadcrumb   { font-size: 10px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.breadcrumbWrap   { display: flex; align-items: center; }
+.breadcrumbItem   { cursor: pointer; transition: color 0.15s; }
+.breadcrumbItem:hover { color: var(--accent); }
+.breadcrumbCurrent { color: var(--text); cursor: default; }
+.breadcrumbSep    { color: var(--border); margin: 0 4px; }
+
+.mainTitle { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; color: var(--text); margin-bottom: 8px; display: flex; align-items: center; gap: 14px; }
+.mainIcon  { font-size: 28px; }
+.mainDesc  { font-size: 11px; color: var(--muted); line-height: 1.7; max-width: 600px; }
+
+/* Pills */
+.pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+.pill  { display: flex; align-items: center; gap: 6px; padding: 6px 14px; background: var(--surface); border: 1px solid var(--border); cursor: pointer; font-size: 11px; color: var(--muted); transition: all 0.15s; }
+.pill:hover   { background: var(--surface2); border-color: var(--accent); color: var(--text); }
+.pillActive   { background: rgba(200,169,110,.1); border-color: var(--accent); color: var(--accent); }
+.pillCount    { font-size: 9px; }
+
+/* Brand grid */
+.brandsHeader { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 14px; }
+.brandsTitle  { font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+.brandsCount  { font-size: 10px; color: var(--muted); }
+
+.brandsGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+
+.brandCard {
+  padding:    16px 18px;
+  background: var(--surface);
+  border:     1px solid var(--border);
+  cursor:     pointer;
+  transition: all 0.18s;
+  position:   relative;
+  display:    flex;
+  flex-direction: column;
+  gap:        8px;
+}
+.brandCard::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: transparent; transition: background 0.2s; }
+.brandCard:hover  { background: var(--surface2); border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+.brandCard:hover::after { background: var(--accent); }
+
+.brandName  { font-family: 'Playfair Display', serif; font-size: 15px; color: var(--text); font-weight: 700; }
+.brandSub   { font-size: 9px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+.brandTags  { display: flex; gap: 5px; flex-wrap: wrap; }
+.brandTag   { font-size: 8px; padding: 2px 6px; border: 1px solid var(--border); color: var(--muted); background: var(--tag-bg); letter-spacing: 0.06em; }
+.tagPartial { color: var(--danger);  border-color: rgba(200,110,110,.3); }
+.tagFull    { color: var(--accent2); border-color: rgba(126,184,164,.3); }
+
+.brandOwner { font-size: 10px; color: var(--muted); display: flex; align-items: center; gap: 5px; margin-top: auto; padding-top: 8px; border-top: 1px solid var(--border); }
+.brandOwnerName { color: var(--accent2); }
+
+.noResults  { grid-column: 1/-1; padding: 40px 20px; text-align: center; color: var(--muted); font-size: 11px; }

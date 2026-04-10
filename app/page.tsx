@@ -1,8 +1,12 @@
+import { Suspense } from 'react'
 import { getGraphSnapshot } from '@/lib/data'
 import ExploreClient from '@/components/ExploreClient'
 
-// This page fetches data at build time and passes it to the interactive client component
 export default async function HomePage() {
   const snapshot = await getGraphSnapshot()
-  return <ExploreClient snapshot={snapshot} />
+  return (
+    <Suspense fallback={<div style={{ padding: 40, color: 'var(--muted)' }}>Loading...</div>}>
+      <ExploreClient snapshot={snapshot} />
+    </Suspense>
+  )
 }

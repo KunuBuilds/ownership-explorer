@@ -111,3 +111,24 @@
 
 .partial { color: var(--danger);  border-color: rgba(200,110,110,.3); background: rgba(200,110,110,.07); }
 .full    { color: var(--accent2); border-color: rgba(126,184,164,.3); background: rgba(126,184,164,.07); }
+
+@media (max-width: 768px) {
+  .wrap {
+    margin-left: 0;
+  }
+
+  .input {
+    width: 140px;
+    font-size: 11px;
+    padding: 5px 10px;
+  }
+
+  .input:focus {
+    width: 180px;
+  }
+
+  .dropdown {
+    width: calc(100vw - 32px);
+    right: -16px;
+  }
+}

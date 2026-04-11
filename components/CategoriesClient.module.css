@@ -140,3 +140,48 @@
 .brandOwnerName { color: var(--accent2); }
 
 .noResults  { grid-column: 1/-1; padding: 40px 20px; text-align: center; color: var(--muted); font-size: 11px; }
+
+@media (max-width: 768px) {
+  .layout {
+    grid-template-columns: 1fr;
+    min-height: unset;
+  }
+
+  .sidebar {
+    position: static;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    overflow: visible;
+  }
+
+  .catTree {
+    max-height: 320px;
+    overflow-y: auto;
+  }
+
+  .sidebarHeader {
+    padding: 14px 16px;
+  }
+
+  .main {
+    padding: 24px 16px 60px;
+  }
+
+  .mainTitle {
+    font-size: 24px;
+  }
+
+  .brandsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .pills {
+    gap: 6px;
+  }
+
+  .pill {
+    font-size: 10px;
+    padding: 5px 10px;
+  }
+}

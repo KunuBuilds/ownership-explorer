@@ -181,3 +181,71 @@
   flex-basis: 100%;
   margin-top: 4px;
 }
+
+@media (max-width: 768px) {
+  .page {
+    padding: 24px 16px 60px;
+  }
+
+  .hero {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .title {
+    font-size: 28px;
+  }
+
+  .statBlock {
+    width: 100%;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 12px;
+    padding: 14px 16px;
+  }
+
+  .statValue {
+    font-size: 24px;
+  }
+
+  .chain {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .chainItem {
+    flex-wrap: wrap;
+  }
+
+  .chainCard {
+    min-width: unset;
+    padding: 8px 12px;
+  }
+
+  .chainEdge {
+    padding: 0 6px;
+  }
+
+  .chainLine {
+    width: 16px;
+  }
+
+  .statsRow {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .holdingsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .refRow {
+    grid-template-columns: 20px 1fr auto;
+    gap: 8px;
+    padding: 10px 12px;
+  }
+
+  .metaRow {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+}

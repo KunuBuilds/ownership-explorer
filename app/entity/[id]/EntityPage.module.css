@@ -249,3 +249,103 @@
     gap: 6px;
   }
 }
+
+/* Alternatives */
+.alternativesGrid {
+  display:               grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap:                   10px;
+}
+
+.altCard {
+  padding:    16px 18px;
+  background: var(--surface);
+  border:     1px solid var(--border);
+  display:    flex;
+  flex-direction: column;
+  gap:        10px;
+  transition: all 0.18s;
+  position:   relative;
+}
+
+.altCard::after {
+  content:    '';
+  position:   absolute;
+  bottom:     0; left: 0; right: 0;
+  height:     2px;
+  background: transparent;
+  transition: background 0.2s;
+}
+
+.altCard:hover {
+  background:   var(--surface2);
+  border-color: var(--accent2);
+  transform:    translateY(-2px);
+}
+
+.altCard:hover::after { background: var(--accent2); }
+
+.altHeader {
+  display:     flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap:         8px;
+}
+
+.altName {
+  font-family: 'Playfair Display', serif;
+  font-size:   15px;
+  color:       var(--text);
+  font-weight: 700;
+}
+
+.altReason {
+  font-size:      8px;
+  padding:        2px 7px;
+  border:         1px solid;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  flex-shrink:    0;
+  white-space:    nowrap;
+}
+
+.altIndependent { color: var(--accent2); border-color: rgba(126,184,164,.4); background: rgba(126,184,164,.08); }
+.altSmall       { color: var(--accent);  border-color: rgba(200,169,110,.4); background: rgba(200,169,110,.08); }
+.altOther       { color: var(--muted);   border-color: var(--border);        background: var(--tag-bg); }
+
+.altChain {
+  display:     flex;
+  align-items: center;
+  flex-wrap:   wrap;
+  gap:         0;
+  row-gap:     4px;
+}
+
+.altIndependentLabel {
+  font-size:      9px;
+  color:          var(--accent2);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.altChainWrap  { display: flex; align-items: center; }
+.altChainArrow { font-size: 9px; color: var(--border); padding: 0 3px; }
+
+.altChainNode {
+  font-size:  9px;
+  padding:    2px 6px;
+  background: var(--tag-bg);
+  border:     1px solid var(--border);
+  color:      var(--muted);
+}
+
+.altChainRoot   { background: rgba(200,169,110,.08); color: var(--accent);  border-color: rgba(200,169,110,.2); }
+.altChainTarget { background: rgba(126,184,164,.08); color: var(--accent2); border-color: rgba(126,184,164,.2); }
+
+.altMeta    { display: flex; gap: 5px; flex-wrap: wrap; }
+.altMetaTag { font-size: 8px; padding: 2px 6px; border: 1px solid var(--border); color: var(--muted); background: var(--tag-bg); }
+
+/* Mobile */
+@media (max-width: 768px) {
+  .alternativesGrid { grid-template-columns: 1fr; }
+}

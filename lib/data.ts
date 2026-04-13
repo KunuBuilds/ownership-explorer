@@ -125,6 +125,42 @@ export async function getEntitySources(entityId: string): Promise<{
   }))
 }
 
+export async function getAlternatives(entityId: string): Promise<{
+  alternative: Entity
+  reason: string | null
+  directional: boolean
+}[]> {
+  // Get alternatives where this entity is the subject
+  const { data: forward, error: e1 } = await supabase
+    .from('alternatives')
+    .select(`alternative:entities!alternatives_alternative_id_fkey (*), reason, directional`)
+    .eq('entity_id', entityId)
+
+  if (e1) throw e1
+
+  // Get mutual alternatives where this entity is the alternative
+  const { data: reverse, error: e2 } = await supabase
+    .from('alternatives')
+    .select(`alternative:entities!alternatives_entity_id_fkey (*), reason, directional`)
+    .eq('alternative_id', entityId)
+    .eq('directional', false)
+
+  if (e2) throw e2
+
+  return [
+    ...(forward as any).map((r: any) => ({
+      alternative: r.alternative,
+      reason:      r.reason,
+      directional: r.directional,
+    })),
+    ...(reverse as any).map((r: any) => ({
+      alternative: r.alternative,
+      reason:      r.reason,
+      directional: false,
+    })),
+  ]
+}
+
 // ── Categories ────────────────────────────────────────────────────────────────
 
 export async function getAllCategories(): Promise<Category[]> {
@@ -166,18 +202,20 @@ export interface EntityPageData {
   parents:    (Ownership & { entity: Entity })[]
   sources:    { source: Source; ownershipId: number; note: string | null }[]
   categories: string[]
+  alternatives: { alternative: Entity; reason: string | null; directional: boolean }[]
 }
 
 export async function getEntityPageData(id: string): Promise<EntityPageData | null> {
-  const [entity, children, parents, sources, categories] = await Promise.all([
+  const [entity, children, parents, sources, categories, alternatives] = await Promise.all([
     getEntity(id),
     getChildren(id),
     getParents(id),
     getEntitySources(id),
     getEntityCategories(id),
+	getAlternatives(id)
   ])
   if (!entity) return null
-  return { entity, children, parents, sources, categories }
+  return { entity, children, parents, sources, categories, alternatives }
 }
 
 // ── Full graph snapshot (used by client-side pages: explore, timeline) ────────

@@ -58,3 +58,11 @@ export interface Category {
   description: string | null
   sort_order:  number
 }
+
+export interface Alternative {
+  id:             number
+  entity_id:      string
+  alternative_id: string
+  reason:         string | null
+  directional:    boolean
+}

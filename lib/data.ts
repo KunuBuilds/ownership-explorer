@@ -9,7 +9,7 @@
  * They run at build time and produce static pages.
  */
 
-import { supabase, Entity, Ownership, Source, OwnershipSource, Category } from './supabase'
+import { supabase, Entity, Ownership, Source, OwnershipSource, Category, Submission } from './supabase'
 
 // ── Entities ─────────────────────────────────────────────────────────────────
 

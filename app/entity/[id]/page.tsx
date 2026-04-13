@@ -251,7 +251,7 @@ export default async function EntityPage({ params }: { params: { id: string } })
         const isIndependent = altChain.length <= 1
         const isSmall = altChain.length > 1 &&
           altChain[0]?.entity.type === 'conglomerate' &&
-          entities.filter(e => allOwnership.some(o => o.parent_id === altChain[0].entity.id)).length < 5
+          allEntities.filter(e => allOwnership.some(o => o.parent_id === altChain[0].entity.id)).length < 5
 
         return (
           <Link

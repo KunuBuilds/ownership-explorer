@@ -238,3 +238,9 @@
 .companyActive.groupingItem {
   border-left-color: var(--accent2);
 }
+
+.groupingSection {
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+

@@ -183,41 +183,42 @@ export default function ExploreClient({ snapshot }: { snapshot: GraphSnapshot })
 		  </button>
 		</div>
         </div>
-        <div className={styles.sidebarListLabel}>Parent Companies</div>
-       <div className={styles.companyList}>
-		  {realRoots.map(c => (
-			<div
-			  key={c.id}
-			  className={`${styles.companyItem} ${activeCompany === c.id ? styles.companyActive : ''}`}
-			  onClick={() => selectCompany(c.id)}
-			>
-			  <div className={styles.companyDot} style={{ background: 'var(--accent)' }} />
-			  <div className={styles.companyName}>{c.name}</div>
-			  <div className={styles.companyMeta}>{c.hq_country ?? ''}</div>
-			</div>
-		  ))}
+        {groupingRoots.length > 0 && (
+  <div className={styles.groupingSection}>
+    <div className={styles.sidebarListLabel} style={{ padding: '12px 18px 0' }}>Ownership Type</div>
+    <div className={styles.companyList}>
+      {groupingRoots.map(c => (
+        <div
+          key={c.id}
+          className={`${styles.companyItem} ${styles.groupingItem} ${activeCompany === c.id ? styles.companyActive : ''}`}
+          onClick={() => selectCompany(c.id)}
+        >
+          <div className={styles.groupingDot} />
+          <div className={styles.companyName}>{c.name}</div>
+          <div className={styles.companyMeta}>
+            {childrenOf(c.id, ownership, entityMap).length}
+          </div>
+        </div>
+      ))}
+    </div>
+    <div className={styles.groupingDivider} />
+  </div>
+)}
 
-		  {groupingRoots.length > 0 && (
-			<>
-			  <div className={styles.groupingDivider}>
-				<span>Ownership Type</span>
-			  </div>
-			  {groupingRoots.map(c => (
-				<div
-				  key={c.id}
-				  className={`${styles.companyItem} ${styles.groupingItem} ${activeCompany === c.id ? styles.companyActive : ''}`}
-				  onClick={() => selectCompany(c.id)}
-				>
-				  <div className={styles.groupingDot} />
-				  <div className={styles.companyName}>{c.name}</div>
-				  <div className={styles.companyMeta}>
-					{childrenOf(c.id, ownership, entityMap).length}
-				  </div>
-				</div>
-			  ))}
-			</>
-		  )}
-		</div>
+<div className={styles.sidebarListLabel} style={{ padding: '12px 18px 0' }}>Parent Companies</div>
+<div className={styles.companyList}>
+  {realRoots.map(c => (
+    <div
+      key={c.id}
+      className={`${styles.companyItem} ${activeCompany === c.id ? styles.companyActive : ''}`}
+      onClick={() => selectCompany(c.id)}
+    >
+      <div className={styles.companyDot} style={{ background: 'var(--accent)' }} />
+      <div className={styles.companyName}>{c.name}</div>
+      <div className={styles.companyMeta}>{c.hq_country ?? ''}</div>
+    </div>
+  ))}
+</div>
       </aside>
 
       {/* Main */}

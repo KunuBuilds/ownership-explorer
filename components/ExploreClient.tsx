@@ -30,17 +30,18 @@ export default function ExploreClient({ snapshot }: { snapshot: GraphSnapshot })
     }
   }, [searchParams])
   
-  const GROUPING_IDS = new Set(['independent', 'cooperative', 'family-owned', 'b-corp'])
-
-  const realRoots     = filteredRoots.filter(c => !GROUPING_IDS.has(c.id))
-  const groupingRoots = filteredRoots.filter(c =>  GROUPING_IDS.has(c.id))
-  
+   
   const filteredRoots = roots.filter(c => {
     const matchSearch = !searchQuery || c.name.toLowerCase().includes(searchQuery.toLowerCase())
     const matchType   = activeFilter === 'all' || c.type === activeFilter
     const matchPE     = !peOnly || c.flags?.includes('private-equity')
 	return matchSearch && matchType && matchPE
   })
+  
+  const GROUPING_IDS = new Set(['independent', 'cooperative', 'family-owned', 'b-corp'])
+
+  const realRoots     = filteredRoots.filter(c => !GROUPING_IDS.has(c.id))
+  const groupingRoots = filteredRoots.filter(c =>  GROUPING_IDS.has(c.id))
 
   function toggleNode(key: string) {
     setExpandedNodes(prev => {

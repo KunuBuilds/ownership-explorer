@@ -3,6 +3,7 @@ import { getOwnershipChains, countDescendants, buildEntityMap, childrenOf } from
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import styles from './EntityPage.module.css'
+import SubmissionForm from '@/components/SubmissionForm'
 
 // Tell Next.js which entity pages to generate at build time
 export async function generateStaticParams() {
@@ -241,59 +242,59 @@ export default async function EntityPage({ params }: { params: { id: string } })
 
 	  {/* ── Alternatives ── */}
 	  {alternatives.length > 0 && (
-  <section className={styles.section}>
-    <div className="section-label">Alternatives ({alternatives.length})</div>
-    <div className={styles.alternativesGrid}>
-      {alternatives.map(({ alternative, reason }) => {
-        const altChains = getOwnershipChains(alternative.id, allOwnership, entityMap)
-        const altChain  = altChains[0] ?? []
-        const altEdge   = allOwnership.find(o => o.child_id === alternative.id)
-        const isIndependent = altChain.length <= 1
-        const isSmall = altChain.length > 1 &&
-          altChain[0]?.entity.type === 'conglomerate' &&
-          allEntities.filter(e => allOwnership.some(o => o.parent_id === altChain[0].entity.id)).length < 5
+	  <section className={styles.section}>
+		<div className="section-label">Alternatives ({alternatives.length})</div>
+		<div className={styles.alternativesGrid}>
+		  {alternatives.map(({ alternative, reason }) => {
+			const altChains = getOwnershipChains(alternative.id, allOwnership, entityMap)
+			const altChain  = altChains[0] ?? []
+			const altEdge   = allOwnership.find(o => o.child_id === alternative.id)
+			const isIndependent = altChain.length <= 1
+			const isSmall = altChain.length > 1 &&
+			  altChain[0]?.entity.type === 'conglomerate' &&
+			  allEntities.filter(e => allOwnership.some(o => o.parent_id === altChain[0].entity.id)).length < 5
 
-        return (
-          <Link
-            key={alternative.id}
-            href={`/entity/${alternative.id}`}
-            className={styles.altCard}
-          >
-            <div className={styles.altHeader}>
-              <div className={styles.altName}>{alternative.name}</div>
-              {reason && (
-                <span className={`${styles.altReason} ${isIndependent ? styles.altIndependent : isSmall ? styles.altSmall : styles.altOther}`}>
-                  {reason}
-                </span>
-              )}
-            </div>
-            <div className={styles.altChain}>
-              {altChain.length <= 1
-                ? <span className={styles.altIndependentLabel}>Independent</span>
-                : altChain.map((node, i) => (
-                    <span key={node.entity.id} className={styles.altChainWrap}>
-                      {i > 0 && <span className={styles.altChainArrow}>›</span>}
-                      <span className={`${styles.altChainNode} ${i === 0 ? styles.altChainRoot : ''} ${i === altChain.length - 1 ? styles.altChainTarget : ''}`}>
-                        {node.entity.name}
-                      </span>
-                    </span>
-                  ))
-              }
-            </div>
-            {altEdge && (
-              <div className={styles.altMeta}>
-                <span className={`${styles.altMetaTag} ${(altEdge.share_pct ?? 100) < 100 ? styles.badgePartial : ''}`}>
-                  {altEdge.share_pct ?? 100}% owned
-                </span>
-                {alternative.category && <span className={styles.altMetaTag}>{alternative.category}</span>}
-              </div>
-            )}
-          </Link>
-        )
-      })}
-    </div>
-  </section>
-)}
+			return (
+			  <Link
+				key={alternative.id}
+				href={`/entity/${alternative.id}`}
+				className={styles.altCard}
+			  >
+				<div className={styles.altHeader}>
+				  <div className={styles.altName}>{alternative.name}</div>
+				  {reason && (
+					<span className={`${styles.altReason} ${isIndependent ? styles.altIndependent : isSmall ? styles.altSmall : styles.altOther}`}>
+					  {reason}
+					</span>
+				  )}
+				</div>
+				<div className={styles.altChain}>
+				  {altChain.length <= 1
+					? <span className={styles.altIndependentLabel}>Independent</span>
+					: altChain.map((node, i) => (
+						<span key={node.entity.id} className={styles.altChainWrap}>
+						  {i > 0 && <span className={styles.altChainArrow}>›</span>}
+						  <span className={`${styles.altChainNode} ${i === 0 ? styles.altChainRoot : ''} ${i === altChain.length - 1 ? styles.altChainTarget : ''}`}>
+							{node.entity.name}
+						  </span>
+						</span>
+					  ))
+				  }
+				</div>
+				{altEdge && (
+				  <div className={styles.altMeta}>
+					<span className={`${styles.altMetaTag} ${(altEdge.share_pct ?? 100) < 100 ? styles.badgePartial : ''}`}>
+					  {altEdge.share_pct ?? 100}% owned
+					</span>
+					{alternative.category && <span className={styles.altMetaTag}>{alternative.category}</span>}
+				  </div>
+				)}
+			  </Link>
+			)
+		  })}
+		</div>
+	  </section>
+	  )}
 
       {/* ── References ── */}
       {sources.length > 0 && (
@@ -333,6 +334,25 @@ export default async function EntityPage({ params }: { params: { id: string } })
           </p>
         </section>
       )}
+	  
+	  {/* ── Submission Form ── */}
+	  <section className={styles.section} style={{ marginTop: 48 }}>
+		  <div className={styles.correctionToggle}>
+			<div className="section-label" style={{ margin: 0, border: 'none', padding: 0 }}>
+			  Suggest a Correction
+			</div>
+			<p className={styles.correctionDesc}>
+			  Spotted something wrong? Help us keep this data accurate.
+			</p>
+		  </div>
+		  <SubmissionForm
+			type="correction"
+			entityId={entity.id}
+			entityName={entity.name}
+		  />
+	  </section>
+	  
+	  
     </article>
   )
 }

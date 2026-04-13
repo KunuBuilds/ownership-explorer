@@ -237,3 +237,45 @@ export async function getGraphSnapshot(): Promise<GraphSnapshot> {
   ])
   return { entities, ownership, categories, sources }
 }
+
+
+// ── Submissions ───────────────────────────────────────────────────────────────
+
+export async function createSubmission(submission: {
+  type:            string
+  entity_id?:      string
+  field?:          string
+  current_value?:  string
+  proposed_value?: string
+  notes?:          string
+  submitter_email?:string
+}): Promise<{ success: boolean; error?: string }> {
+  const { error } = await supabase
+    .from('submissions')
+    .insert([submission])
+  if (error) return { success: false, error: error.message }
+  return { success: true }
+}
+
+export async function getSubmissions(status?: string): Promise<Submission[]> {
+  let query = supabase
+    .from('submissions')
+    .select('*')
+    .order('created_at', { ascending: false })
+  if (status) query = query.eq('status', status)
+  const { data, error } = await query
+  if (error) throw error
+  return data
+}
+
+export async function updateSubmissionStatus(
+  id: number,
+  status: string,
+  admin_note?: string
+): Promise<void> {
+  const { error } = await supabase
+    .from('submissions')
+    .update({ status, admin_note })
+    .eq('id', id)
+  if (error) throw error
+}

@@ -11,6 +11,7 @@ export default function Nav() {
     { href: '/',           label: 'Browse' },
     { href: '/categories', label: 'Categories' },
     { href: '/timeline',   label: 'Timeline' },
+	{ href: '/feedback',  label: 'Suggest' },
   ]
 
   return (

@@ -66,3 +66,22 @@ export interface Alternative {
   reason:         string | null
   directional:    boolean
 }
+
+export type SubmissionType   = 'correction' | 'suggestion'
+export type SubmissionStatus = 'pending' | 'reviewed' | 'applied' | 'rejected'
+export type SubmissionField  = 'owner' | 'date' | 'share_pct' | 'name' | 'region' | 'other'
+
+export interface Submission {
+  id:              number
+  type:            SubmissionType
+  entity_id:       string | null
+  field:           SubmissionField | null
+  current_value:   string | null
+  proposed_value:  string | null
+  notes:           string | null
+  submitter_email: string | null
+  status:          SubmissionStatus
+  admin_note:      string | null
+  created_at:      string
+}
+

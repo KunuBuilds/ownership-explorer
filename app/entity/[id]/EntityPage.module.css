@@ -349,3 +349,6 @@
 @media (max-width: 768px) {
   .alternativesGrid { grid-template-columns: 1fr; }
 }
+
+.correctionToggle { margin-bottom: 16px; }
+.correctionDesc   { font-size: 11px; color: var(--muted); margin-top: 6px; line-height: 1.6; }

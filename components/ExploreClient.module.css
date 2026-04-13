@@ -192,3 +192,49 @@
     gap: 4px;
   }
 }
+
+.groupingDivider {
+  padding:        10px 18px 6px;
+  font-size:      8px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color:          var(--muted);
+  display:        flex;
+  align-items:    center;
+  gap:            8px;
+  margin-top:     6px;
+}
+
+.groupingDivider::before {
+  content:    '';
+  flex:       1;
+  height:     1px;
+  background: var(--border);
+}
+
+.groupingDivider::after {
+  content:    '';
+  flex:       1;
+  height:     1px;
+  background: var(--border);
+}
+
+.groupingItem {
+  opacity: 0.8;
+}
+
+.groupingItem:hover {
+  opacity: 1;
+}
+
+.groupingDot {
+  width:         7px;
+  height:        7px;
+  border-radius: 0;
+  border:        1px solid var(--accent2);
+  flex-shrink:   0;
+}
+
+.companyActive.groupingItem {
+  border-left-color: var(--accent2);
+}

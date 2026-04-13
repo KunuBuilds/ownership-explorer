@@ -30,6 +30,10 @@ export default function ExploreClient({ snapshot }: { snapshot: GraphSnapshot })
     }
   }, [searchParams])
   
+  const GROUPING_IDS = new Set(['independent', 'cooperative', 'family-owned', 'b-corp'])
+
+  const realRoots     = filteredRoots.filter(c => !GROUPING_IDS.has(c.id))
+  const groupingRoots = filteredRoots.filter(c =>  GROUPING_IDS.has(c.id))
   
   const filteredRoots = roots.filter(c => {
     const matchSearch = !searchQuery || c.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -179,19 +183,40 @@ export default function ExploreClient({ snapshot }: { snapshot: GraphSnapshot })
 		</div>
         </div>
         <div className={styles.sidebarListLabel}>Parent Companies</div>
-        <div className={styles.companyList}>
-          {filteredRoots.map(c => (
-            <div
-              key={c.id}
-              className={`${styles.companyItem} ${activeCompany === c.id ? styles.companyActive : ''}`}
-              onClick={() => selectCompany(c.id)}
-            >
-              <div className={styles.companyDot} style={{ background: 'var(--accent)' }} />
-              <div className={styles.companyName}>{c.name}</div>
-              <div className={styles.companyMeta}>{c.hq_country ?? ''}</div>
-            </div>
-          ))}
-        </div>
+       <div className={styles.companyList}>
+		  {realRoots.map(c => (
+			<div
+			  key={c.id}
+			  className={`${styles.companyItem} ${activeCompany === c.id ? styles.companyActive : ''}`}
+			  onClick={() => selectCompany(c.id)}
+			>
+			  <div className={styles.companyDot} style={{ background: 'var(--accent)' }} />
+			  <div className={styles.companyName}>{c.name}</div>
+			  <div className={styles.companyMeta}>{c.hq_country ?? ''}</div>
+			</div>
+		  ))}
+
+		  {groupingRoots.length > 0 && (
+			<>
+			  <div className={styles.groupingDivider}>
+				<span>Ownership Type</span>
+			  </div>
+			  {groupingRoots.map(c => (
+				<div
+				  key={c.id}
+				  className={`${styles.companyItem} ${styles.groupingItem} ${activeCompany === c.id ? styles.companyActive : ''}`}
+				  onClick={() => selectCompany(c.id)}
+				>
+				  <div className={styles.groupingDot} />
+				  <div className={styles.companyName}>{c.name}</div>
+				  <div className={styles.companyMeta}>
+					{childrenOf(c.id, ownership, entityMap).length}
+				  </div>
+				</div>
+			  ))}
+			</>
+		  )}
+		</div>
       </aside>
 
       {/* Main */}

@@ -7,10 +7,10 @@ import SubmissionForm from '@/components/SubmissionForm'
 
 // Tell Next.js which entity pages to generate at build time
 export async function generateStaticParams() {
-  const { data } = await supabase.from('entities').select('id');
-  return (data ?? [])
-    .filter(e => e.id && e.id.length > 1)  // skip empty/bogus slugs
-    .map(e => ({ id: e.id }));
+  const ids = await getAllEntityIds();
+  return ids
+    .filter(id => id && id.length > 1)  // skip empty/bogus slugs
+    .map(id => ({ id }));
 }
 
 // Generate unique <title> and meta description per entity

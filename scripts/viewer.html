@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Who Owns This — Scraper Output Viewer</title>
+<style>
+  :root {
+    --bg:        #0f0f0f;
+    --surface:   #181818;
+    --surface2:  #222222;
+    --border:    #2e2e2e;
+    --border2:   #3d3d3d;
+    --text:      #e8e6e1;
+    --muted:     #888884;
+    --dim:       #555552;
+    --accent:    #c8a96e;
+    --accent-d:  #a88848;
+    --green:     #5a9e6e;
+    --green-bg:  #1a2e20;
+    --red:       #b85a5a;
+    --red-bg:    #2e1a1a;
+    --blue:      #5a86b8;
+    --blue-bg:   #1a2030;
+    --amber:     #c8883a;
+    --amber-bg:  #2e2010;
+    --radius:    6px;
+    --mono:      'JetBrains Mono', 'Fira Mono', 'Cascadia Code', monospace;
+    --sans:      'DM Sans', 'Trebuchet MS', system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── Layout ───────────────────────────────────────────── */
+  #shell {
+    display: grid;
+    grid-template-rows: 56px 1fr;
+    grid-template-columns: 280px 1fr;
+    grid-template-areas: "header header" "sidebar main";
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* ── Header ───────────────────────────────────────────── */
+  header {
+    grid-area: header;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 0 20px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+  header .logo {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  header .divider { width: 1px; height: 22px; background: var(--border); }
+  header .subtitle { font-size: 12px; color: var(--muted); }
+
+  #stats-bar {
+    margin-left: auto;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+  .stat-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .stat-pill strong { color: var(--text); font-weight: 500; }
+  .stat-pill .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+  }
+  .dot-ok  { background: var(--green); }
+  .dot-err { background: var(--red); }
+  .dot-all { background: var(--accent); }
+
+  /* ── Sidebar ──────────────────────────────────────────── */
+  #sidebar {
+    grid-area: sidebar;
+    border-right: 1px solid var(--border);
+    background: var(--surface);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .sidebar-controls {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  input[type=search], select {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 12px;
+    padding: 6px 10px;
+    outline: none;
+  }
+  input[type=search]:focus, select:focus {
+    border-color: var(--accent-d);
+  }
+  select option { background: var(--bg); }
+
+  #company-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 6px 0;
+  }
+
+  .company-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px;
+    cursor: pointer;
+    border-left: 3px solid transparent;
+    transition: background .1s;
+  }
+  .company-item:hover { background: var(--surface2); }
+  .company-item.active {
+    background: var(--surface2);
+    border-left-color: var(--accent);
+  }
+  .company-item.error { opacity: .5; }
+
+  .company-badge {
+    font-size: 10px;
+    font-weight: 600;
+    font-family: var(--mono);
+    padding: 2px 5px;
+    border-radius: 3px;
+    background: var(--surface2);
+    color: var(--accent);
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+    min-width: 48px;
+    text-align: center;
+  }
+  .company-item.error .company-badge {
+    color: var(--red);
+    border-color: var(--red-bg);
+  }
+
+  .company-name {
+    font-size: 12px;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+  }
+  .company-count {
+    font-size: 11px;
+    font-family: var(--mono);
+    color: var(--dim);
+    flex-shrink: 0;
+  }
+  .company-count.has-data { color: var(--green); }
+
+  /* ── Main panel ───────────────────────────────────────── */
+  #main {
+    grid-area: main;
+    overflow-y: auto;
+    padding: 24px 28px;
+  }
+
+  /* ── Drop zone ────────────────────────────────────────── */
+  #drop-zone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    min-height: 70vh;
+    border: 1.5px dashed var(--border2);
+    border-radius: 12px;
+    color: var(--muted);
+    font-size: 14px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color .2s, background .2s;
+    padding: 40px;
+  }
+  #drop-zone:hover, #drop-zone.drag-over {
+    border-color: var(--accent-d);
+    background: rgba(200,169,110,.04);
+  }
+  #drop-zone .drop-icon {
+    font-size: 40px;
+    opacity: .4;
+  }
+  #drop-zone p { max-width: 300px; line-height: 1.5; }
+  #drop-zone .or { color: var(--dim); font-size: 12px; }
+  #drop-zone label {
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    padding: 7px 18px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 500;
+    transition: border-color .15s;
+  }
+  #drop-zone label:hover { border-color: var(--accent-d); }
+  #file-input { display: none; }
+
+  /* ── Company detail ───────────────────────────────────── */
+  .detail-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .detail-ticker {
+    font-size: 11px;
+    font-weight: 700;
+    font-family: var(--mono);
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--accent);
+    flex-shrink: 0;
+    letter-spacing: .05em;
+  }
+  .detail-name {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.2;
+  }
+  .detail-meta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+  }
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .meta-item a { color: var(--blue); text-decoration: none; }
+  .meta-item a:hover { text-decoration: underline; }
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    padding: 2px 7px;
+    border-radius: 3px;
+  }
+  .tag-10k { background: var(--blue-bg); color: var(--blue); }
+  .tag-20f { background: var(--amber-bg); color: var(--amber); }
+  .tag-err { background: var(--red-bg); color: var(--red); }
+  .tag-ok  { background: var(--green-bg); color: var(--green); }
+
+  /* ── Error card ───────────────────────────────────────── */
+  .error-card {
+    background: var(--red-bg);
+    border: 1px solid rgba(184,90,90,.3);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: var(--red);
+  }
+  .error-card strong { display: block; margin-bottom: 4px; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; }
+
+  /* ── Summary cards ────────────────────────────────────── */
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+  .summary-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+  }
+  .summary-label { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+  .summary-value { font-size: 22px; font-weight: 500; font-family: var(--mono); color: var(--text); }
+  .summary-value.green { color: var(--green); }
+  .summary-value.amber { color: var(--amber); }
+
+  /* ── Source card ──────────────────────────────────────── */
+  .source-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    font-size: 12px;
+  }
+  .source-title { font-weight: 500; margin-bottom: 6px; color: var(--text); }
+  .source-row { display: flex; gap: 8px; align-items: center; margin-top: 4px; }
+  .source-label { color: var(--muted); min-width: 72px; }
+  .source-value { color: var(--text); font-family: var(--mono); font-size: 11px; }
+  .source-value a { color: var(--blue); text-decoration: none; }
+  .source-value a:hover { text-decoration: underline; }
+  .source-tier {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 3px;
+    background: var(--green-bg);
+    color: var(--green);
+    letter-spacing: .05em;
+  }
+
+  /* ── Subsidiary table ─────────────────────────────────── */
+  .table-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .section-title {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--muted);
+    flex: 1;
+  }
+  .table-search {
+    width: 200px;
+    padding: 5px 10px;
+    font-size: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-family: var(--sans);
+    outline: none;
+  }
+  .table-search:focus { border-color: var(--accent-d); }
+  .count-label { font-size: 11px; color: var(--dim); font-family: var(--mono); }
+
+  .sub-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+  .sub-table th {
+    text-align: left;
+    padding: 8px 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--muted);
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+  }
+  .sub-table th:hover { color: var(--text); }
+  .sub-table th .sort-arrow { opacity: .3; margin-left: 4px; }
+  .sub-table th.sorted .sort-arrow { opacity: 1; color: var(--accent); }
+  .sub-table td {
+    padding: 7px 12px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    vertical-align: middle;
+  }
+  .sub-table tr:hover td { background: var(--surface2); }
+  .sub-table td.jur {
+    color: var(--muted);
+    font-size: 11px;
+    font-family: var(--mono);
+    white-space: nowrap;
+  }
+  .sub-table td.num {
+    font-family: var(--mono);
+    color: var(--dim);
+    text-align: right;
+    font-size: 11px;
+  }
+  .slug-cell {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--dim);
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .no-results {
+    text-align: center;
+    padding: 40px;
+    color: var(--dim);
+    font-size: 13px;
+  }
+
+  /* ── Jurisdiction chart ───────────────────────────────── */
+  .jur-chart {
+    margin-top: 20px;
+  }
+  .jur-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+    font-size: 12px;
+  }
+  .jur-label { width: 160px; color: var(--muted); text-align: right; flex-shrink: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .jur-bar-wrap { flex: 1; background: var(--surface2); border-radius: 2px; height: 14px; overflow: hidden; }
+  .jur-bar { height: 100%; background: var(--accent-d); border-radius: 2px; transition: width .3s; }
+  .jur-count { width: 32px; color: var(--dim); font-family: var(--mono); text-align: right; flex-shrink: 0; }
+
+  /* ── Scrollbar ────────────────────────────────────────── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--dim); }
+
+  /* ── Empty & loading states ───────────────────────────── */
+  #empty-sidebar {
+    padding: 20px 14px;
+    color: var(--dim);
+    font-size: 12px;
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  .empty-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    color: var(--dim);
+    font-size: 13px;
+    flex-direction: column;
+    gap: 8px;
+  }
+</style>
+</head>
+<body>
+
+<div id="shell">
+  <header>
+    <span class="logo">Who Owns This</span>
+    <div class="divider"></div>
+    <span class="subtitle">Scraper Output Viewer</span>
+    <div id="stats-bar"></div>
+  </header>
+
+  <div id="sidebar">
+    <div class="sidebar-controls">
+      <input type="search" id="sidebar-search" placeholder="Filter companies…" />
+      <select id="filter-type">
+        <option value="all">All companies</option>
+        <option value="ok">Scraped OK</option>
+        <option value="error">Errors only</option>
+        <option value="DOMESTIC">10-K filers</option>
+        <option value="FOREIGN">20-F filers</option>
+      </select>
+    </div>
+    <div id="company-list">
+      <div id="empty-sidebar">Load a scraper JSON file to get started</div>
+    </div>
+  </div>
+
+  <div id="main">
+    <div id="drop-zone">
+      <div class="drop-icon">📂</div>
+      <p>Drop your <strong>seed-raw.json</strong> file here, or click to browse</p>
+      <p class="or">Generated by: <code>node scraper.mjs --out seed.json</code></p>
+      <label for="file-input">Choose file</label>
+      <input type="file" id="file-input" accept=".json">
+    </div>
+    <div id="detail" style="display:none"></div>
+  </div>
+</div>
+
+<script>
+// ── State ─────────────────────────────────────────────────
+let allResults = [];
+let activeIdx  = null;
+let subSort    = { col: 'name', dir: 1 };
+let subFilter  = '';
+
+// ── Helpers ───────────────────────────────────────────────
+function slugify(s) {
+  return (s||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+}
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function highlight(s, q) {
+  if (!q) return esc(s);
+  const re = new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');
+  return esc(s).replace(re,'<mark style="background:rgba(200,169,110,.25);color:var(--accent)">$1</mark>');
+}
+
+// ── File loading ──────────────────────────────────────────
+document.getElementById('drop-zone').addEventListener('dragover', e => {
+  e.preventDefault();
+  document.getElementById('drop-zone').classList.add('drag-over');
+});
+document.getElementById('drop-zone').addEventListener('dragleave', () => {
+  document.getElementById('drop-zone').classList.remove('drag-over');
+});
+document.getElementById('drop-zone').addEventListener('drop', e => {
+  e.preventDefault();
+  loadFile(e.dataTransfer.files[0]);
+});
+document.getElementById('drop-zone').addEventListener('click', e => {
+  if (e.target.tagName !== 'LABEL' && e.target.tagName !== 'INPUT')
+    document.getElementById('file-input').click();
+});
+document.getElementById('file-input').addEventListener('change', e => {
+  if (e.target.files[0]) loadFile(e.target.files[0]);
+});
+
+function loadFile(file) {
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      // Accept both raw array and supabase-formatted object
+      allResults = Array.isArray(data) ? data : [];
+      if (!allResults.length) {
+        alert('No results found in file. Make sure you load the *-raw.json file, not the -supabase.json.');
+        return;
+      }
+      document.getElementById('drop-zone').style.display = 'none';
+      document.getElementById('detail').style.display = 'block';
+      renderAll();
+      selectCompany(0);
+    } catch(err) {
+      alert('Could not parse JSON: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+}
+
+// ── Render sidebar ────────────────────────────────────────
+function getFiltered() {
+  const q = document.getElementById('sidebar-search').value.toLowerCase();
+  const f = document.getElementById('filter-type').value;
+  return allResults.filter((r, i) => {
+    if (q && !(r.company_name||'').toLowerCase().includes(q) && !(r.ticker||'').toLowerCase().includes(q)) return false;
+    if (f === 'ok'      && r.error)             return false;
+    if (f === 'error'   && !r.error)            return false;
+    if (f === 'DOMESTIC'&& r.filing_type !== 'DOMESTIC') return false;
+    if (f === 'FOREIGN' && r.filing_type !== 'FOREIGN')  return false;
+    return true;
+  });
+}
+
+function renderSidebar() {
+  const list = document.getElementById('company-list');
+  const filtered = getFiltered();
+  if (!filtered.length) {
+    list.innerHTML = '<div id="empty-sidebar">No companies match</div>';
+    return;
+  }
+  list.innerHTML = filtered.map(r => {
+    const origIdx = allResults.indexOf(r);
+    const isErr = !!r.error;
+    const count = r.subsidiaries?.length || 0;
+    const ticker = r.ticker || r.cik?.slice(-6) || '?';
+    return `<div class="company-item${isErr?' error':''} ${origIdx===activeIdx?'active':''}"
+      onclick="selectCompany(${origIdx})">
+      <span class="company-badge">${esc(ticker)}</span>
+      <span class="company-name">${esc(r.company_name || r.cik || 'Unknown')}</span>
+      <span class="company-count${count?' has-data':''}">${isErr ? '!' : count}</span>
+    </div>`;
+  }).join('');
+}
+
+function renderStatsBar() {
+  const ok  = allResults.filter(r => !r.error && r.subsidiaries?.length).length;
+  const err = allResults.filter(r => !!r.error).length;
+  const totalSubs = allResults.reduce((a,r) => a+(r.subsidiaries?.length||0), 0);
+  document.getElementById('stats-bar').innerHTML = `
+    <div class="stat-pill"><div class="dot dot-all"></div> <strong>${allResults.length}</strong> companies</div>
+    <div class="stat-pill"><div class="dot dot-ok"></div> <strong>${ok}</strong> ok</div>
+    ${err ? `<div class="stat-pill"><div class="dot dot-err"></div> <strong>${err}</strong> errors</div>` : ''}
+    <div class="stat-pill"><strong>${totalSubs.toLocaleString()}</strong> subsidiaries total</div>
+  `;
+}
+
+function renderAll() {
+  renderStatsBar();
+  renderSidebar();
+}
+
+document.getElementById('sidebar-search').addEventListener('input', renderSidebar);
+document.getElementById('filter-type').addEventListener('change', renderSidebar);
+
+// ── Render detail ─────────────────────────────────────────
+function selectCompany(idx) {
+  activeIdx = idx;
+  subFilter = '';
+  subSort   = { col: 'name', dir: 1 };
+  renderSidebar();
+  renderDetail();
+}
+
+function renderDetail() {
+  const r = allResults[activeIdx];
+  if (!r) { document.getElementById('detail').innerHTML = '<div class="empty-main"><p>Select a company</p></div>'; return; }
+
+  const typeTag = r.filing_type === 'FOREIGN'
+    ? '<span class="tag tag-20f">20-F / Ex 8</span>'
+    : '<span class="tag tag-10k">10-K / Ex 21</span>';
+
+  const statusTag = r.error
+    ? '<span class="tag tag-err">Error</span>'
+    : '<span class="tag tag-ok">OK</span>';
+
+  const ticker = r.ticker || r.cik?.slice(-6) || '?';
+  const subs = r.subsidiaries || [];
+  const jurCounts = {};
+  for (const s of subs) jurCounts[s.jurisdiction||'Unknown'] = (jurCounts[s.jurisdiction||'Unknown']||0)+1;
+  const topJurs = Object.entries(jurCounts).sort((a,b)=>b[1]-a[1]).slice(0,10);
+  const maxJur  = topJurs[0]?.[1] || 1;
+
+  // Deduplicated jurisdictions for filter dropdown
+  const allJurs = ['', ...Object.keys(jurCounts).sort()];
+
+  let html = `
+    <div class="detail-header">
+      <div>
+        <div style="display:flex;gap:8px;align-items:center;margin-bottom:6px">
+          <span class="detail-ticker">${esc(ticker)}</span>
+          ${typeTag} ${statusTag}
+        </div>
+        <div class="detail-name">${esc(r.company_name || 'Unknown')}</div>
+        <div class="detail-meta">
+          ${r.cik ? `<div class="meta-item">CIK: <span style="font-family:var(--mono);font-size:11px">${esc(r.cik)}</span></div>` : ''}
+          ${r.filing_date ? `<div class="meta-item">Filed: ${esc(r.filing_date)}</div>` : ''}
+          ${r.accession_number ? `<div class="meta-item" style="font-family:var(--mono);font-size:10px">${esc(r.accession_number)}</div>` : ''}
+        </div>
+      </div>
+    </div>
+  `;
+
+  if (r.error) {
+    html += `<div class="error-card"><strong>Scrape error</strong>${esc(r.error)}</div>`;
+    if (!subs.length) { document.getElementById('detail').innerHTML = html; return; }
+  }
+
+  if (r.exhibit_url) {
+    html += `
+      <div class="source-card">
+        <div class="source-title">SEC Filing</div>
+        <div class="source-row"><span class="source-label">Exhibit</span><span class="source-value">${r.filing_type==='FOREIGN'?'Exhibit 8':'Exhibit 21'}</span></div>
+        <div class="source-row"><span class="source-label">Accession</span><span class="source-value">${esc(r.accession_number)}</span></div>
+        <div class="source-row"><span class="source-label">URL</span><span class="source-value"><a href="${esc(r.exhibit_url)}" target="_blank">View on SEC EDGAR ↗</a></span></div>
+        <div class="source-row"><span class="source-label">Credibility</span><span class="source-tier">Primary</span></div>
+      </div>
+    `;
+  }
+
+  html += `
+    <div class="summary-grid">
+      <div class="summary-card">
+        <div class="summary-label">Subsidiaries</div>
+        <div class="summary-value${subs.length?' green':''}">${subs.length.toLocaleString()}</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-label">Jurisdictions</div>
+        <div class="summary-value amber">${Object.keys(jurCounts).length}</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-label">With jurisdiction</div>
+        <div class="summary-value">${subs.filter(s=>s.jurisdiction).length.toLocaleString()}</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-label">Missing jur.</div>
+        <div class="summary-value">${subs.filter(s=>!s.jurisdiction).length.toLocaleString()}</div>
+      </div>
+    </div>
+  `;
+
+  if (topJurs.length > 1) {
+    html += `<div class="jur-chart">
+      <div class="table-toolbar"><span class="section-title">Top jurisdictions</span></div>
+      ${topJurs.map(([jur,count])=>`
+        <div class="jur-row">
+          <div class="jur-label" title="${esc(jur)}">${esc(jur||'Unknown')}</div>
+          <div class="jur-bar-wrap"><div class="jur-bar" style="width:${Math.round(count/maxJur*100)}%"></div></div>
+          <div class="jur-count">${count}</div>
+        </div>
+      `).join('')}
+    </div>`;
+  }
+
+  if (subs.length) {
+    html += `
+      <div class="table-toolbar" style="margin-top:24px">
+        <span class="section-title">Subsidiaries</span>
+        <select id="jur-filter" style="width:160px;padding:5px 8px;font-size:12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-family:var(--sans);outline:none"
+          onchange="subFilter=this.value;renderSubTable()">
+          ${allJurs.map(j=>`<option value="${esc(j)}">${j||'All jurisdictions'}</option>`).join('')}
+        </select>
+        <input type="search" class="table-search" id="sub-search" placeholder="Filter subsidiaries…"
+          oninput="subFilter=document.getElementById('sub-search').value;renderSubTable()">
+        <span class="count-label" id="sub-count"></span>
+      </div>
+      <div id="sub-table-wrap"></div>
+    `;
+  }
+
+  document.getElementById('detail').innerHTML = html;
+  if (subs.length) renderSubTable();
+}
+
+function renderSubTable() {
+  const r = allResults[activeIdx];
+  if (!r?.subsidiaries?.length) return;
+
+  const q = (document.getElementById('sub-search')?.value || '').toLowerCase();
+  const jurF = document.getElementById('jur-filter')?.value || '';
+
+  let rows = [...r.subsidiaries];
+
+  // Filter
+  if (q) rows = rows.filter(s => (s.name||'').toLowerCase().includes(q));
+  if (jurF) rows = rows.filter(s => (s.jurisdiction||'') === jurF);
+
+  // Sort
+  rows.sort((a,b) => {
+    let av = a[subSort.col]||'', bv = b[subSort.col]||'';
+    return av.localeCompare(bv) * subSort.dir;
+  });
+
+  document.getElementById('sub-count').textContent =
+    rows.length === r.subsidiaries.length
+      ? `${rows.length} entries`
+      : `${rows.length} of ${r.subsidiaries.length}`;
+
+  const arrow = dir => dir===1 ? '↑' : '↓';
+  const thClass = col => col===subSort.col ? 'sorted' : '';
+
+  const wrap = document.getElementById('sub-table-wrap');
+  if (!rows.length) {
+    wrap.innerHTML = '<div class="no-results">No subsidiaries match this filter</div>';
+    return;
+  }
+
+  wrap.innerHTML = `
+    <table class="sub-table">
+      <thead>
+        <tr>
+          <th style="width:28px" class="num">#</th>
+          <th class="${thClass('name')}" onclick="sortSubs('name')">Name <span class="sort-arrow">${subSort.col==='name'?arrow(subSort.dir):'↕'}</span></th>
+          <th class="${thClass('jurisdiction')}" onclick="sortSubs('jurisdiction')" style="width:180px">Jurisdiction <span class="sort-arrow">${subSort.col==='jurisdiction'?arrow(subSort.dir):'↕'}</span></th>
+          <th style="width:220px">Slug (preview)</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${rows.map((s,i)=>`
+          <tr>
+            <td class="num">${i+1}</td>
+            <td>${highlight(s.name, q)}</td>
+            <td class="jur">${esc(s.jurisdiction||'—')}</td>
+            <td class="slug-cell" title="${slugify(s.name)}">${esc(slugify(s.name))}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  `;
+}
+
+function sortSubs(col) {
+  if (subSort.col === col) subSort.dir *= -1;
+  else { subSort.col = col; subSort.dir = 1; }
+  renderSubTable();
+}
+</script>
+</body>
+</html>

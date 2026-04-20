@@ -1,0 +1,3546 @@
+{
+  "entities": [
+    {
+      "slug": "dell-technologies-inc",
+      "name": "Dell Technologies Inc.",
+      "type": "conglomerate",
+      "cik": "0001571996",
+      "ticker": "KHC"
+    },
+    {
+      "slug": "company-name",
+      "name": "Company Name",
+      "type": "subsidiary",
+      "jurisdiction": "Country"
+    },
+    {
+      "slug": "bracknell-boulevard-block-c-llc",
+      "name": "Bracknell Boulevard (Block C) LLC",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "bracknell-boulevard-block-d-llc",
+      "name": "Bracknell Boulevard (Block D) LLC",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "branch-of-dell-free-zone-company-llc",
+      "name": "Branch of Dell Free Zone Company LLC",
+      "type": "subsidiary",
+      "jurisdiction": "Saudi Arabia"
+    },
+    {
+      "slug": "branch-office-of-foreign-company-dell-emerging-markets-emea-limited-united-kingdom-branch-office-skopje",
+      "name": "Branch office of foreign company Dell Emerging Markets (EMEA) Limited United Kingdom – Branch Office Skopje",
+      "type": "subsidiary",
+      "jurisdiction": "North Macedonia"
+    },
+    {
+      "slug": "dataloop-information-technology-consultancy-sole-proprietorship-l-l-c",
+      "name": "Dataloop Information Technology Consultancy - Sole Proprietorship L.L.C.",
+      "type": "subsidiary",
+      "jurisdiction": "United Arab Emirates"
+    },
+    {
+      "slug": "dataloop-ltd",
+      "name": "Dataloop Ltd.",
+      "type": "subsidiary",
+      "jurisdiction": "Israel"
+    },
+    {
+      "slug": "dcc-executive-security-inc",
+      "name": "DCC Executive Security Inc.",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-chengdu-company-limited",
+      "name": "Dell (Chengdu) Company Limited",
+      "type": "subsidiary",
+      "jurisdiction": "China"
+    },
+    {
+      "slug": "dell-china-company-limited",
+      "name": "Dell (China) Company Limited",
+      "type": "subsidiary",
+      "jurisdiction": "China"
+    },
+    {
+      "slug": "dell-china-company-limited-beijing-branch",
+      "name": "Dell (China) Company Limited - Beijing Branch 戴尔（中国）有限公司北京分公司",
+      "type": "subsidiary",
+      "jurisdiction": "China"
+    },
+    {
+      "slug": "dell-china-company-limited-beijing-information-technology-branch",
+      "name": "Dell (China) Company Limited - Beijing Information Technology Branch",
+      "type": "subsidiary",
+      "jurisdiction": "China"
+    },
+    {
+      "slug": "dell-china-company-limited-dalian-branch",
+      "name": "Dell (China) Company Limited - Dalian Branch",
+      "type": "subsidiary",
+      "jurisdiction": "China"
+    },
+    {
+      "slug": "dell-china-company-limited-guangzhou-branch",
+      "name": "Dell (China) Company Limited - Guangzhou Branch",
+      "type": "subsidiary",
+      "jurisdiction": "China"
+    },
+    {
+      "slug": "dell-china-company-limited-hangzhou-branch",
+      "name": "Dell (China) Company Limited - Hangzhou Branch",
+      "type": "subsidiary",
+      "jurisdiction": "China"
+    },
+    {
+      "slug": "dell-china-company-limited-jinan-branch",
+      "name": "Dell (China) Company Limited - Jinan Branch",
+      "type": "subsidiary",
+      "jurisdiction": "China"
+    },
+    {
+      "slug": "dell-china-company-limited-nanjing-branch",
+      "name": "Dell (China) Company Limited - Nanjing Branch",
+      "type": "subsidiary",
+      "jurisdiction": "China"
+    },
+    {
+      "slug": "dell-china-company-limited-shanghai-branch",
+      "name": "Dell (China) Company Limited - Shanghai Branch",
+      "type": "subsidiary",
+      "jurisdiction": "China"
+    },
+    {
+      "slug": "dell-china-company-limited-shenyang-branch",
+      "name": "Dell (China) Company Limited - Shenyang Branch",
+      "type": "subsidiary",
+      "jurisdiction": "China"
+    },
+    {
+      "slug": "dell-china-company-limited-shenzhen-branch",
+      "name": "Dell (China) Company Limited - Shenzhen Branch",
+      "type": "subsidiary",
+      "jurisdiction": "China"
+    },
+    {
+      "slug": "dell-china-company-limited-wuhan-branch",
+      "name": "Dell (China) Company Limited - Wuhan Branch",
+      "type": "subsidiary",
+      "jurisdiction": "China"
+    },
+    {
+      "slug": "dell-china-company-limited-xian-branch",
+      "name": "Dell (China) Company Limited - Xian Branch",
+      "type": "subsidiary",
+      "jurisdiction": "China"
+    },
+    {
+      "slug": "dell-xiamen-company-limited",
+      "name": "Dell (Xiamen) Company Limited",
+      "type": "subsidiary",
+      "jurisdiction": "China"
+    },
+    {
+      "slug": "dell-xiamen-company-limited-dalian-branch",
+      "name": "Dell (Xiamen) Company Limited - Dalian Branch",
+      "type": "subsidiary",
+      "jurisdiction": "China"
+    },
+    {
+      "slug": "dell-a-s",
+      "name": "Dell A/S",
+      "type": "subsidiary",
+      "jurisdiction": "Denmark"
+    },
+    {
+      "slug": "dell-aktiebolag",
+      "name": "Dell Aktiebolag",
+      "type": "subsidiary",
+      "jurisdiction": "Sweden"
+    },
+    {
+      "slug": "dell-america-latina-corp",
+      "name": "Dell America Latina Corp.",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-america-latina-corp-sucursal-argentina",
+      "name": "Dell America Latina Corp., Sucursal Argentina",
+      "type": "subsidiary",
+      "jurisdiction": "Argentina"
+    },
+    {
+      "slug": "dell-as",
+      "name": "Dell AS",
+      "type": "subsidiary",
+      "jurisdiction": "Norway"
+    },
+    {
+      "slug": "dell-asia-holdings-pte-ltd",
+      "name": "Dell Asia Holdings Pte. Ltd.",
+      "type": "subsidiary",
+      "jurisdiction": "Singapore"
+    },
+    {
+      "slug": "dell-asia-pacific-sdn-bhd",
+      "name": "Dell Asia Pacific Sdn. Bhd.",
+      "type": "subsidiary",
+      "jurisdiction": "Malaysia"
+    },
+    {
+      "slug": "dell-asset-revolving-trust-b",
+      "name": "Dell Asset Revolving Trust-B",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-asset-syndication-l-l-c",
+      "name": "Dell Asset Syndication L.L.C.",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-australia-pty-limited",
+      "name": "Dell Australia Pty Limited",
+      "type": "subsidiary",
+      "jurisdiction": "Australia"
+    },
+    {
+      "slug": "dell-b-v",
+      "name": "Dell B.V.",
+      "type": "subsidiary",
+      "jurisdiction": "Netherlands"
+    },
+    {
+      "slug": "dell-b-v-supervisory-board",
+      "name": "Dell B.V. SUPERVISORY BOARD",
+      "type": "subsidiary",
+      "jurisdiction": "Netherlands"
+    },
+    {
+      "slug": "dell-b-v-taiwan-branch",
+      "name": "Dell B.V., Taiwan Branch",
+      "type": "subsidiary",
+      "jurisdiction": "Taiwan"
+    },
+    {
+      "slug": "dell-bank-international-designated-activity-company",
+      "name": "Dell Bank International Designated Activity Company",
+      "type": "subsidiary",
+      "jurisdiction": "Ireland"
+    },
+    {
+      "slug": "dell-bank-international-designated-activity-company-sucursal-en-espa-a",
+      "name": "Dell Bank International Designated Activity Company, Sucursal en España",
+      "type": "subsidiary",
+      "jurisdiction": "Spain"
+    },
+    {
+      "slug": "dell-canada-inc",
+      "name": "Dell Canada Inc.",
+      "type": "subsidiary",
+      "jurisdiction": "Canada"
+    },
+    {
+      "slug": "dell-catalog-sales-lp-representative-office",
+      "name": "Dell Catalog Sales LP Representative Office",
+      "type": "subsidiary",
+      "jurisdiction": "Philippines"
+    },
+    {
+      "slug": "dell-colombia-inc",
+      "name": "Dell Colombia Inc.",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-colombia-inc-colombia-branch",
+      "name": "Dell Colombia Inc. - COLOMBIA BRANCH",
+      "type": "subsidiary",
+      "jurisdiction": "Colombia"
+    },
+    {
+      "slug": "dell-computadores-do-brasil-fortaleza-branch",
+      "name": "Dell Computadores do Brasil - Fortaleza Branch",
+      "type": "subsidiary",
+      "jurisdiction": "Brazil"
+    },
+    {
+      "slug": "dell-computadores-do-brasil-hortolandia-sp-branch-a",
+      "name": "Dell Computadores do Brasil - Hortolandia/SP Branch (A)",
+      "type": "subsidiary",
+      "jurisdiction": "Brazil"
+    },
+    {
+      "slug": "dell-computadores-do-brasil-hortolandia-sp-branch-b",
+      "name": "Dell Computadores do Brasil - Hortolandia/SP Branch (B)",
+      "type": "subsidiary",
+      "jurisdiction": "Brazil"
+    },
+    {
+      "slug": "dell-computadores-do-brasil-rio-de-janeiro-branch",
+      "name": "Dell Computadores do Brasil - Rio de Janeiro Branch",
+      "type": "subsidiary",
+      "jurisdiction": "Brazil"
+    },
+    {
+      "slug": "dell-computadores-do-brasil-sao-paulo-branch-barueri-alameda-rio-negro",
+      "name": "Dell Computadores do Brasil - Sao Paulo Branch (Barueri - Alameda Rio Negro)",
+      "type": "subsidiary",
+      "jurisdiction": "Brazil"
+    },
+    {
+      "slug": "dell-computadores-do-brasil-sao-paulo-branch-cajamar",
+      "name": "Dell Computadores do Brasil - Sao Paulo Branch (Cajamar)",
+      "type": "subsidiary",
+      "jurisdiction": "Brazil"
+    },
+    {
+      "slug": "dell-computadores-do-brasil-sao-paulo-branch-rua-verbo-divino",
+      "name": "Dell Computadores do Brasil - Sao Paulo Branch (Rua Verbo Divino)",
+      "type": "subsidiary",
+      "jurisdiction": "Brazil"
+    },
+    {
+      "slug": "dell-computadores-do-brasil-s-o-paulo-branch-santana-do-parna-ba",
+      "name": "Dell Computadores do Brasil - São Paulo Branch (Santana do Parnaíba)",
+      "type": "subsidiary",
+      "jurisdiction": "Brazil"
+    },
+    {
+      "slug": "dell-computadores-do-brasil-ltda",
+      "name": "Dell Computadores do Brasil Ltda.",
+      "type": "subsidiary",
+      "jurisdiction": "Brazil"
+    },
+    {
+      "slug": "dell-computer-pty-limited",
+      "name": "Dell Computer (Pty) Limited",
+      "type": "subsidiary",
+      "jurisdiction": "South Africa"
+    },
+    {
+      "slug": "dell-computer-de-chile-ltda",
+      "name": "Dell Computer de Chile Ltda.",
+      "type": "subsidiary",
+      "jurisdiction": "Chile"
+    },
+    {
+      "slug": "dell-computer-holdings-l-p",
+      "name": "Dell Computer Holdings L.P.",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-computer-s-a-u",
+      "name": "Dell Computer, S.A.U.",
+      "type": "subsidiary",
+      "jurisdiction": "Spain"
+    },
+    {
+      "slug": "dell-computer-spol-s-r-o",
+      "name": "DELL Computer, spol. s r.o.",
+      "type": "subsidiary",
+      "jurisdiction": "Czechia"
+    },
+    {
+      "slug": "dell-conduit-funding-b-l-l-c",
+      "name": "Dell Conduit Funding-B L.L.C.",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-corporation-thailand-co-ltd",
+      "name": "Dell Corporation (Thailand) Co., Ltd.",
+      "type": "subsidiary",
+      "jurisdiction": "Thailand"
+    },
+    {
+      "slug": "dell-corporation-limited",
+      "name": "Dell Corporation Limited",
+      "type": "subsidiary",
+      "jurisdiction": "United Kingdom"
+    },
+    {
+      "slug": "dell-costa-rica-sa",
+      "name": "Dell Costa Rica SA",
+      "type": "subsidiary",
+      "jurisdiction": "Costa Rica"
+    },
+    {
+      "slug": "dell-depositor-l-l-c",
+      "name": "Dell Depositor L.L.C.",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-dfs-corporation",
+      "name": "Dell DFS Corporation",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-dfs-holdings-l-l-c",
+      "name": "Dell DFS Holdings L.L.C.",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-el-salvador-limitada",
+      "name": "Dell El Salvador, Limitada",
+      "type": "subsidiary",
+      "jurisdiction": "El Salvador"
+    },
+    {
+      "slug": "dell-emerging-markets-emea-limited",
+      "name": "Dell Emerging Markets (EMEA) Limited",
+      "type": "subsidiary",
+      "jurisdiction": "Tunisia"
+    },
+    {
+      "slug": "dell-emerging-markets-emea-limited-kazakhstan-representative-office",
+      "name": "Dell Emerging Markets (EMEA) Limited (Kazakhstan Representative Office)",
+      "type": "subsidiary",
+      "jurisdiction": "Kazakhstan"
+    },
+    {
+      "slug": "dell-emerging-markets-emea-limited-kenya-branch",
+      "name": "Dell Emerging Markets (EMEA) Limited (Kenya Branch)",
+      "type": "subsidiary",
+      "jurisdiction": "Kenya"
+    },
+    {
+      "slug": "dell-emerging-markets-emea-limited-representative-office",
+      "name": "Dell Emerging Markets (EMEA) Limited - Representative Office",
+      "type": "subsidiary",
+      "jurisdiction": "Lebanon"
+    },
+    {
+      "slug": "dell-emerging-markets-emea-limited-za-usluge-podru-nica-zagreb",
+      "name": "DELL EMERGING MARKETS (EMEA) LIMITED za usluge, Podružnica Zagreb",
+      "type": "subsidiary",
+      "jurisdiction": "Croatia"
+    },
+    {
+      "slug": "dell-equipment-finance-trust-2023-1",
+      "name": "Dell Equipment Finance Trust 2023-1",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-equipment-finance-trust-2023-2",
+      "name": "Dell Equipment Finance Trust 2023-2",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-equipment-finance-trust-2023-3",
+      "name": "Dell Equipment Finance Trust 2023-3",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-equipment-finance-trust-2024-1",
+      "name": "Dell Equipment Finance Trust 2024-1",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-equipment-finance-trust-2024-2",
+      "name": "Dell Equipment Finance Trust 2024-2",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-equipment-finance-trust-2025-1",
+      "name": "Dell Equipment Finance Trust 2025-1",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-equipment-finance-trust-2025-2",
+      "name": "Dell Equipment Finance Trust 2025-2",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-equipment-funding-l-p",
+      "name": "Dell Equipment Funding L.P.",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-equipment-gp-l-l-c",
+      "name": "Dell Equipment GP L.L.C.",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-federal-systems-corporation",
+      "name": "Dell Federal Systems Corporation",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-federal-systems-gp-l-l-c",
+      "name": "Dell Federal Systems GP L.L.C.",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-federal-systems-l-p",
+      "name": "Dell Federal Systems L.P.",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-federal-systems-lp-l-l-c",
+      "name": "Dell Federal Systems LP L.L.C.",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-financial-services-canada-limited",
+      "name": "Dell Financial Services Canada Limited",
+      "type": "subsidiary",
+      "jurisdiction": "Canada"
+    },
+    {
+      "slug": "dell-financial-services-holding-pty-ltd",
+      "name": "Dell Financial Services Holding Pty Ltd",
+      "type": "subsidiary",
+      "jurisdiction": "Australia"
+    },
+    {
+      "slug": "dell-financial-services-international-ireland-designated-activity-company",
+      "name": "Dell Financial Services International Ireland Designated Activity Company",
+      "type": "subsidiary",
+      "jurisdiction": "Ireland"
+    },
+    {
+      "slug": "dell-financial-services-l-l-c",
+      "name": "Dell Financial Services L.L.C.",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-financial-services-pte-ltd",
+      "name": "Dell Financial Services Pte. Ltd.",
+      "type": "subsidiary",
+      "jurisdiction": "Singapore"
+    },
+    {
+      "slug": "dell-financial-services-pty-ltd",
+      "name": "Dell Financial Services Pty Ltd",
+      "type": "subsidiary",
+      "jurisdiction": "Australia"
+    },
+    {
+      "slug": "dell-financial-services-pty-ltd-registered-overseas-asic-company",
+      "name": "Dell Financial Services Pty Ltd (Registered overseas ASIC company)",
+      "type": "subsidiary",
+      "jurisdiction": "New Zealand"
+    },
+    {
+      "slug": "dell-fz-llc",
+      "name": "Dell FZ-LLC",
+      "type": "subsidiary",
+      "jurisdiction": "United Arab Emirates"
+    },
+    {
+      "slug": "dell-fz-llc-abu-dhabi-branch",
+      "name": "Dell FZ-LLC - Abu Dhabi Branch",
+      "type": "subsidiary",
+      "jurisdiction": "United Arab Emirates"
+    },
+    {
+      "slug": "dell-fz-llc-bahrain-branch",
+      "name": "Dell FZ-LLC - BAHRAIN BRANCH",
+      "type": "subsidiary",
+      "jurisdiction": "Bahrain"
+    },
+    {
+      "slug": "dell-fz-llc-qatar-branch",
+      "name": "Dell FZ-LLC - Qatar Branch",
+      "type": "subsidiary",
+      "jurisdiction": "Qatar"
+    },
+    {
+      "slug": "dell-gesellschaft-mbh",
+      "name": "DELL Gesellschaft mbH",
+      "type": "subsidiary",
+      "jurisdiction": "Austria"
+    },
+    {
+      "slug": "dell-global-b-v",
+      "name": "Dell Global B.V.",
+      "type": "subsidiary",
+      "jurisdiction": "Netherlands"
+    },
+    {
+      "slug": "dell-global-b-v-singapore-branch",
+      "name": "Dell Global B.V. (Singapore Branch)",
+      "type": "subsidiary",
+      "jurisdiction": "Singapore"
+    },
+    {
+      "slug": "dell-global-b-v-bangladesh-liaison-office",
+      "name": "Dell Global B.V. - Bangladesh Liaison Office",
+      "type": "subsidiary",
+      "jurisdiction": "Bangladesh"
+    },
+    {
+      "slug": "dell-global-b-v-philippines-representative-office",
+      "name": "Dell Global B.V. - Philippines Representative Office",
+      "type": "subsidiary",
+      "jurisdiction": "Philippines"
+    },
+    {
+      "slug": "dell-global-b-v-sri-lanka-liaison-representative-office",
+      "name": "Dell Global B.V. - Sri Lanka Liaison / Representative Office",
+      "type": "subsidiary",
+      "jurisdiction": "Sri Lanka"
+    },
+    {
+      "slug": "dell-global-business-center-sdn-bhd",
+      "name": "Dell Global Business Center Sdn. Bhd.",
+      "type": "subsidiary",
+      "jurisdiction": "Malaysia"
+    },
+    {
+      "slug": "dell-global-holdings-i-lp",
+      "name": "Dell Global Holdings I LP",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-global-holdings-iii-b-v",
+      "name": "Dell Global Holdings III B.V.",
+      "type": "subsidiary",
+      "jurisdiction": "Netherlands"
+    },
+    {
+      "slug": "dell-global-holdings-xv-l-l-c",
+      "name": "Dell Global Holdings XV L.L.C.",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-global-holdings-xvi-l-l-c",
+      "name": "Dell Global Holdings XVI L.L.C.",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-global-holdings-xvii-llc",
+      "name": "Dell Global Holdings XVII LLC",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-global-holdings-xviii-llc",
+      "name": "Dell Global Holdings XVIII LLC",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-global-pte-ltd",
+      "name": "Dell Global Pte. Ltd.",
+      "type": "subsidiary",
+      "jurisdiction": "Singapore"
+    },
+    {
+      "slug": "dell-gmbh",
+      "name": "Dell GmbH",
+      "type": "subsidiary",
+      "jurisdiction": "Germany"
+    },
+    {
+      "slug": "dell-guatemala-ltda",
+      "name": "Dell Guatemala, Ltda.",
+      "type": "subsidiary",
+      "jurisdiction": "Guatemala"
+    },
+    {
+      "slug": "dell-hong-kong-limited",
+      "name": "Dell Hong Kong Limited",
+      "type": "subsidiary",
+      "jurisdiction": "Hong Kong SAR China"
+    },
+    {
+      "slug": "dell-hungary-technology-solutions-trade-llc",
+      "name": "Dell Hungary Technology Solutions Trade LLC",
+      "type": "subsidiary",
+      "jurisdiction": "Hungary"
+    },
+    {
+      "slug": "dell-iii-comercio-de-computadores-unipessoal-lda",
+      "name": "Dell III - Comercio de Computadores, Unipessoal Lda",
+      "type": "subsidiary",
+      "jurisdiction": "Portugal"
+    },
+    {
+      "slug": "dell-inc",
+      "name": "Dell Inc.",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-international-finance-llc",
+      "name": "Dell International Finance LLC",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-international-holdings-kft",
+      "name": "Dell International Holdings Kft",
+      "type": "subsidiary",
+      "jurisdiction": "Hungary"
+    },
+    {
+      "slug": "dell-international-holdings-limited",
+      "name": "Dell International Holdings Limited",
+      "type": "subsidiary",
+      "jurisdiction": "United Kingdom"
+    },
+    {
+      "slug": "dell-international-holdings-viii-b-v",
+      "name": "Dell International Holdings VIII B.V.",
+      "type": "subsidiary",
+      "jurisdiction": "Netherlands"
+    },
+    {
+      "slug": "dell-international-inc-korea",
+      "name": "Dell International Inc. (Korea)",
+      "type": "subsidiary",
+      "jurisdiction": "South Korea"
+    },
+    {
+      "slug": "dell-international-l-l-c",
+      "name": "Dell International L.L.C.",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-international-services-india-private-limited",
+      "name": "Dell International Services India Private Limited",
+      "type": "subsidiary",
+      "jurisdiction": "India"
+    },
+    {
+      "slug": "dell-international-services-philippines-inc",
+      "name": "Dell International Services Philippines, Inc.",
+      "type": "subsidiary",
+      "jurisdiction": "Philippines"
+    },
+    {
+      "slug": "dell-latinoamerica-s-de-r-l",
+      "name": "Dell Latinoamerica, S. de R.L.",
+      "type": "subsidiary",
+      "jurisdiction": "Panama"
+    },
+    {
+      "slug": "dell-leasing-mexico-s-de-rl-de-c-v",
+      "name": "Dell Leasing Mexico S. de RL de C.V.",
+      "type": "subsidiary",
+      "jurisdiction": "Mexico"
+    },
+    {
+      "slug": "dell-llc",
+      "name": "Dell LLC",
+      "type": "subsidiary",
+      "jurisdiction": "Russia"
+    },
+    {
+      "slug": "dell-marketing-corporation",
+      "name": "Dell Marketing Corporation",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-marketing-gp-l-l-c",
+      "name": "Dell Marketing GP L.L.C.",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-marketing-l-p",
+      "name": "Dell Marketing L.P.",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-marketing-lp-l-l-c",
+      "name": "Dell Marketing LP L.L.C.",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-mexico-s-a-de-c-v",
+      "name": "Dell Mexico S.A. de C.V.",
+      "type": "subsidiary",
+      "jurisdiction": "Mexico"
+    },
+    {
+      "slug": "dell-morocco-sas",
+      "name": "Dell Morocco SAS",
+      "type": "subsidiary",
+      "jurisdiction": "Morocco"
+    },
+    {
+      "slug": "dell-new-zealand-limited",
+      "name": "Dell New Zealand Limited",
+      "type": "subsidiary",
+      "jurisdiction": "New Zealand"
+    },
+    {
+      "slug": "dell-nv",
+      "name": "Dell NV",
+      "type": "subsidiary",
+      "jurisdiction": "Belgium"
+    },
+    {
+      "slug": "dell-panama-s-de-rl",
+      "name": "Dell Panama S de RL",
+      "type": "subsidiary",
+      "jurisdiction": "Panama"
+    },
+    {
+      "slug": "dell-peru-s-a-c",
+      "name": "Dell Peru S.A.C.",
+      "type": "subsidiary",
+      "jurisdiction": "Peru"
+    },
+    {
+      "slug": "dell-procurement-xiamen-company-limited",
+      "name": "Dell Procurement (Xiamen) Company Limited",
+      "type": "subsidiary",
+      "jurisdiction": "China"
+    },
+    {
+      "slug": "dell-procurement-xiamen-company-limited-shanghai-branch",
+      "name": "Dell Procurement (Xiamen) Company Limited - Shanghai Branch",
+      "type": "subsidiary",
+      "jurisdiction": "China"
+    },
+    {
+      "slug": "dell-procurement-xiamen-company-limited-shenzhen-branch",
+      "name": "Dell Procurement (Xiamen) Company Limited - Shenzhen Branch",
+      "type": "subsidiary",
+      "jurisdiction": "China"
+    },
+    {
+      "slug": "dell-product-and-process-innovation-services-corp",
+      "name": "Dell Product and Process Innovation Services Corp.",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-products-poland-sp-z-o-o",
+      "name": "Dell Products (Poland) Sp.z.o.o.",
+      "type": "subsidiary",
+      "jurisdiction": "Poland"
+    },
+    {
+      "slug": "dell-products-corporation",
+      "name": "Dell Products Corporation",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-products-gp-l-l-c",
+      "name": "Dell Products GP L.L.C.",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-products-l-p",
+      "name": "Dell Products L.P.",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-products-lp-l-l-c",
+      "name": "Dell Products LP L.L.C.",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-products-unlimited-company",
+      "name": "Dell Products Unlimited Company",
+      "type": "subsidiary",
+      "jurisdiction": "Ireland"
+    },
+    {
+      "slug": "dell-products-unlimited-company-eesti-filiaal",
+      "name": "Dell Products Unlimited Company Eesti filiaal",
+      "type": "subsidiary",
+      "jurisdiction": "Estonia"
+    },
+    {
+      "slug": "dell-ps-limited",
+      "name": "Dell PS Limited",
+      "type": "subsidiary",
+      "jurisdiction": "United Arab Emirates"
+    },
+    {
+      "slug": "dell-puerto-rico-corp",
+      "name": "Dell Puerto Rico Corp.",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-revolver-company-l-p",
+      "name": "Dell Revolver Company L.P.",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-revolver-gp-l-l-c",
+      "name": "Dell Revolver GP L.L.C.",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-revolving-transferor-l-l-c",
+      "name": "Dell Revolving Transferor L.L.C.",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-s-p-a",
+      "name": "Dell S.p.A.",
+      "type": "subsidiary",
+      "jurisdiction": "Italy"
+    },
+    {
+      "slug": "dell-s-r-o",
+      "name": "Dell s.r.o.",
+      "type": "subsidiary",
+      "jurisdiction": "Slovakia"
+    },
+    {
+      "slug": "dell-s-r-l",
+      "name": "Dell S.à r.l",
+      "type": "subsidiary",
+      "jurisdiction": "Luxembourg"
+    },
+    {
+      "slug": "dell-sa",
+      "name": "Dell SA",
+      "type": "subsidiary",
+      "jurisdiction": "Switzerland"
+    },
+    {
+      "slug": "dell-sas",
+      "name": "Dell SAS",
+      "type": "subsidiary",
+      "jurisdiction": "Morocco"
+    },
+    {
+      "slug": "dell-services-china-company-limited",
+      "name": "Dell Services (China) Company Limited",
+      "type": "subsidiary",
+      "jurisdiction": "China"
+    },
+    {
+      "slug": "dell-soluzioni-finanziarie-s-r-l",
+      "name": "Dell Soluzioni Finanziarie S.r.l.",
+      "type": "subsidiary",
+      "jurisdiction": "Italy"
+    },
+    {
+      "slug": "dell-sp-z-o-o",
+      "name": "Dell Sp. z o.o.",
+      "type": "subsidiary",
+      "jurisdiction": "Poland"
+    },
+    {
+      "slug": "dell-systems-tsi-hungary-likvidit-smenedzsment-korl-tolt-felel-ss-g-t-rsas-g",
+      "name": "Dell Systems TSI (Hungary) Likviditásmenedzsment Korlátolt Felelısségő Társaság",
+      "type": "subsidiary",
+      "jurisdiction": "Hungary"
+    },
+    {
+      "slug": "dell-taiwan-b-v",
+      "name": "Dell Taiwan B.V.",
+      "type": "subsidiary",
+      "jurisdiction": "Netherlands"
+    },
+    {
+      "slug": "dell-taiwan-b-v-taiwan-branch",
+      "name": "Dell Taiwan B.V., Taiwan Branch",
+      "type": "subsidiary",
+      "jurisdiction": "Taiwan"
+    },
+    {
+      "slug": "dell-technologies-and-solutions-l-l-c-opc",
+      "name": "Dell Technologies and Solutions L.L.C – OPC",
+      "type": "subsidiary",
+      "jurisdiction": "United Arab Emirates"
+    },
+    {
+      "slug": "dell-technologies-bulgaria-eood",
+      "name": "Dell Technologies Bulgaria EOOD",
+      "type": "subsidiary",
+      "jurisdiction": "Bulgaria"
+    },
+    {
+      "slug": "dell-technologies-capital-llc",
+      "name": "Dell Technologies Capital, LLC",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-technologies-d-o-o-beograd",
+      "name": "Dell Technologies d.o.o. Beograd",
+      "type": "subsidiary",
+      "jurisdiction": "Serbia"
+    },
+    {
+      "slug": "dell-technologies-dfs-holdings-limited",
+      "name": "Dell Technologies DFS Holdings Limited",
+      "type": "subsidiary",
+      "jurisdiction": "United Kingdom"
+    },
+    {
+      "slug": "dell-technologies-egypt-limited",
+      "name": "Dell Technologies Egypt Limited",
+      "type": "subsidiary",
+      "jurisdiction": "Egypt"
+    },
+    {
+      "slug": "dell-technologies-japan-inc",
+      "name": "Dell Technologies Japan Inc.",
+      "type": "subsidiary",
+      "jurisdiction": "Japan"
+    },
+    {
+      "slug": "dell-technologies-kazakhstan-and-central-asia-llp",
+      "name": "Dell Technologies Kazakhstan and Central Asia LLP",
+      "type": "subsidiary",
+      "jurisdiction": "Kazakhstan"
+    },
+    {
+      "slug": "dell-technologies-lithuania-uab",
+      "name": "Dell Technologies Lithuania UAB",
+      "type": "subsidiary",
+      "jurisdiction": "Lithuania"
+    },
+    {
+      "slug": "dell-technologies-pakistan-private-limited",
+      "name": "Dell Technologies Pakistan (Private) Limited",
+      "type": "subsidiary",
+      "jurisdiction": "Pakistan"
+    },
+    {
+      "slug": "dell-technologies-philippines-inc",
+      "name": "Dell Technologies Philippines Inc.",
+      "type": "subsidiary",
+      "jurisdiction": "Philippines"
+    },
+    {
+      "slug": "dell-technologies-regional-headquarter-company",
+      "name": "Dell Technologies Regional Headquarter Company",
+      "type": "subsidiary",
+      "jurisdiction": "Saudi Arabia"
+    },
+    {
+      "slug": "dell-technologies-single-shareholder-limited-liability-company",
+      "name": "Dell Technologies Single Shareholder Limited Liability Company",
+      "type": "subsidiary",
+      "jurisdiction": "Saudi Arabia"
+    },
+    {
+      "slug": "dell-technologies-slo-spremljajo-e-marketin-ke-storitve-d-o-o",
+      "name": "Dell Technologies SLO, spremljajoče marketinške storitve, d.o.o.",
+      "type": "subsidiary",
+      "jurisdiction": "Slovenia"
+    },
+    {
+      "slug": "dell-technology-solutions-israel-ltd",
+      "name": "Dell Technology & Solutions Israel Ltd",
+      "type": "subsidiary",
+      "jurisdiction": "Israel"
+    },
+    {
+      "slug": "dell-technology-solutions-nigeria-limited",
+      "name": "Dell Technology & Solutions Nigeria Limited",
+      "type": "subsidiary",
+      "jurisdiction": "Nigeria"
+    },
+    {
+      "slug": "dell-technology-and-solutions-llc",
+      "name": "Dell Technology and Solutions LLC",
+      "type": "subsidiary",
+      "jurisdiction": "Qatar"
+    },
+    {
+      "slug": "dell-technology-products-and-services-single-member-s-a",
+      "name": "Dell Technology Products And Services Single Member S.A.",
+      "type": "subsidiary",
+      "jurisdiction": "Greece"
+    },
+    {
+      "slug": "dell-technology-s-r-l",
+      "name": "Dell Technology S.R.L.",
+      "type": "subsidiary",
+      "jurisdiction": "Romania"
+    },
+    {
+      "slug": "dell-teknoloji-limited-sirketi",
+      "name": "Dell Teknoloji Limited Sirketi",
+      "type": "subsidiary",
+      "jurisdiction": "Turkey"
+    },
+    {
+      "slug": "dell-teknoloji-limited-sirketi-ankara-branch",
+      "name": "Dell Teknoloji Limited Sirketi - Ankara Branch",
+      "type": "subsidiary",
+      "jurisdiction": "Turkey"
+    },
+    {
+      "slug": "dell-trading-kunshan-company-limited",
+      "name": "Dell Trading (Kunshan) Company Limited",
+      "type": "subsidiary",
+      "jurisdiction": "China"
+    },
+    {
+      "slug": "dell-uk-group-pension-scheme-2018",
+      "name": "Dell UK Group Pension Scheme 2018",
+      "type": "subsidiary",
+      "jurisdiction": "United Kingdom"
+    },
+    {
+      "slug": "dell-usa-corporation",
+      "name": "Dell USA Corporation",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-usa-gp-l-l-c",
+      "name": "Dell USA GP L.L.C.",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-usa-l-p",
+      "name": "Dell USA L.P.",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-usa-lp-l-l-c",
+      "name": "Dell USA LP L.L.C.",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-vietnam-company-limited",
+      "name": "Dell Vietnam Company Limited",
+      "type": "subsidiary",
+      "jurisdiction": "Vietnam"
+    },
+    {
+      "slug": "dell-vietnam-company-limited-hanoi-branch",
+      "name": "Dell Vietnam Company Limited – Hanoi Branch",
+      "type": "subsidiary",
+      "jurisdiction": "Vietnam"
+    },
+    {
+      "slug": "dell-world-trade-corporation",
+      "name": "Dell World Trade Corporation",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-world-trade-gp-l-l-c",
+      "name": "Dell World Trade GP L.L.C.",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-world-trade-l-p",
+      "name": "Dell World Trade L.P.",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dell-world-trade-lp-l-l-c",
+      "name": "Dell World Trade LP L.L.C.",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "denali-intermediate-inc",
+      "name": "Denali Intermediate Inc.",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "dfs-b-v",
+      "name": "DFS B.V.",
+      "type": "subsidiary",
+      "jurisdiction": "Netherlands"
+    },
+    {
+      "slug": "ecm-software-group-limited",
+      "name": "ECM Software Group Limited",
+      "type": "subsidiary",
+      "jurisdiction": "Cyprus"
+    },
+    {
+      "slug": "emc-benelux-b-v",
+      "name": "EMC (Benelux) B.V.",
+      "type": "subsidiary",
+      "jurisdiction": "Netherlands"
+    },
+    {
+      "slug": "emc-australia-pty-limited",
+      "name": "EMC Australia Pty Limited",
+      "type": "subsidiary",
+      "jurisdiction": "Australia"
+    },
+    {
+      "slug": "emc-computer-systems",
+      "name": "EMC Computer Systems",
+      "type": "subsidiary",
+      "jurisdiction": "Qatar"
+    },
+    {
+      "slug": "emc-computer-systems-china-co-ltd",
+      "name": "EMC Computer Systems (China) Co., Ltd.",
+      "type": "subsidiary",
+      "jurisdiction": "China"
+    },
+    {
+      "slug": "emc-computer-systems-malaysia-sdn-bhd",
+      "name": "EMC Computer Systems (Malaysia) Sdn. Bhd.",
+      "type": "subsidiary",
+      "jurisdiction": "Malaysia"
+    },
+    {
+      "slug": "emc-computer-systems-south-asia-pte-ltd",
+      "name": "EMC Computer Systems (South Asia) Pte. Ltd.",
+      "type": "subsidiary",
+      "jurisdiction": "Singapore"
+    },
+    {
+      "slug": "emc-computer-systems-austria-gmbh",
+      "name": "EMC Computer Systems Austria GmbH",
+      "type": "subsidiary",
+      "jurisdiction": "Austria"
+    },
+    {
+      "slug": "emc-computer-systems-austria-gmbh-rep-office-in-egypt",
+      "name": "EMC Computer Systems Austria GmbH (“Rep Office in Egypt”)",
+      "type": "subsidiary",
+      "jurisdiction": "Egypt"
+    },
+    {
+      "slug": "emc-computer-systems-austria-gmbh-abu-dhabi",
+      "name": "EMC Computer Systems Austria GmbH - Abu Dhabi",
+      "type": "subsidiary",
+      "jurisdiction": "United Arab Emirates"
+    },
+    {
+      "slug": "emc-computer-systems-mexico-s-a-de-cv",
+      "name": "EMC Computer Systems Mexico, S.A. de CV",
+      "type": "subsidiary",
+      "jurisdiction": "Mexico"
+    },
+    {
+      "slug": "emc-corporation",
+      "name": "EMC Corporation",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "emc-egypt-service-center-limited",
+      "name": "EMC Egypt Service Center Limited",
+      "type": "subsidiary",
+      "jurisdiction": "Egypt"
+    },
+    {
+      "slug": "emc-equity-assets-llc",
+      "name": "EMC Equity Assets LLC",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "emc-europe-limited",
+      "name": "EMC Europe Limited",
+      "type": "subsidiary",
+      "jurisdiction": "United Kingdom"
+    },
+    {
+      "slug": "emc-global-holdings-company",
+      "name": "EMC Global Holdings Company",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "emc-global-holdings-company-foreign-company-registered-in-australia",
+      "name": "EMC Global Holdings Company (Foreign company registered in Australia)",
+      "type": "subsidiary",
+      "jurisdiction": "Australia"
+    },
+    {
+      "slug": "emc-information-systems-thailand-limited",
+      "name": "EMC Information Systems (Thailand) Limited",
+      "type": "subsidiary",
+      "jurisdiction": "Thailand"
+    },
+    {
+      "slug": "emc-information-systems-international-unlimited-company",
+      "name": "EMC Information Systems International Unlimited Company",
+      "type": "subsidiary",
+      "jurisdiction": "Ireland"
+    },
+    {
+      "slug": "emc-information-systems-management-limited",
+      "name": "EMC Information Systems Management Limited",
+      "type": "subsidiary",
+      "jurisdiction": "Ireland"
+    },
+    {
+      "slug": "emc-information-systems-management-limited-german-branch",
+      "name": "EMC Information Systems Management Limited, German Branch",
+      "type": "subsidiary",
+      "jurisdiction": "Germany"
+    },
+    {
+      "slug": "emc-information-systems-nigeria-limited",
+      "name": "EMC Information Systems Nigeria Limited",
+      "type": "subsidiary",
+      "jurisdiction": "Nigeria"
+    },
+    {
+      "slug": "emc-information-technology-research-development-beijing-co-ltd",
+      "name": "EMC Information Technology Research & Development (Beijing) Co., Ltd.",
+      "type": "subsidiary",
+      "jurisdiction": "China"
+    },
+    {
+      "slug": "emc-information-technology-research-development-chengdu-co-ltd",
+      "name": "EMC Information Technology Research & Development (Chengdu) Co., Ltd.",
+      "type": "subsidiary",
+      "jurisdiction": "China"
+    },
+    {
+      "slug": "emc-information-technology-research-development-shanghai-co-ltd",
+      "name": "EMC Information Technology Research & Development (Shanghai) Co., Ltd.",
+      "type": "subsidiary",
+      "jurisdiction": "China"
+    },
+    {
+      "slug": "emc-international-unlimited-company",
+      "name": "EMC International Unlimited Company",
+      "type": "subsidiary",
+      "jurisdiction": "Ireland"
+    },
+    {
+      "slug": "emc-ip-holding-company-llc",
+      "name": "EMC IP Holding Company LLC",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "emc-ireland-holdings-unlimited-company",
+      "name": "EMC Ireland Holdings Unlimited Company",
+      "type": "subsidiary",
+      "jurisdiction": "Ireland"
+    },
+    {
+      "slug": "emc-israel-advanced-information-technologies-ltd",
+      "name": "EMC Israel Advanced Information Technologies Ltd.",
+      "type": "subsidiary",
+      "jurisdiction": "Israel"
+    },
+    {
+      "slug": "emc-middle-east",
+      "name": "EMC Middle East",
+      "type": "subsidiary",
+      "jurisdiction": "United Arab Emirates"
+    },
+    {
+      "slug": "emc-st-petersburg-development-centre",
+      "name": "EMC St. Petersburg Development Centre",
+      "type": "subsidiary",
+      "jurisdiction": "Russia"
+    },
+    {
+      "slug": "llc-dell-ukraine",
+      "name": "LLC Dell Ukraine",
+      "type": "subsidiary",
+      "jurisdiction": "Ukraine"
+    },
+    {
+      "slug": "llc-emc-information-systems-ukraine",
+      "name": "LLC “EMC Information Systems Ukraine”",
+      "type": "subsidiary",
+      "jurisdiction": "Ukraine"
+    },
+    {
+      "slug": "nbt-investment-partners-llc",
+      "name": "NBT Investment Partners LLC",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "newfound-investment-partners-llc",
+      "name": "Newfound Investment Partners LLC",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "oy-dell-ab",
+      "name": "Oy Dell Ab",
+      "type": "subsidiary",
+      "jurisdiction": "Finland"
+    },
+    {
+      "slug": "pt-dell-indonesia",
+      "name": "PT Dell Indonesia",
+      "type": "subsidiary",
+      "jurisdiction": "Indonesia"
+    },
+    {
+      "slug": "representative-office-of-dell-emerging-markets-emea-limited-in-the-republic-of-azerbaijan",
+      "name": "Representative Office of \"Dell Emerging Markets (EMEA) Limited\" in the Republic of Azerbaijan",
+      "type": "subsidiary",
+      "jurisdiction": "Azerbaijan"
+    },
+    {
+      "slug": "scaleio-llc",
+      "name": "ScaleIO LLC",
+      "type": "subsidiary",
+      "jurisdiction": "USA"
+    },
+    {
+      "slug": "sichuan-an-cheng-security-technology-company",
+      "name": "Sichuan An Cheng Security Technology Company",
+      "type": "subsidiary",
+      "jurisdiction": "China"
+    },
+    {
+      "slug": "the-representative-office-of-dell-global-b-v-in-hanoi-city",
+      "name": "The Representative Office of Dell Global B.V. in Hanoi City",
+      "type": "subsidiary",
+      "jurisdiction": "Vietnam"
+    },
+    {
+      "slug": "the-representative-office-of-dell-global-b-v-in-ho-chi-minh-city",
+      "name": "The Representative Office of Dell Global B.V. in Ho Chi Minh City",
+      "type": "subsidiary",
+      "jurisdiction": "Vietnam"
+    },
+    {
+      "slug": "the-representative-office-of-emc-computer-systems-south-asia-pte-ltd-in-ho-chi-minh-city",
+      "name": "The Representative Office of EMC Computer Systems (South Asia) Pte. Ltd. in Ho Chi Minh City",
+      "type": "subsidiary",
+      "jurisdiction": "Vietnam"
+    },
+    {
+      "slug": "virtustream-cloud-services-ireland-unlimited-company",
+      "name": "Virtustream Cloud Services Ireland Unlimited Company",
+      "type": "subsidiary",
+      "jurisdiction": "Ireland"
+    },
+    {
+      "slug": "virtustream-germany-gmbh",
+      "name": "Virtustream Germany GmbH",
+      "type": "subsidiary",
+      "jurisdiction": "Germany"
+    },
+    {
+      "slug": "virtustream-ireland-limited",
+      "name": "Virtustream Ireland Limited",
+      "type": "subsidiary",
+      "jurisdiction": "Ireland"
+    },
+    {
+      "slug": "virtustream-limited",
+      "name": "Virtustream Limited",
+      "type": "subsidiary",
+      "jurisdiction": "Jersey"
+    },
+    {
+      "slug": "virtustream-switzerland-s-rl-en-liquidation",
+      "name": "Virtustream Switzerland Sàrl, en liquidation",
+      "type": "subsidiary",
+      "jurisdiction": "Switzerland"
+    },
+    {
+      "slug": "virtustream-uk-limited",
+      "name": "Virtustream UK Limited",
+      "type": "subsidiary",
+      "jurisdiction": "United Kingdom"
+    },
+    {
+      "slug": "alphabet-inc",
+      "name": "Alphabet Inc.",
+      "type": "conglomerate",
+      "cik": "0001652044",
+      "ticker": "GOOGL"
+    },
+    {
+      "slug": "name-of-subsidiary",
+      "name": "Name of Subsidiary",
+      "type": "subsidiary",
+      "jurisdiction": "Jurisdiction of Incorporation or Organization"
+    },
+    {
+      "slug": "google-llc",
+      "name": "Google LLC",
+      "type": "subsidiary",
+      "jurisdiction": "Delaware"
+    },
+    {
+      "slug": "xxvi-holdings-inc",
+      "name": "XXVI Holdings Inc.",
+      "type": "subsidiary",
+      "jurisdiction": "Delaware"
+    },
+    {
+      "slug": "alphabet-capital-us-llc",
+      "name": "Alphabet Capital US LLC",
+      "type": "subsidiary",
+      "jurisdiction": "Delaware"
+    }
+  ],
+  "ownership": [
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "company-name",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Country"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "bracknell-boulevard-block-c-llc",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "bracknell-boulevard-block-d-llc",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "branch-of-dell-free-zone-company-llc",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Saudi Arabia"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "branch-office-of-foreign-company-dell-emerging-markets-emea-limited-united-kingdom-branch-office-skopje",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in North Macedonia"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dataloop-information-technology-consultancy-sole-proprietorship-l-l-c",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in United Arab Emirates"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dataloop-ltd",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Israel"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dcc-executive-security-inc",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-chengdu-company-limited",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in China"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-china-company-limited",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in China"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-china-company-limited-beijing-branch",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in China"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-china-company-limited-beijing-information-technology-branch",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in China"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-china-company-limited-dalian-branch",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in China"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-china-company-limited-guangzhou-branch",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in China"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-china-company-limited-hangzhou-branch",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in China"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-china-company-limited-jinan-branch",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in China"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-china-company-limited-nanjing-branch",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in China"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-china-company-limited-shanghai-branch",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in China"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-china-company-limited-shenyang-branch",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in China"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-china-company-limited-shenzhen-branch",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in China"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-china-company-limited-wuhan-branch",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in China"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-china-company-limited-xian-branch",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in China"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-xiamen-company-limited",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in China"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-xiamen-company-limited-dalian-branch",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in China"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-a-s",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Denmark"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-aktiebolag",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Sweden"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-america-latina-corp",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-america-latina-corp-sucursal-argentina",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Argentina"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-as",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Norway"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-asia-holdings-pte-ltd",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Singapore"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-asia-pacific-sdn-bhd",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Malaysia"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-asset-revolving-trust-b",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-asset-syndication-l-l-c",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-australia-pty-limited",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Australia"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-b-v",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Netherlands"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-b-v-supervisory-board",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Netherlands"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-b-v-taiwan-branch",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Taiwan"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-bank-international-designated-activity-company",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Ireland"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-bank-international-designated-activity-company-sucursal-en-espa-a",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Spain"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-canada-inc",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Canada"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-catalog-sales-lp-representative-office",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Philippines"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-colombia-inc",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-colombia-inc-colombia-branch",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Colombia"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-computadores-do-brasil-fortaleza-branch",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Brazil"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-computadores-do-brasil-hortolandia-sp-branch-a",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Brazil"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-computadores-do-brasil-hortolandia-sp-branch-b",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Brazil"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-computadores-do-brasil-rio-de-janeiro-branch",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Brazil"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-computadores-do-brasil-sao-paulo-branch-barueri-alameda-rio-negro",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Brazil"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-computadores-do-brasil-sao-paulo-branch-cajamar",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Brazil"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-computadores-do-brasil-sao-paulo-branch-rua-verbo-divino",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Brazil"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-computadores-do-brasil-s-o-paulo-branch-santana-do-parna-ba",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Brazil"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-computadores-do-brasil-ltda",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Brazil"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-computer-pty-limited",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in South Africa"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-computer-de-chile-ltda",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Chile"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-computer-holdings-l-p",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-computer-s-a-u",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Spain"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-computer-spol-s-r-o",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Czechia"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-conduit-funding-b-l-l-c",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-corporation-thailand-co-ltd",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Thailand"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-corporation-limited",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in United Kingdom"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-costa-rica-sa",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Costa Rica"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-depositor-l-l-c",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-dfs-corporation",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-dfs-holdings-l-l-c",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-el-salvador-limitada",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in El Salvador"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-emerging-markets-emea-limited",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Tunisia"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-emerging-markets-emea-limited-kazakhstan-representative-office",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Kazakhstan"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-emerging-markets-emea-limited-kenya-branch",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Kenya"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-emerging-markets-emea-limited-representative-office",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Lebanon"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-emerging-markets-emea-limited-za-usluge-podru-nica-zagreb",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Croatia"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-equipment-finance-trust-2023-1",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-equipment-finance-trust-2023-2",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-equipment-finance-trust-2023-3",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-equipment-finance-trust-2024-1",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-equipment-finance-trust-2024-2",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-equipment-finance-trust-2025-1",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-equipment-finance-trust-2025-2",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-equipment-funding-l-p",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-equipment-gp-l-l-c",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-federal-systems-corporation",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-federal-systems-gp-l-l-c",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-federal-systems-l-p",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-federal-systems-lp-l-l-c",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-financial-services-canada-limited",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Canada"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-financial-services-holding-pty-ltd",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Australia"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-financial-services-international-ireland-designated-activity-company",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Ireland"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-financial-services-l-l-c",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-financial-services-pte-ltd",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Singapore"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-financial-services-pty-ltd",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Australia"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-financial-services-pty-ltd-registered-overseas-asic-company",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in New Zealand"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-fz-llc",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in United Arab Emirates"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-fz-llc-abu-dhabi-branch",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in United Arab Emirates"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-fz-llc-bahrain-branch",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Bahrain"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-fz-llc-qatar-branch",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Qatar"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-gesellschaft-mbh",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Austria"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-global-b-v",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Netherlands"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-global-b-v-singapore-branch",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Singapore"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-global-b-v-bangladesh-liaison-office",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Bangladesh"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-global-b-v-philippines-representative-office",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Philippines"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-global-b-v-sri-lanka-liaison-representative-office",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Sri Lanka"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-global-business-center-sdn-bhd",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Malaysia"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-global-holdings-i-lp",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-global-holdings-iii-b-v",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Netherlands"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-global-holdings-xv-l-l-c",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-global-holdings-xvi-l-l-c",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-global-holdings-xvii-llc",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-global-holdings-xviii-llc",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-global-pte-ltd",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Singapore"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-gmbh",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Germany"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-guatemala-ltda",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Guatemala"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-hong-kong-limited",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Hong Kong SAR China"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-hungary-technology-solutions-trade-llc",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Hungary"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-iii-comercio-de-computadores-unipessoal-lda",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Portugal"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-inc",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-international-finance-llc",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-international-holdings-kft",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Hungary"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-international-holdings-limited",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in United Kingdom"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-international-holdings-viii-b-v",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Netherlands"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-international-inc-korea",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in South Korea"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-international-l-l-c",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-international-services-india-private-limited",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in India"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-international-services-philippines-inc",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Philippines"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-latinoamerica-s-de-r-l",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Panama"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-leasing-mexico-s-de-rl-de-c-v",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Mexico"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-llc",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Russia"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-marketing-corporation",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-marketing-gp-l-l-c",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-marketing-l-p",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-marketing-lp-l-l-c",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-mexico-s-a-de-c-v",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Mexico"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-morocco-sas",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Morocco"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-new-zealand-limited",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in New Zealand"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-nv",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Belgium"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-panama-s-de-rl",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Panama"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-peru-s-a-c",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Peru"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-procurement-xiamen-company-limited",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in China"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-procurement-xiamen-company-limited-shanghai-branch",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in China"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-procurement-xiamen-company-limited-shenzhen-branch",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in China"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-product-and-process-innovation-services-corp",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-products-poland-sp-z-o-o",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Poland"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-products-corporation",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-products-gp-l-l-c",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-products-l-p",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-products-lp-l-l-c",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-products-unlimited-company",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Ireland"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-products-unlimited-company-eesti-filiaal",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Estonia"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-ps-limited",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in United Arab Emirates"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-puerto-rico-corp",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-revolver-company-l-p",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-revolver-gp-l-l-c",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-revolving-transferor-l-l-c",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-s-p-a",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Italy"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-s-r-o",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Slovakia"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-s-r-l",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Luxembourg"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-sa",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Switzerland"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-sas",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Morocco"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-services-china-company-limited",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in China"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-soluzioni-finanziarie-s-r-l",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Italy"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-sp-z-o-o",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Poland"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-systems-tsi-hungary-likvidit-smenedzsment-korl-tolt-felel-ss-g-t-rsas-g",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Hungary"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-taiwan-b-v",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Netherlands"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-taiwan-b-v-taiwan-branch",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Taiwan"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-technologies-and-solutions-l-l-c-opc",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in United Arab Emirates"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-technologies-bulgaria-eood",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Bulgaria"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-technologies-capital-llc",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-technologies-d-o-o-beograd",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Serbia"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-technologies-dfs-holdings-limited",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in United Kingdom"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-technologies-egypt-limited",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Egypt"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-technologies-inc",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-technologies-japan-inc",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Japan"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-technologies-kazakhstan-and-central-asia-llp",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Kazakhstan"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-technologies-lithuania-uab",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Lithuania"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-technologies-pakistan-private-limited",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Pakistan"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-technologies-philippines-inc",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Philippines"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-technologies-regional-headquarter-company",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Saudi Arabia"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-technologies-single-shareholder-limited-liability-company",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Saudi Arabia"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-technologies-slo-spremljajo-e-marketin-ke-storitve-d-o-o",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Slovenia"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-technology-solutions-israel-ltd",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Israel"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-technology-solutions-nigeria-limited",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Nigeria"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-technology-and-solutions-llc",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Qatar"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-technology-products-and-services-single-member-s-a",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Greece"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-technology-s-r-l",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Romania"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-teknoloji-limited-sirketi",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Turkey"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-teknoloji-limited-sirketi-ankara-branch",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Turkey"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-trading-kunshan-company-limited",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in China"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-uk-group-pension-scheme-2018",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in United Kingdom"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-usa-corporation",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-usa-gp-l-l-c",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-usa-l-p",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-usa-lp-l-l-c",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-vietnam-company-limited",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Vietnam"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-vietnam-company-limited-hanoi-branch",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Vietnam"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-world-trade-corporation",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-world-trade-gp-l-l-c",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-world-trade-l-p",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dell-world-trade-lp-l-l-c",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "denali-intermediate-inc",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "dfs-b-v",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Netherlands"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "ecm-software-group-limited",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Cyprus"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "emc-benelux-b-v",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Netherlands"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "emc-australia-pty-limited",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Australia"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "emc-computer-systems",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Qatar"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "emc-computer-systems-china-co-ltd",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in China"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "emc-computer-systems-malaysia-sdn-bhd",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Malaysia"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "emc-computer-systems-south-asia-pte-ltd",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Singapore"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "emc-computer-systems-austria-gmbh",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Austria"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "emc-computer-systems-austria-gmbh-rep-office-in-egypt",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Egypt"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "emc-computer-systems-austria-gmbh-abu-dhabi",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in United Arab Emirates"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "emc-computer-systems-mexico-s-a-de-cv",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Mexico"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "emc-corporation",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "emc-egypt-service-center-limited",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Egypt"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "emc-equity-assets-llc",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "emc-europe-limited",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in United Kingdom"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "emc-global-holdings-company",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "emc-global-holdings-company-foreign-company-registered-in-australia",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Australia"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "emc-information-systems-thailand-limited",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Thailand"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "emc-information-systems-international-unlimited-company",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Ireland"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "emc-information-systems-management-limited",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Ireland"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "emc-information-systems-management-limited-german-branch",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Germany"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "emc-information-systems-nigeria-limited",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Nigeria"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "emc-information-technology-research-development-beijing-co-ltd",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in China"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "emc-information-technology-research-development-chengdu-co-ltd",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in China"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "emc-information-technology-research-development-shanghai-co-ltd",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in China"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "emc-international-unlimited-company",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Ireland"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "emc-ip-holding-company-llc",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "emc-ireland-holdings-unlimited-company",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Ireland"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "emc-israel-advanced-information-technologies-ltd",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Israel"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "emc-middle-east",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in United Arab Emirates"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "emc-st-petersburg-development-centre",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Russia"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "llc-dell-ukraine",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Ukraine"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "llc-emc-information-systems-ukraine",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Ukraine"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "nbt-investment-partners-llc",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "newfound-investment-partners-llc",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "oy-dell-ab",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Finland"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "pt-dell-indonesia",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Indonesia"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "representative-office-of-dell-emerging-markets-emea-limited-in-the-republic-of-azerbaijan",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Azerbaijan"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "scaleio-llc",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in USA"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "sichuan-an-cheng-security-technology-company",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in China"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "the-representative-office-of-dell-global-b-v-in-hanoi-city",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Vietnam"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "the-representative-office-of-dell-global-b-v-in-ho-chi-minh-city",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Vietnam"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "the-representative-office-of-emc-computer-systems-south-asia-pte-ltd-in-ho-chi-minh-city",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Vietnam"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "virtustream-cloud-services-ireland-unlimited-company",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Ireland"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "virtustream-germany-gmbh",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Germany"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "virtustream-ireland-limited",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Ireland"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "virtustream-limited",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Jersey"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "virtustream-switzerland-s-rl-en-liquidation",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in Switzerland"
+    },
+    {
+      "parent_slug": "dell-technologies-inc",
+      "child_slug": "virtustream-uk-limited",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001571996-26-000008",
+      "notes": "Incorporated in United Kingdom"
+    },
+    {
+      "parent_slug": "alphabet-inc",
+      "child_slug": "name-of-subsidiary",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001652044-26-000018",
+      "notes": "Incorporated in Jurisdiction of Incorporation or Organization"
+    },
+    {
+      "parent_slug": "alphabet-inc",
+      "child_slug": "google-llc",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001652044-26-000018",
+      "notes": "Incorporated in Delaware"
+    },
+    {
+      "parent_slug": "alphabet-inc",
+      "child_slug": "xxvi-holdings-inc",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001652044-26-000018",
+      "notes": "Incorporated in Delaware"
+    },
+    {
+      "parent_slug": "alphabet-inc",
+      "child_slug": "alphabet-capital-us-llc",
+      "ownership_pct": null,
+      "acquisition_date": null,
+      "source_id": "sec-ex21-0001652044-26-000018",
+      "notes": "Incorporated in Delaware"
+    }
+  ],
+  "sources": [
+    {
+      "id": "sec-ex21-0001571996-26-000008",
+      "title": "Dell Technologies Inc. -- Exhibit 21, 10-K filed 2026-03-16",
+      "url": "https://www.sec.gov/Archives/edgar/data/1571996/000157199626000008/exhibit211fy2610-k.htm",
+      "credibility_tier": "Primary",
+      "published_at": "2026-03-16",
+      "publisher": "SEC EDGAR"
+    },
+    {
+      "id": "sec-ex21-0001652044-26-000018",
+      "title": "Alphabet Inc. -- Exhibit 21, 10-K filed 2026-02-05",
+      "url": "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000018/googexhibit2101q42025.htm",
+      "credibility_tier": "Primary",
+      "published_at": "2026-02-05",
+      "publisher": "SEC EDGAR"
+    }
+  ]
+}

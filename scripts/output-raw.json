@@ -1,0 +1,1030 @@
+[
+  {
+    "ticker": "KHC",
+    "cik": "0001571996",
+    "company_name": "Dell Technologies Inc.",
+    "filing_type": "DOMESTIC",
+    "filing_date": "2026-03-16",
+    "accession_number": "0001571996-26-000008",
+    "exhibit_url": "https://www.sec.gov/Archives/edgar/data/1571996/000157199626000008/exhibit211fy2610-k.htm",
+    "subsidiaries": [
+      {
+        "name": "Company Name",
+        "jurisdiction": "Country"
+      },
+      {
+        "name": "Bracknell Boulevard (Block C) LLC",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Bracknell Boulevard (Block D) LLC",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Branch of Dell Free Zone Company LLC",
+        "jurisdiction": "Saudi Arabia"
+      },
+      {
+        "name": "Branch office of foreign company Dell Emerging Markets (EMEA) Limited United Kingdom – Branch Office Skopje",
+        "jurisdiction": "North Macedonia"
+      },
+      {
+        "name": "Dataloop Information Technology Consultancy - Sole Proprietorship L.L.C.",
+        "jurisdiction": "United Arab Emirates"
+      },
+      {
+        "name": "Dataloop Ltd.",
+        "jurisdiction": "Israel"
+      },
+      {
+        "name": "DCC Executive Security Inc.",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell (Chengdu) Company Limited",
+        "jurisdiction": "China"
+      },
+      {
+        "name": "Dell (China) Company Limited",
+        "jurisdiction": "China"
+      },
+      {
+        "name": "Dell (China) Company Limited - Beijing Branch 戴尔（中国）有限公司北京分公司",
+        "jurisdiction": "China"
+      },
+      {
+        "name": "Dell (China) Company Limited - Beijing Information Technology Branch",
+        "jurisdiction": "China"
+      },
+      {
+        "name": "Dell (China) Company Limited - Dalian Branch",
+        "jurisdiction": "China"
+      },
+      {
+        "name": "Dell (China) Company Limited - Guangzhou Branch",
+        "jurisdiction": "China"
+      },
+      {
+        "name": "Dell (China) Company Limited - Hangzhou Branch",
+        "jurisdiction": "China"
+      },
+      {
+        "name": "Dell (China) Company Limited - Jinan Branch",
+        "jurisdiction": "China"
+      },
+      {
+        "name": "Dell (China) Company Limited - Nanjing Branch",
+        "jurisdiction": "China"
+      },
+      {
+        "name": "Dell (China) Company Limited - Shanghai Branch",
+        "jurisdiction": "China"
+      },
+      {
+        "name": "Dell (China) Company Limited - Shenyang Branch",
+        "jurisdiction": "China"
+      },
+      {
+        "name": "Dell (China) Company Limited - Shenzhen Branch",
+        "jurisdiction": "China"
+      },
+      {
+        "name": "Dell (China) Company Limited - Wuhan Branch",
+        "jurisdiction": "China"
+      },
+      {
+        "name": "Dell (China) Company Limited - Xian Branch",
+        "jurisdiction": "China"
+      },
+      {
+        "name": "Dell (Xiamen) Company Limited",
+        "jurisdiction": "China"
+      },
+      {
+        "name": "Dell (Xiamen) Company Limited - Dalian Branch",
+        "jurisdiction": "China"
+      },
+      {
+        "name": "Dell A/S",
+        "jurisdiction": "Denmark"
+      },
+      {
+        "name": "Dell Aktiebolag",
+        "jurisdiction": "Sweden"
+      },
+      {
+        "name": "Dell America Latina Corp.",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell America Latina Corp., Sucursal Argentina",
+        "jurisdiction": "Argentina"
+      },
+      {
+        "name": "Dell AS",
+        "jurisdiction": "Norway"
+      },
+      {
+        "name": "Dell Asia Holdings Pte. Ltd.",
+        "jurisdiction": "Singapore"
+      },
+      {
+        "name": "Dell Asia Pacific Sdn. Bhd.",
+        "jurisdiction": "Malaysia"
+      },
+      {
+        "name": "Dell Asset Revolving Trust-B",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell Asset Syndication L.L.C.",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell Australia Pty Limited",
+        "jurisdiction": "Australia"
+      },
+      {
+        "name": "Dell B.V.",
+        "jurisdiction": "Netherlands"
+      },
+      {
+        "name": "Dell B.V. SUPERVISORY BOARD",
+        "jurisdiction": "Netherlands"
+      },
+      {
+        "name": "Dell B.V., Taiwan Branch",
+        "jurisdiction": "Taiwan"
+      },
+      {
+        "name": "Dell Bank International Designated Activity Company",
+        "jurisdiction": "Ireland"
+      },
+      {
+        "name": "Dell Bank International Designated Activity Company, Sucursal en España",
+        "jurisdiction": "Spain"
+      },
+      {
+        "name": "Dell Canada Inc.",
+        "jurisdiction": "Canada"
+      },
+      {
+        "name": "Dell Catalog Sales LP Representative Office",
+        "jurisdiction": "Philippines"
+      },
+      {
+        "name": "Dell Colombia Inc.",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell Colombia Inc. - COLOMBIA BRANCH",
+        "jurisdiction": "Colombia"
+      },
+      {
+        "name": "Dell Computadores do Brasil - Fortaleza Branch",
+        "jurisdiction": "Brazil"
+      },
+      {
+        "name": "Dell Computadores do Brasil - Hortolandia/SP Branch (A)",
+        "jurisdiction": "Brazil"
+      },
+      {
+        "name": "Dell Computadores do Brasil - Hortolandia/SP Branch (B)",
+        "jurisdiction": "Brazil"
+      },
+      {
+        "name": "Dell Computadores do Brasil - Rio de Janeiro Branch",
+        "jurisdiction": "Brazil"
+      },
+      {
+        "name": "Dell Computadores do Brasil - Sao Paulo Branch (Barueri - Alameda Rio Negro)",
+        "jurisdiction": "Brazil"
+      },
+      {
+        "name": "Dell Computadores do Brasil - Sao Paulo Branch (Cajamar)",
+        "jurisdiction": "Brazil"
+      },
+      {
+        "name": "Dell Computadores do Brasil - Sao Paulo Branch (Rua Verbo Divino)",
+        "jurisdiction": "Brazil"
+      },
+      {
+        "name": "Dell Computadores do Brasil - São Paulo Branch (Santana do Parnaíba)",
+        "jurisdiction": "Brazil"
+      },
+      {
+        "name": "Dell Computadores do Brasil Ltda.",
+        "jurisdiction": "Brazil"
+      },
+      {
+        "name": "Dell Computer (Pty) Limited",
+        "jurisdiction": "South Africa"
+      },
+      {
+        "name": "Dell Computer de Chile Ltda.",
+        "jurisdiction": "Chile"
+      },
+      {
+        "name": "Dell Computer Holdings L.P.",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell Computer, S.A.U.",
+        "jurisdiction": "Spain"
+      },
+      {
+        "name": "DELL Computer, spol. s r.o.",
+        "jurisdiction": "Czechia"
+      },
+      {
+        "name": "Dell Conduit Funding-B L.L.C.",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell Corporation (Thailand) Co., Ltd.",
+        "jurisdiction": "Thailand"
+      },
+      {
+        "name": "Dell Corporation Limited",
+        "jurisdiction": "United Kingdom"
+      },
+      {
+        "name": "Dell Costa Rica SA",
+        "jurisdiction": "Costa Rica"
+      },
+      {
+        "name": "Dell Depositor L.L.C.",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell DFS Corporation",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell DFS Holdings L.L.C.",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell El Salvador, Limitada",
+        "jurisdiction": "El Salvador"
+      },
+      {
+        "name": "Dell Emerging Markets (EMEA) Limited",
+        "jurisdiction": "Tunisia"
+      },
+      {
+        "name": "Dell Emerging Markets (EMEA) Limited (Kazakhstan Representative Office)",
+        "jurisdiction": "Kazakhstan"
+      },
+      {
+        "name": "Dell Emerging Markets (EMEA) Limited (Kenya Branch)",
+        "jurisdiction": "Kenya"
+      },
+      {
+        "name": "Dell Emerging Markets (EMEA) Limited - Representative Office",
+        "jurisdiction": "Lebanon"
+      },
+      {
+        "name": "DELL EMERGING MARKETS (EMEA) LIMITED za usluge, Podružnica Zagreb",
+        "jurisdiction": "Croatia"
+      },
+      {
+        "name": "Dell Equipment Finance Trust 2023-1",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell Equipment Finance Trust 2023-2",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell Equipment Finance Trust 2023-3",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell Equipment Finance Trust 2024-1",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell Equipment Finance Trust 2024-2",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell Equipment Finance Trust 2025-1",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell Equipment Finance Trust 2025-2",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell Equipment Funding L.P.",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell Equipment GP L.L.C.",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell Federal Systems Corporation",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell Federal Systems GP L.L.C.",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell Federal Systems L.P.",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell Federal Systems LP L.L.C.",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell Financial Services Canada Limited",
+        "jurisdiction": "Canada"
+      },
+      {
+        "name": "Dell Financial Services Holding Pty Ltd",
+        "jurisdiction": "Australia"
+      },
+      {
+        "name": "Dell Financial Services International Ireland Designated Activity Company",
+        "jurisdiction": "Ireland"
+      },
+      {
+        "name": "Dell Financial Services L.L.C.",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell Financial Services Pte. Ltd.",
+        "jurisdiction": "Singapore"
+      },
+      {
+        "name": "Dell Financial Services Pty Ltd",
+        "jurisdiction": "Australia"
+      },
+      {
+        "name": "Dell Financial Services Pty Ltd (Registered overseas ASIC company)",
+        "jurisdiction": "New Zealand"
+      },
+      {
+        "name": "Dell FZ-LLC",
+        "jurisdiction": "United Arab Emirates"
+      },
+      {
+        "name": "Dell FZ-LLC - Abu Dhabi Branch",
+        "jurisdiction": "United Arab Emirates"
+      },
+      {
+        "name": "Dell FZ-LLC - BAHRAIN BRANCH",
+        "jurisdiction": "Bahrain"
+      },
+      {
+        "name": "Dell FZ-LLC - Qatar Branch",
+        "jurisdiction": "Qatar"
+      },
+      {
+        "name": "DELL Gesellschaft mbH",
+        "jurisdiction": "Austria"
+      },
+      {
+        "name": "Dell Global B.V.",
+        "jurisdiction": "Netherlands"
+      },
+      {
+        "name": "Dell Global B.V. (Singapore Branch)",
+        "jurisdiction": "Singapore"
+      },
+      {
+        "name": "Dell Global B.V. - Bangladesh Liaison Office",
+        "jurisdiction": "Bangladesh"
+      },
+      {
+        "name": "Dell Global B.V. - Philippines Representative Office",
+        "jurisdiction": "Philippines"
+      },
+      {
+        "name": "Dell Global B.V. - Sri Lanka Liaison / Representative Office",
+        "jurisdiction": "Sri Lanka"
+      },
+      {
+        "name": "Dell Global Business Center Sdn. Bhd.",
+        "jurisdiction": "Malaysia"
+      },
+      {
+        "name": "Dell Global Holdings I LP",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell Global Holdings III B.V.",
+        "jurisdiction": "Netherlands"
+      },
+      {
+        "name": "Dell Global Holdings XV L.L.C.",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell Global Holdings XVI L.L.C.",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell Global Holdings XVII LLC",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell Global Holdings XVIII LLC",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell Global Pte. Ltd.",
+        "jurisdiction": "Singapore"
+      },
+      {
+        "name": "Dell GmbH",
+        "jurisdiction": "Germany"
+      },
+      {
+        "name": "Dell Guatemala, Ltda.",
+        "jurisdiction": "Guatemala"
+      },
+      {
+        "name": "Dell Hong Kong Limited",
+        "jurisdiction": "Hong Kong SAR China"
+      },
+      {
+        "name": "Dell Hungary Technology Solutions Trade LLC",
+        "jurisdiction": "Hungary"
+      },
+      {
+        "name": "Dell III - Comercio de Computadores, Unipessoal Lda",
+        "jurisdiction": "Portugal"
+      },
+      {
+        "name": "Dell Inc.",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell International Finance LLC",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell International Holdings Kft",
+        "jurisdiction": "Hungary"
+      },
+      {
+        "name": "Dell International Holdings Limited",
+        "jurisdiction": "United Kingdom"
+      },
+      {
+        "name": "Dell International Holdings VIII B.V.",
+        "jurisdiction": "Netherlands"
+      },
+      {
+        "name": "Dell International Inc. (Korea)",
+        "jurisdiction": "South Korea"
+      },
+      {
+        "name": "Dell International L.L.C.",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell International Services India Private Limited",
+        "jurisdiction": "India"
+      },
+      {
+        "name": "Dell International Services Philippines, Inc.",
+        "jurisdiction": "Philippines"
+      },
+      {
+        "name": "Dell Latinoamerica, S. de R.L.",
+        "jurisdiction": "Panama"
+      },
+      {
+        "name": "Dell Leasing Mexico S. de RL de C.V.",
+        "jurisdiction": "Mexico"
+      },
+      {
+        "name": "Dell LLC",
+        "jurisdiction": "Russia"
+      },
+      {
+        "name": "Dell Marketing Corporation",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell Marketing GP L.L.C.",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell Marketing L.P.",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell Marketing LP L.L.C.",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell Mexico S.A. de C.V.",
+        "jurisdiction": "Mexico"
+      },
+      {
+        "name": "Dell Morocco SAS",
+        "jurisdiction": "Morocco"
+      },
+      {
+        "name": "Dell New Zealand Limited",
+        "jurisdiction": "New Zealand"
+      },
+      {
+        "name": "Dell NV",
+        "jurisdiction": "Belgium"
+      },
+      {
+        "name": "Dell Panama S de RL",
+        "jurisdiction": "Panama"
+      },
+      {
+        "name": "Dell Peru S.A.C.",
+        "jurisdiction": "Peru"
+      },
+      {
+        "name": "Dell Procurement (Xiamen) Company Limited",
+        "jurisdiction": "China"
+      },
+      {
+        "name": "Dell Procurement (Xiamen) Company Limited - Shanghai Branch",
+        "jurisdiction": "China"
+      },
+      {
+        "name": "Dell Procurement (Xiamen) Company Limited - Shenzhen Branch",
+        "jurisdiction": "China"
+      },
+      {
+        "name": "Dell Product and Process Innovation Services Corp.",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell Products (Poland) Sp.z.o.o.",
+        "jurisdiction": "Poland"
+      },
+      {
+        "name": "Dell Products Corporation",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell Products GP L.L.C.",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell Products L.P.",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell Products LP L.L.C.",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell Products Unlimited Company",
+        "jurisdiction": "Ireland"
+      },
+      {
+        "name": "Dell Products Unlimited Company Eesti filiaal",
+        "jurisdiction": "Estonia"
+      },
+      {
+        "name": "Dell PS Limited",
+        "jurisdiction": "United Arab Emirates"
+      },
+      {
+        "name": "Dell Puerto Rico Corp.",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell Revolver Company L.P.",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell Revolver GP L.L.C.",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell Revolving Transferor L.L.C.",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell S.p.A.",
+        "jurisdiction": "Italy"
+      },
+      {
+        "name": "Dell s.r.o.",
+        "jurisdiction": "Slovakia"
+      },
+      {
+        "name": "Dell S.à r.l",
+        "jurisdiction": "Luxembourg"
+      },
+      {
+        "name": "Dell SA",
+        "jurisdiction": "Switzerland"
+      },
+      {
+        "name": "Dell SAS",
+        "jurisdiction": "Morocco"
+      },
+      {
+        "name": "Dell Services (China) Company Limited",
+        "jurisdiction": "China"
+      },
+      {
+        "name": "Dell Soluzioni Finanziarie S.r.l.",
+        "jurisdiction": "Italy"
+      },
+      {
+        "name": "Dell Sp. z o.o.",
+        "jurisdiction": "Poland"
+      },
+      {
+        "name": "Dell Systems TSI (Hungary) Likviditásmenedzsment Korlátolt Felelısségő Társaság",
+        "jurisdiction": "Hungary"
+      },
+      {
+        "name": "Dell Taiwan B.V.",
+        "jurisdiction": "Netherlands"
+      },
+      {
+        "name": "Dell Taiwan B.V., Taiwan Branch",
+        "jurisdiction": "Taiwan"
+      },
+      {
+        "name": "Dell Technologies and Solutions L.L.C – OPC",
+        "jurisdiction": "United Arab Emirates"
+      },
+      {
+        "name": "Dell Technologies Bulgaria EOOD",
+        "jurisdiction": "Bulgaria"
+      },
+      {
+        "name": "Dell Technologies Capital, LLC",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell Technologies d.o.o. Beograd",
+        "jurisdiction": "Serbia"
+      },
+      {
+        "name": "Dell Technologies DFS Holdings Limited",
+        "jurisdiction": "United Kingdom"
+      },
+      {
+        "name": "Dell Technologies Egypt Limited",
+        "jurisdiction": "Egypt"
+      },
+      {
+        "name": "Dell Technologies Inc.",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell Technologies Japan Inc.",
+        "jurisdiction": "Japan"
+      },
+      {
+        "name": "Dell Technologies Kazakhstan and Central Asia LLP",
+        "jurisdiction": "Kazakhstan"
+      },
+      {
+        "name": "Dell Technologies Lithuania UAB",
+        "jurisdiction": "Lithuania"
+      },
+      {
+        "name": "Dell Technologies Pakistan (Private) Limited",
+        "jurisdiction": "Pakistan"
+      },
+      {
+        "name": "Dell Technologies Philippines Inc.",
+        "jurisdiction": "Philippines"
+      },
+      {
+        "name": "Dell Technologies Regional Headquarter Company",
+        "jurisdiction": "Saudi Arabia"
+      },
+      {
+        "name": "Dell Technologies Single Shareholder Limited Liability Company",
+        "jurisdiction": "Saudi Arabia"
+      },
+      {
+        "name": "Dell Technologies SLO, spremljajoče marketinške storitve, d.o.o.",
+        "jurisdiction": "Slovenia"
+      },
+      {
+        "name": "Dell Technology & Solutions Israel Ltd",
+        "jurisdiction": "Israel"
+      },
+      {
+        "name": "Dell Technology & Solutions Nigeria Limited",
+        "jurisdiction": "Nigeria"
+      },
+      {
+        "name": "Dell Technology and Solutions LLC",
+        "jurisdiction": "Qatar"
+      },
+      {
+        "name": "Dell Technology Products And Services Single Member S.A.",
+        "jurisdiction": "Greece"
+      },
+      {
+        "name": "Dell Technology S.R.L.",
+        "jurisdiction": "Romania"
+      },
+      {
+        "name": "Dell Teknoloji Limited Sirketi",
+        "jurisdiction": "Turkey"
+      },
+      {
+        "name": "Dell Teknoloji Limited Sirketi - Ankara Branch",
+        "jurisdiction": "Turkey"
+      },
+      {
+        "name": "Dell Trading (Kunshan) Company Limited",
+        "jurisdiction": "China"
+      },
+      {
+        "name": "Dell UK Group Pension Scheme 2018",
+        "jurisdiction": "United Kingdom"
+      },
+      {
+        "name": "Dell USA Corporation",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell USA GP L.L.C.",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell USA L.P.",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell USA LP L.L.C.",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell Vietnam Company Limited",
+        "jurisdiction": "Vietnam"
+      },
+      {
+        "name": "Dell Vietnam Company Limited – Hanoi Branch",
+        "jurisdiction": "Vietnam"
+      },
+      {
+        "name": "Dell World Trade Corporation",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell World Trade GP L.L.C.",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell World Trade L.P.",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Dell World Trade LP L.L.C.",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Denali Intermediate Inc.",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "DFS B.V.",
+        "jurisdiction": "Netherlands"
+      },
+      {
+        "name": "ECM Software Group Limited",
+        "jurisdiction": "Cyprus"
+      },
+      {
+        "name": "EMC (Benelux) B.V.",
+        "jurisdiction": "Netherlands"
+      },
+      {
+        "name": "EMC Australia Pty Limited",
+        "jurisdiction": "Australia"
+      },
+      {
+        "name": "EMC Computer Systems",
+        "jurisdiction": "Qatar"
+      },
+      {
+        "name": "EMC Computer Systems (China) Co., Ltd.",
+        "jurisdiction": "China"
+      },
+      {
+        "name": "EMC Computer Systems (Malaysia) Sdn. Bhd.",
+        "jurisdiction": "Malaysia"
+      },
+      {
+        "name": "EMC Computer Systems (South Asia) Pte. Ltd.",
+        "jurisdiction": "Singapore"
+      },
+      {
+        "name": "EMC Computer Systems Austria GmbH",
+        "jurisdiction": "Austria"
+      },
+      {
+        "name": "EMC Computer Systems Austria GmbH (“Rep Office in Egypt”)",
+        "jurisdiction": "Egypt"
+      },
+      {
+        "name": "EMC Computer Systems Austria GmbH - Abu Dhabi",
+        "jurisdiction": "United Arab Emirates"
+      },
+      {
+        "name": "EMC Computer Systems Mexico, S.A. de CV",
+        "jurisdiction": "Mexico"
+      },
+      {
+        "name": "EMC Corporation",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "EMC Egypt Service Center Limited",
+        "jurisdiction": "Egypt"
+      },
+      {
+        "name": "EMC Equity Assets LLC",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "EMC Europe Limited",
+        "jurisdiction": "United Kingdom"
+      },
+      {
+        "name": "EMC Global Holdings Company",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "EMC Global Holdings Company (Foreign company registered in Australia)",
+        "jurisdiction": "Australia"
+      },
+      {
+        "name": "EMC Information Systems (Thailand) Limited",
+        "jurisdiction": "Thailand"
+      },
+      {
+        "name": "EMC Information Systems International Unlimited Company",
+        "jurisdiction": "Ireland"
+      },
+      {
+        "name": "EMC Information Systems Management Limited",
+        "jurisdiction": "Ireland"
+      },
+      {
+        "name": "EMC Information Systems Management Limited, German Branch",
+        "jurisdiction": "Germany"
+      },
+      {
+        "name": "EMC Information Systems Nigeria Limited",
+        "jurisdiction": "Nigeria"
+      },
+      {
+        "name": "EMC Information Technology Research & Development (Beijing) Co., Ltd.",
+        "jurisdiction": "China"
+      },
+      {
+        "name": "EMC Information Technology Research & Development (Chengdu) Co., Ltd.",
+        "jurisdiction": "China"
+      },
+      {
+        "name": "EMC Information Technology Research & Development (Shanghai) Co., Ltd.",
+        "jurisdiction": "China"
+      },
+      {
+        "name": "EMC International Unlimited Company",
+        "jurisdiction": "Ireland"
+      },
+      {
+        "name": "EMC IP Holding Company LLC",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "EMC Ireland Holdings Unlimited Company",
+        "jurisdiction": "Ireland"
+      },
+      {
+        "name": "EMC Israel Advanced Information Technologies Ltd.",
+        "jurisdiction": "Israel"
+      },
+      {
+        "name": "EMC Middle East",
+        "jurisdiction": "United Arab Emirates"
+      },
+      {
+        "name": "EMC St. Petersburg Development Centre",
+        "jurisdiction": "Russia"
+      },
+      {
+        "name": "LLC Dell Ukraine",
+        "jurisdiction": "Ukraine"
+      },
+      {
+        "name": "LLC “EMC Information Systems Ukraine”",
+        "jurisdiction": "Ukraine"
+      },
+      {
+        "name": "NBT Investment Partners LLC",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Newfound Investment Partners LLC",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Oy Dell Ab",
+        "jurisdiction": "Finland"
+      },
+      {
+        "name": "PT Dell Indonesia",
+        "jurisdiction": "Indonesia"
+      },
+      {
+        "name": "Representative Office of \"Dell Emerging Markets (EMEA) Limited\" in the Republic of Azerbaijan",
+        "jurisdiction": "Azerbaijan"
+      },
+      {
+        "name": "ScaleIO LLC",
+        "jurisdiction": "USA"
+      },
+      {
+        "name": "Sichuan An Cheng Security Technology Company",
+        "jurisdiction": "China"
+      },
+      {
+        "name": "The Representative Office of Dell Global B.V. in Hanoi City",
+        "jurisdiction": "Vietnam"
+      },
+      {
+        "name": "The Representative Office of Dell Global B.V. in Ho Chi Minh City",
+        "jurisdiction": "Vietnam"
+      },
+      {
+        "name": "The Representative Office of EMC Computer Systems (South Asia) Pte. Ltd. in Ho Chi Minh City",
+        "jurisdiction": "Vietnam"
+      },
+      {
+        "name": "Virtustream Cloud Services Ireland Unlimited Company",
+        "jurisdiction": "Ireland"
+      },
+      {
+        "name": "Virtustream Germany GmbH",
+        "jurisdiction": "Germany"
+      },
+      {
+        "name": "Virtustream Ireland Limited",
+        "jurisdiction": "Ireland"
+      },
+      {
+        "name": "Virtustream Limited",
+        "jurisdiction": "Jersey"
+      },
+      {
+        "name": "Virtustream Switzerland Sàrl, en liquidation",
+        "jurisdiction": "Switzerland"
+      },
+      {
+        "name": "Virtustream UK Limited",
+        "jurisdiction": "United Kingdom"
+      }
+    ],
+    "error": null
+  },
+  {
+    "ticker": "GOOGL",
+    "cik": "0001652044",
+    "company_name": "Alphabet Inc.",
+    "filing_type": "DOMESTIC",
+    "filing_date": "2026-02-05",
+    "accession_number": "0001652044-26-000018",
+    "exhibit_url": "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000018/googexhibit2101q42025.htm",
+    "subsidiaries": [
+      {
+        "name": "Name of Subsidiary",
+        "jurisdiction": "Jurisdiction of Incorporation or Organization"
+      },
+      {
+        "name": "Google LLC",
+        "jurisdiction": "Delaware"
+      },
+      {
+        "name": "XXVI Holdings Inc.",
+        "jurisdiction": "Delaware"
+      },
+      {
+        "name": "Alphabet Capital US LLC",
+        "jurisdiction": "Delaware"
+      }
+    ],
+    "error": null
+  }
+]

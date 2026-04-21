@@ -74,6 +74,7 @@
 .type-subsidiary::before   { background: var(--accent2); }
 .type-brand::before        { background: #a07eb8; }
 .type-product::before      { background: #7e8eb8; }
+.type-legal-entity::before { background: var(--muted); }
 
 .nodeIcon  { font-size: 14px; flex-shrink: 0; color: var(--muted); }
 .nodeInfo  { flex: 1; }

@@ -7,7 +7,7 @@ import styles from './ExploreClient.module.css'
 import { useSearchParams } from 'next/navigation'
 
 const TYPE_ICONS: Record<string, string> = {
-  conglomerate: '◈', subsidiary: '◇', brand: '○', product: '·',
+  conglomerate: '◈', subsidiary: '◇', brand: '○', product: '·', 'legal-entity': '□',
 }
 
 export default function ExploreClient({ snapshot }: { snapshot: GraphSnapshot }) {
@@ -174,7 +174,7 @@ export default function ExploreClient({ snapshot }: { snapshot: GraphSnapshot })
             onChange={e => setSearchQuery(e.target.value)}
           />
           <div className={styles.filterRow}>
-		  {['all','conglomerate','subsidiary','brand','product'].map(t => (
+		  {['all','conglomerate','subsidiary','brand','product','legal-entity'].map(t => (
 			<button
 			  key={t}
 			  className={`filter-btn ${activeFilter === t ? 'active' : ''}`}
@@ -262,6 +262,7 @@ export default function ExploreClient({ snapshot }: { snapshot: GraphSnapshot })
             { color: 'var(--accent2)', label: 'Subsidiary' },
             { color: '#a07eb8',        label: 'Brand' },
             { color: '#7e8eb8',        label: 'Product' },
+			{ color: 'var(--muted)',   label: 'Legal Entity' },
             { color: 'var(--danger)',  label: 'Partial Ownership' },
           ].map(item => (
             <div key={item.label} className={styles.legendItem}>

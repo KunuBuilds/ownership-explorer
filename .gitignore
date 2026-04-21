@@ -1,4 +1,9 @@
 node_modules/
 .next/
-.env.locals
+.env.local
 scripts/import-seed.mjs
+scripts/*-raw.json
+scripts/*-supabase.json
+scripts/seed-raw.json
+scripts/seed-supabase.json
+scripts/merge-fix-*.json

@@ -14,6 +14,7 @@ export default function ExploreClient({ snapshot }: { snapshot: GraphSnapshot })
   const { entities, ownership } = snapshot
   const entityMap   = useMemo(() => buildEntityMap(entities), [entities])
   const roots       = useMemo(() => rootEntities(entities, ownership), [entities, ownership])
+  
 
   const [activeCompany,  setActiveCompany]  = useState<string | null>(null)
   const [expandedNodes,  setExpandedNodes]  = useState<Set<string>>(new Set())
@@ -38,9 +39,12 @@ export default function ExploreClient({ snapshot }: { snapshot: GraphSnapshot })
 	return matchSearch && matchType && matchPE
   })
   
+  
   const GROUPING_IDS = new Set(['independent', 'cooperative', 'family-owned', 'b-corp'])
 
   const realRoots     = filteredRoots.filter(c => !GROUPING_IDS.has(c.id))
+ 
+  
   const groupingRoots = filteredRoots.filter(c =>  GROUPING_IDS.has(c.id))
 
   function toggleNode(key: string) {
@@ -117,13 +121,17 @@ export default function ExploreClient({ snapshot }: { snapshot: GraphSnapshot })
   }
 
   function renderRootNode(companyId: string) {
-    const entity      = entityMap.get(companyId)
+    
+	const entity      = entityMap.get(companyId)
+	
     if (!entity) return null
-    const hasChildren = childrenOf(entity.id, ownership, entityMap).length > 0
+    const children = childrenOf(entity.id, ownership, entityMap)
+    
+    const hasChildren = children.length > 0
     const isExpanded  = expandedNodes.has(companyId)
 
     return (
-      <ul className={styles.treeRoot}>
+      <ul key={companyId} className={styles.treeRoot}>
         <li className={styles.treeNode}>
           <div className={styles.nodeRow}>
             <Link href={`/entity/${entity.id}`} className={`${styles.nodeCard} ${styles['type-' + entity.type]}`}>

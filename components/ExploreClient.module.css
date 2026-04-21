@@ -20,8 +20,8 @@
 .filterRow         { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 10px; }
 .sidebarListLabel  { padding: 12px 18px 0; font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
 .companyList       { flex: 1; overflow-y: auto; padding: 6px 0; }
-.companyList::-webkit-scrollbar       { width: 3px; }
-.companyList::-webkit-scrollbar-thumb{ background: var(--border); }
+.companyList::-webkit-scrollbar       { width: 8px; }
+.companyList::-webkit-scrollbar-thumb{ background: var(--border); border-radius: 4px; }
 
 .companyItem {
   padding:     9px 18px;
@@ -149,9 +149,11 @@
   }
 
   .companyList {
-    max-height: 240px;
-    overflow-y: auto;
-  }
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 6px 0;
+}
 
   .main {
     min-height: calc(100vh - 92px);

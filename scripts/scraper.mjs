@@ -75,10 +75,10 @@ const FILING = {
 const CIK_MAP = {
 
   // == Luxury / Fashion -- Foreign (20-F / Exhibit 8) ========================
-  LVMUY:  { cik: '0001285785', name: 'LVMH Moet Hennessy Louis Vuitton SE',  filing: 'FOREIGN'  }, // Louis Vuitton, Dior, Bulgari, Tiffany, Sephora, TAG Heuer
-  PPRUY:  { cik: '0001393751', name: 'Kering SA',                             filing: 'FOREIGN'  }, // Gucci, Saint Laurent, Bottega Veneta, Balenciaga, Alexander McQueen
-  CFRUY:  { cik: '0001285785', name: 'Cie Financiere Richemont SA',           filing: 'FOREIGN'  }, // Cartier, IWC, Van Cleef & Arpels, Dunhill, Piaget
-  HESAY:  { cik: '0001467373', name: 'Hermes International SCA',              filing: 'FOREIGN'  },
+  // Deregistered in 2003: LVMUY:  { cik: '0000824046', name: 'LVMH MOET HENNESSY LOUIS VUITTON',      filing: 'FOREIGN' }, // Louis Vuitton, Dior, Bulgari, Tiffany, Sephora, TAG Heuer
+  // Never registered PPRUY:  { cik: '0001393751', name: 'Kering SA',                             filing: 'FOREIGN'  }, // Gucci, Saint Laurent, Bottega Veneta, Balenciaga, Alexander McQueen
+  // Never registered CFRUY:  { cik: '0001285785', name: 'Cie Financiere Richemont SA',           filing: 'FOREIGN'  }, // Cartier, IWC, Van Cleef & Arpels, // Dunhill, Piaget
+  // Never registered HESAY:  { cik: '0001467373', name: 'Hermes International SCA',              filing: 'FOREIGN'  },
   BURBY:  { cik: '0001403708', name: 'Burberry Group PLC',                    filing: 'FOREIGN'  },
 
   // == Luxury / Fashion -- Domestic (10-K / Exhibit 21) ======================
@@ -89,22 +89,23 @@ const CIK_MAP = {
   HBI:    { cik: '0001359841', name: 'Hanesbrands Inc',                       filing: 'DOMESTIC' }, // Champion, Bonds
 
   // == Food & Beverage -- Foreign ============================================
-  NSRGY:  { cik: '0001285785', name: 'Nestle SA',                             filing: 'FOREIGN'  }, // KitKat, Nespresso, Purina, Gerber, Maggi, San Pellegrino
+  // Never registered NSRGY:  { cik: '0001285785', name: 'Nestle SA',                             filing: 'FOREIGN'  }, // KitKat, Nespresso, Purina, Gerber, Maggi, San Pellegrino
   ADRNY:  { cik: '0001703401', name: 'Anheuser-Busch InBev SA/NV',            filing: 'FOREIGN'  }, // Budweiser, Corona, Stella Artois, Becks, Leffe, Hoegaarden
   DANOY:  { cik: '0001285785', name: 'Danone SA',                             filing: 'FOREIGN'  }, // Evian, Activia, Alpro, Aptamil, Volvic
   HKHHF:  { cik: '0001285785', name: 'Heineken NV',                           filing: 'FOREIGN'  }, // Heineken, Amstel, Dos Equis, Tecate, Tiger, Sol
+  MDLZ:   { cik: '0001103982', name: 'Mondelez International, Inc.',          filing: 'DOMESTIC' }, // Oreo, Cadbury, Toblerone, Trident, Ritz, belVita
 
   // == Food & Beverage -- Domestic ===========================================
-  KHC:    { cik: '0001571996', name: 'Kraft Heinz Co',                        filing: 'DOMESTIC' }, // Lunchables, Heinz, Jell-O, Oscar Mayer, Velveeta, Philadelphia
+  KHC:    { cik: '0001637459', name: 'Kraft Heinz Co', 						 filing: 'DOMESTIC' }, // Lunchables, Heinz, Jell-O, Oscar Mayer, Velveeta, Philadelphia
   PG:     { cik: '0000080424', name: 'Procter & Gamble Co',                   filing: 'DOMESTIC' }, // Tide, Gillette, Pampers, Oral-B, Bounty, Febreze
   UL:     { cik: '0000101198', name: 'Unilever PLC',                          filing: 'DOMESTIC' }, // Dove, Hellmanns, Vaseline, Axe, Lipton
   GIS:    { cik: '0000040704', name: 'General Mills Inc',                     filing: 'DOMESTIC' }, // Cheerios, Betty Crocker, Pillsbury, Nature Valley, Yoplait
-  K:      { cik: '0000055529', name: 'Kellanova',                             filing: 'DOMESTIC' }, // Pringles, Pop-Tarts, Cheez-It, Eggo, Special K
+  K:      { cik: '0000055067', name: 'KELLANOVA', filing: 'DOMESTIC' }, // Pringles, Pop-Tarts, Cheez-It, Eggo, Special K
   CAG:    { cik: '0000023217', name: 'Conagra Brands Inc',                    filing: 'DOMESTIC' }, // Birds Eye, Healthy Choice, Slim Jim, Vlasic, Hunts
   CPB:    { cik: '0000016732', name: 'Campbell Soup Co',                      filing: 'DOMESTIC' }, // Pepperidge Farm, Snyders, Kettle Brand, Pace, V8
   MKC:    { cik: '0000063754', name: 'McCormick & Co',                        filing: 'DOMESTIC' }, // McCormick, Franks RedHot, Frenchs, Cholula
-  DEO:    { cik: '0001089063', name: 'Diageo PLC',                            filing: 'DOMESTIC' }, // Johnnie Walker, Guinness, Smirnoff, Baileys, Tanqueray
-  STZ:    { cik: '0000016160', name: 'Constellation Brands Inc',              filing: 'DOMESTIC' }, // Corona, Robert Mondavi, Kim Crawford, Meiomi
+  DEO:    { cik: '0000835403', name: 'DIAGEO PLC', filing: 'FOREIGN' }, // Johnnie Walker, Guinness, Smirnoff, Baileys, Tanqueray
+  STZ:    { cik: '0000016918', name: '', filing: 'DOMESTIC' }, // Corona, Robert Mondavi, Kim Crawford, Meiomi
   SAM:    { cik: '0000949870', name: 'Boston Beer Co',                        filing: 'DOMESTIC' }, // Samuel Adams, Truly, Twisted Tea, Angry Orchard
   TAP:    { cik: '0000024545', name: 'Molson Coors Beverage Co',              filing: 'DOMESTIC' }, // Coors, Miller, Blue Moon, Leinenkugels
 
@@ -115,7 +116,7 @@ const CIK_MAP = {
   // == Consumer / Home -- Domestic ===========================================
   CL:     { cik: '0000021665', name: 'Colgate-Palmolive Co',                  filing: 'DOMESTIC' }, // Colgate, Hills Pet, Toms of Maine, Palmolive, Speed Stick
   CHD:    { cik: '0000313927', name: 'Church & Dwight Co',                    filing: 'DOMESTIC' }, // Arm & Hammer, OxiClean, Trojan, Vitafusion, Waterpik
-  EL:     { cik: '0001001316', name: 'Estee Lauder Companies Inc',            filing: 'DOMESTIC' }, // MAC, Clinique, La Mer, Jo Malone, Bobbi Brown, Aveda
+  EL:     { cik: '0001001250', name: 'ESTEE LAUDER COMPANIES INC', filing: 'DOMESTIC' }, // MAC, Clinique, La Mer, Jo Malone, Bobbi Brown, Aveda
   REV:    { cik: '0000887921', name: 'Revlon Inc',                            filing: 'DOMESTIC' }, // Elizabeth Arden, American Crew
   NWL:    { cik: '0000814453', name: 'Newell Brands Inc',                     filing: 'DOMESTIC' }, // Rubbermaid, Sharpie, Coleman, Yankee Candle, Elmers, Graco
   SPB:    { cik: '0001539838', name: 'Spectrum Brands Holdings Inc',          filing: 'DOMESTIC' }, // Remington, Rayovac, Black+Decker HHI
@@ -147,8 +148,8 @@ const CIK_MAP = {
   // == Hotels & Travel -- Domestic ===========================================
   MAR:    { cik: '0001048286', name: 'Marriott International Inc',            filing: 'DOMESTIC' }, // Ritz-Carlton, W Hotels, Westin, Sheraton, Courtyard
   HLT:    { cik: '0001468704', name: 'Hilton Worldwide Holdings Inc',         filing: 'DOMESTIC' }, // Waldorf Astoria, DoubleTree, Hampton, Conrad, Curio
-  H:      { cik: '0001679273', name: 'Hyatt Hotels Corp',                     filing: 'DOMESTIC' }, // Park Hyatt, Andaz, Alila, Thompson Hotels
-  IHG:    { cik: '0001357615', name: 'InterContinental Hotels Group PLC',     filing: 'DOMESTIC' }, // Holiday Inn, Crowne Plaza, Kimpton, Six Senses
+  H:      { cik: '0001468174', name: 'Hyatt Hotels Corp', filing: 'DOMESTIC' }, // Park Hyatt, Andaz, Alila, Thompson Hotels
+  IHG:    { cik: '0000858446', name: 'INTERCONTINENTAL HOTELS GROUP PLC /NEW/', filing: 'FOREIGN' }, // Holiday Inn, Crowne Plaza, Kimpton, Six Senses
 
   // == Autos -- Foreign ======================================================
   TOYOY:  { cik: '0001467373', name: 'Toyota Motor Corp',                     filing: 'FOREIGN'  }, // Lexus, Daihatsu, Hino
@@ -159,7 +160,7 @@ const CIK_MAP = {
   // == Autos -- Domestic =====================================================
   F:      { cik: '0000037996', name: 'Ford Motor Co',                         filing: 'DOMESTIC' }, // Lincoln
   GM:     { cik: '0001467858', name: 'General Motors Co',                     filing: 'DOMESTIC' }, // Chevrolet, GMC, Buick, Cadillac, OnStar
-  STLA:   { cik: '0001707092', name: 'Stellantis NV',                         filing: 'DOMESTIC' }, // Jeep, Dodge, Ram, Alfa Romeo, Maserati, Fiat, Peugeot, Citroen
+  STLA:   { cik: '0001605484', name: 'Stellantis N.V.', filing: 'FOREIGN' }, // Jeep, Dodge, Ram, Alfa Romeo, Maserati, Fiat, Peugeot, Citroen
 
   // == Sports & Apparel -- Foreign ===========================================
   ADDYY:  { cik: '0001285785', name: 'Adidas AG',                             filing: 'FOREIGN'  }, // Adidas

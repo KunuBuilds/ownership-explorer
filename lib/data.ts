@@ -14,13 +14,27 @@ import { supabase, Entity, Ownership, Source, OwnershipSource, Category, Submiss
 // ── Entities ─────────────────────────────────────────────────────────────────
 
 export async function getAllEntities(): Promise<Entity[]> {
-  const { data, error } = await supabase
-    .from('entities')
-    .select('*')
-    .order('name')
-  if (error) throw error
-  return data
+  const PAGE_SIZE = 1000
+  const all: Entity[] = []
+  let from = 0
+
+  while (true) {
+    const { data, error } = await supabase
+      .from('entities')
+      .select('*')
+      .order('name')
+      .order('id')              // ← tiebreaker for stable pagination
+      .range(from, from + PAGE_SIZE - 1)
+
+    if (error) throw error
+    if (!data || data.length === 0) break
+    all.push(...data)
+    if (data.length < PAGE_SIZE) break
+    from += PAGE_SIZE
+  }
+  return all
 }
+
 
 export async function getEntity(id: string): Promise<Entity | null> {
   const { data, error } = await supabase
@@ -43,13 +57,25 @@ export async function getAllEntityIds(): Promise<string[]> {
 // ── Ownership edges ───────────────────────────────────────────────────────────
 
 export async function getAllOwnership(): Promise<Ownership[]> {
-  const { data, error } = await supabase
-    .from('ownership')
-    .select('*')
-    .is('divested_date', null)   // only current ownership
-    .order('acquired_date')
-  if (error) throw error
-  return data
+  const PAGE_SIZE = 1000
+  const all: Ownership[] = []
+  let from = 0
+
+  while (true) {
+    const { data, error } = await supabase
+      .from('ownership')
+      .select('*')
+      .is('divested_date', null)
+      .order('id')              // ← use primary key directly, don't rely on nullable acquired_date
+      .range(from, from + PAGE_SIZE - 1)
+
+    if (error) throw error
+    if (!data || data.length === 0) break
+    all.push(...data)
+    if (data.length < PAGE_SIZE) break
+    from += PAGE_SIZE
+  }
+  return all
 }
 
 // Children of a given entity (what it owns)

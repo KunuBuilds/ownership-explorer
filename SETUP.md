@@ -143,3 +143,4 @@ ownership-explorer/
     ├── schema.sql                  Run first — creates all tables
     └── seed.sql                    Run second — loads starter data
 ```
+

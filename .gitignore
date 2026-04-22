@@ -7,3 +7,6 @@ scripts/*-supabase.json
 scripts/seed-raw.json
 scripts/seed-supabase.json
 scripts/merge-fix-*.json
+Archive/
+scripts/wiki-brands.json
+scripts/batch-wiki.json

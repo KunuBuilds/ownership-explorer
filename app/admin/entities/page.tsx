@@ -7,6 +7,7 @@ interface Entity {
   name: string
   type: string
   child_count: number
+  parents: string[]
 }
 
 interface ParentOption {
@@ -319,7 +320,49 @@ export default function AdminPage() {
               {entities.length} direct children
             </span>
           )}
+		  
+		  {/* Jump to any entity */}
+          <div style={{ marginTop: 16, paddingTop: 16, borderTop: `1px solid ${colors.border}` }}>
+            <label style={{ display: 'block', fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.1em', color: colors.textMuted, marginBottom: 6, fontWeight: 600 }}>
+              Or jump to any entity
+            </label>
+            <input
+              type="text"
+              list="any-entity-options"
+              placeholder="Type a slug (e.g. 'purina', 'cadbury') and press Enter"
+              onKeyDown={e => {
+				  if (e.key === 'Enter') {
+					e.preventDefault()
+					const input = e.target as HTMLInputElement
+					const value = input.value.trim()
+					
+					// Try matching by ID first, then by name (case-insensitive)
+					let match = allEntities.find(ent => ent.id === value)
+					if (!match) {
+					  match = allEntities.find(ent => ent.name.toLowerCase() === value.toLowerCase())
+					}
+					if (!match) {
+					  match = allEntities.find(ent => ent.id.toLowerCase() === value.toLowerCase())
+					}
+					
+					if (match) {
+					  setSelectedConglomerateId(match.id)
+					  input.value = ''
+					} else {
+					  alert(`No entity found with slug or name "${value}"`)
+					}
+				  }
+				}}
+              style={{ ...inputStyle, padding: '8px 10px', fontSize: 14, width: '100%', maxWidth: 500 }}
+            />
+            <datalist id="any-entity-options">
+              {allEntities.map(e => (
+                <option key={e.id} value={e.id}>{e.name} ({e.type})</option>
+              ))}
+            </datalist>
+          </div>
         </div>
+        
 
         {/* Filter */}
         <div style={{ marginBottom: 16 }}>
@@ -475,6 +518,7 @@ export default function AdminPage() {
                 <th style={{ padding: '10px 12px', textAlign: 'left', color: colors.textMuted, fontWeight: 600, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Name</th>
                 <th style={{ padding: '10px 12px', textAlign: 'left', color: colors.textMuted, fontWeight: 600, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Slug</th>
                 <th style={{ padding: '10px 12px', textAlign: 'left', width: 110, color: colors.textMuted, fontWeight: 600, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Type</th>
+				<th style={{ padding: '10px 12px', textAlign: 'left', color: colors.textMuted, fontWeight: 600, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Parent(s)</th>
                 <th style={{ padding: '10px 12px', textAlign: 'right', width: 80, color: colors.textMuted, fontWeight: 600, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Children</th>
               </tr>
             </thead>
@@ -521,12 +565,15 @@ export default function AdminPage() {
                       letterSpacing: '0.05em',
                     }}>{e.type}</span>
                   </td>
-                  <td style={{ padding: '8px 12px', textAlign: 'right', color: colors.textMuted }}>{e.child_count}</td>
+                  <td style={{ padding: '8px 12px', fontFamily: 'monospace', color: colors.textMuted, fontSize: 11 }}>
+				  {e.parents.length > 0 ? e.parents.join(', ') : '—'}
+				  </td>
+				  <td style={{ padding: '8px 12px', textAlign: 'right', color: colors.textMuted }}>{e.child_count}</td>
                 </tr>
               ))}
               {filteredEntities.length === 0 && (
                 <tr>
-                  <td colSpan={5} style={{ padding: 40, textAlign: 'center', color: colors.textMuted }}>
+                  <td colSpan={6} style={{ padding: 40, textAlign: 'center', color: colors.textMuted }}>
                     {entities.length === 0 ? 'No direct children' : 'No matches for your filter'}
                   </td>
                 </tr>

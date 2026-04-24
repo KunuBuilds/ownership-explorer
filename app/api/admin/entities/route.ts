@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 function checkAuth(req: NextRequest): boolean {
   const auth = req.headers.get('x-admin-password')
   return auth === process.env.ADMIN_PASSWORD
@@ -96,11 +99,40 @@ export async function GET(req: NextRequest) {
       offset += PAGE
     }
 
+	// Fetch all parents of each child — for the "Parent" column display
+    const parentMap = new Map<string, string[]>()
+    {
+      let offset = 0
+      const PAGE = 1000
+      while (true) {
+        const { data, error } = await supabase
+          .from('ownership')
+          .select('parent_id,child_id')
+          .in('child_id', childIds)
+          .order('child_id')
+          .order('parent_id')
+          .range(offset, offset + PAGE - 1)
+        if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+        if (!data || data.length === 0) break
+        data.forEach(row => {
+          const arr = parentMap.get(row.child_id) ?? []
+          arr.push(row.parent_id)
+          parentMap.set(row.child_id, arr)
+        })
+        if (data.length < PAGE) break
+        offset += PAGE
+      }
+    }
+
     const entities = childIds
       .map(id => {
         const e = entityMap.get(id)
         if (!e) return null
-        return { ...e, child_count: countMap.get(id) ?? 0 }
+        return {
+          ...e,
+          child_count: countMap.get(id) ?? 0,
+          parents: parentMap.get(id) ?? [],
+        }
       })
       .filter(Boolean)
       .sort((a: any, b: any) => a.name.localeCompare(b.name))

@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 function checkAuth(req: NextRequest): boolean {
   const auth = req.headers.get('x-admin-password')
   return auth === process.env.ADMIN_PASSWORD

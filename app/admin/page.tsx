@@ -41,6 +41,12 @@ export default function AdminIndex() {
               Reparent sub-brands, clean up duplicates, manage entity types
             </div>
           </Link>
+		  <Link href="/admin/categorize" style={cardStyle}>
+            <strong style={{ color: '#0066cc' }}>Categorize →</strong>
+            <div style={{ fontSize: 13, color: '#555', marginTop: 4 }}>
+              Categorize entities
+            </div>
+          </Link>
         </div>
       </div>
     </div>

@@ -1,10 +1,10 @@
 'use client'
 import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
-import { supabase } from '@/lib/supabase'
 import type { Entity, Ownership } from '@/lib/supabase'
 import { getOwnershipChains, buildEntityMap } from '@/lib/graph'
 import styles from './LookupSearch.module.css'
+import { getAllEntities, getAllOwnership } from '@/lib/data'
 
 export default function LookupSearch() {
   const [query,    setQuery]   = useState('')
@@ -17,34 +17,63 @@ export default function LookupSearch() {
 
   // Load graph data once on mount
   useEffect(() => {
-    supabase.from('entities').select('*').then(({ data }) => data && setEntities(data))
-    supabase.from('ownership').select('*').is('divested_date', null).then(({ data }) => data && setOwnership(data))
+    getAllEntities().then(setEntities)
+    getAllOwnership().then(setOwnership)
   }, [])
 
   // Search on query change
   useEffect(() => {
-    if (!query || !entities.length) { setResults([]); setOpen(false); return }
-    const q = query.toLowerCase()
-    const entityMap = buildEntityMap(entities)
-    const rootIds   = new Set(
-      entities
-        .filter(e => e.type === 'conglomerate' && !ownership.some(o => o.child_id === e.id))
-        .map(e => e.id)
-    )
+	  if (!query || !entities.length) { setResults([]); setOpen(false); return }
+	  const q = query.toLowerCase()
+	  const entityMap = buildEntityMap(entities)
 
-    const matches = entities.filter(e => !rootIds.has(e.id) && e.name.toLowerCase().includes(q))
+	  // Score each match — lower is better
+	  function score(e: Entity): number {
+		const name = e.name.toLowerCase()
+		let s = 0
 
-    const mapped = matches.flatMap(entity => {
-      const chains = getOwnershipChains(entity.id, ownership, entityMap)
-      return chains.map(chain => {
-        const edge = ownership.find(o => o.child_id === entity.id)
-        return { entity, chain, edge }
-      })
-    })
+		// Position in name: exact > starts-with > contains
+		if (name === q)             s += 0
+		else if (name.startsWith(q)) s += 100
+		else                          s += 200 + name.indexOf(q)
 
-    setResults(mapped.slice(0, 8))
-    setOpen(mapped.length > 0)
-  }, [query, entities, ownership])
+		// Type weighting: surface conglomerates and brands above legal entities
+		const typeRank: Record<string, number> = {
+		  conglomerate:   0,
+		  brand:         10,
+		  subsidiary:    20,
+		  product:       30,
+		  'legal-entity': 50,
+		}
+		s += typeRank[e.type] ?? 40
+
+		// Shorter names tend to be more recognizable ("Campbell" beats "Campbell Soup Supply Co LLC")
+		s += name.length * 0.1
+
+		return s
+	  }
+
+	  const matches = entities
+		.filter(e => e.name.toLowerCase().includes(q))
+		.sort((a, b) => score(a) - score(b))
+		.slice(0, 12)
+
+	  const mapped = matches.flatMap(entity => {
+		const chains = getOwnershipChains(entity.id, ownership, entityMap)
+		if (chains.length === 0) {
+		  // Conglomerates have no chains — still surface them as a single result
+		  const edge = ownership.find(o => o.child_id === entity.id)
+		  return [{ entity, chain: [{ entity, edge: null }], edge }]
+		}
+		return chains.map(chain => {
+		  const edge = ownership.find(o => o.child_id === entity.id)
+		  return { entity, chain, edge }
+		})
+	  })
+
+	  setResults(mapped.slice(0, 12))
+	  setOpen(mapped.length > 0)
+	}, [query, entities, ownership])
 
   // Close on outside click
   useEffect(() => {

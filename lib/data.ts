@@ -252,16 +252,46 @@ export interface GraphSnapshot {
   ownership:  Ownership[]
   categories: Category[]
   sources:    Source[]
+  entityCategories: Record<string, string[]>
+}
+
+export async function getAllEntityCategories(): Promise<Record<string, string[]>> {
+  const PAGE_SIZE = 1000
+  const all: { entity_id: string; category_id: string }[] = []
+  let from = 0
+
+  while (true) {
+    const { data, error } = await supabase
+      .from('entity_categories')
+      .select('entity_id, category_id')
+      .order('entity_id')
+      .range(from, from + PAGE_SIZE - 1)
+
+    if (error) throw error
+    if (!data || data.length === 0) break
+    all.push(...data)
+    if (data.length < PAGE_SIZE) break
+    from += PAGE_SIZE
+  }
+
+  // Group into { entity_id: [category_id, ...] }
+  const map: Record<string, string[]> = {}
+  for (const row of all) {
+    if (!map[row.entity_id]) map[row.entity_id] = []
+    map[row.entity_id].push(row.category_id)
+  }
+  return map
 }
 
 export async function getGraphSnapshot(): Promise<GraphSnapshot> {
-  const [entities, ownership, categories, sources] = await Promise.all([
+  const [entities, ownership, categories, sources, entityCategories] = await Promise.all([
     getAllEntities(),
     getAllOwnership(),
     getAllCategories(),
     getAllSources(),
+	getAllEntityCategories(),
   ])
-  return { entities, ownership, categories, sources }
+  return { entities, ownership, categories, sources, entityCategories }
 }
 
 
@@ -304,4 +334,311 @@ export async function updateSubmissionStatus(
     .update({ status, admin_note })
     .eq('id', id)
   if (error) throw error
+}
+
+// ── Types for categorization queries ──────────────────────────────────────────
+
+export interface EffectiveCategory {
+  category_id:      string
+  is_primary:       boolean
+  source:           'explicit' | 'inherited'
+  source_entity_id: string
+}
+
+export interface EntityWithCategories {
+  id:   string
+  name: string
+  type: string
+  categories: { id: string; name: string; is_primary: boolean }[]
+}
+
+// ── Effective categories for an entity (explicit + inherited) ────────────────
+// Uses the SQL function from the migration. Replaces getEntityCategories for
+// cases where you want inheritance, not just direct assignments.
+
+export async function getEffectiveCategories(entityId: string): Promise<EffectiveCategory[]> {
+  const { data, error } = await supabase.rpc('entity_effective_categories', {
+    target_entity_id: entityId,
+  })
+  if (error) throw error
+  return (data ?? []) as EffectiveCategory[]
+}
+
+// Entities in a category, including those that inherit from an ancestor.
+// Replaces getEntitiesInCategory where you want cascade behavior.
+export async function getEntitiesInCategoryWithInheritance(
+  categoryId: string
+): Promise<{ entity_id: string; source: 'explicit' | 'inherited' }[]> {
+  const { data, error } = await supabase.rpc('entities_in_category', {
+    target_category_id: categoryId,
+  })
+  if (error) throw error
+  return (data ?? []) as { entity_id: string; source: 'explicit' | 'inherited' }[]
+}
+
+// ── Direct (explicit-only) queries for the admin UI ──────────────────────────
+// The admin UI edits explicit assignments only. Inheritance is presented as
+// read-only context ("this entity currently inherits Food & Beverage from
+// Mondelez — assign your own to override").
+
+export async function getExplicitCategories(entityId: string): Promise<
+  { category_id: string; is_primary: boolean }[]
+> {
+  const { data, error } = await supabase
+    .from('entity_categories')
+    .select('category_id, is_primary')
+    .eq('entity_id', entityId)
+  if (error) throw error
+  return data ?? []
+}
+
+// Batch version — takes an array of entity IDs and returns a Map keyed by
+// entity_id. Used by the admin queue/bulk views to display current state.
+export async function getExplicitCategoriesBatch(
+  entityIds: string[]
+): Promise<Map<string, { category_id: string; is_primary: boolean }[]>> {
+  if (entityIds.length === 0) return new Map()
+  const { data, error } = await supabase
+    .from('entity_categories')
+    .select('entity_id, category_id, is_primary')
+    .in('entity_id', entityIds)
+  if (error) throw error
+
+  const map = new Map<string, { category_id: string; is_primary: boolean }[]>()
+  for (const row of data ?? []) {
+    const arr = map.get(row.entity_id) ?? []
+    arr.push({ category_id: row.category_id, is_primary: row.is_primary })
+    map.set(row.entity_id, arr)
+  }
+  return map
+}
+
+// ── Category coverage stats (for the admin dashboard) ────────────────────────
+
+export interface CategoryCoverage {
+  category_id:     string
+  category_name:   string
+  explicit_count:  number
+  primary_count:   number
+}
+
+export async function getCategoryCoverage(): Promise<CategoryCoverage[]> {
+  // We group in-app because doing it with rpc/sql is heavier and we have <200 cats
+  const { data: cats, error: catErr } = await supabase
+    .from('categories')
+    .select('id, name')
+  if (catErr) throw catErr
+
+  const { data: assignments, error: asgErr } = await supabase
+    .from('entity_categories')
+    .select('category_id, is_primary')
+  if (asgErr) throw asgErr
+
+  const counts = new Map<string, { explicit: number; primary: number }>()
+  for (const row of assignments ?? []) {
+    const c = counts.get(row.category_id) ?? { explicit: 0, primary: 0 }
+    c.explicit += 1
+    if (row.is_primary) c.primary += 1
+    counts.set(row.category_id, c)
+  }
+
+  return (cats ?? []).map(c => {
+    const { explicit = 0, primary = 0 } = counts.get(c.id) ?? {}
+    return {
+      category_id:    c.id,
+      category_name:  c.name,
+      explicit_count: explicit,
+      primary_count:  primary,
+    }
+  })
+}
+
+// ── Uncategorized entities (the work queue) ──────────────────────────────────
+
+export interface UncategorizedEntity {
+  id:         string
+  name:       string
+  type:       string
+  parent_id:  string | null
+  parent_name:string | null
+  // Inherited categories from ancestors — shown as hints to the admin
+  inherited_category_ids: string[]
+}
+
+// Returns entities with no explicit category assignments.
+// Defaults to type in ('brand', 'conglomerate') to match the chosen scope.
+export async function getUncategorizedEntities(opts: {
+  types?:       string[]
+  parent_id?:   string
+  limit?:       number
+  offset?:      number
+  search?:      string
+}): Promise<{ rows: UncategorizedEntity[]; total: number }> {
+  const types = opts.types ?? ['brand', 'conglomerate']
+  const limit = opts.limit ?? 50
+  const offset = opts.offset ?? 0
+
+  // Step 1: entity IDs that already have explicit categories — we'll exclude these
+  const { data: tagged, error: tagErr } = await supabase
+    .from('entity_categories')
+    .select('entity_id')
+  if (tagErr) throw tagErr
+  const taggedIds = new Set((tagged ?? []).map(r => r.entity_id))
+
+  // Step 2: fetch candidate entities
+  let query = supabase
+    .from('entities')
+    .select('id, name, type', { count: 'exact' })
+    .in('type', types)
+    .order('name')
+
+  if (opts.search) {
+    query = query.ilike('name', `%${opts.search}%`)
+  }
+
+  // We over-fetch a bit since we'll filter out tagged ones client-side.
+  // If this becomes slow at scale we can move the anti-join to SQL.
+  const { data: candidates, error: candErr, count } = await query
+    .range(offset, offset + limit * 2)
+
+  if (candErr) throw candErr
+
+  const filtered = (candidates ?? [])
+    .filter(e => !taggedIds.has(e.id))
+    .slice(0, limit)
+
+  // Step 3: fetch parent context and inherited categories for the slice
+  const entityIds = filtered.map(e => e.id)
+  const [parentsMap, inheritedMap] = await Promise.all([
+    getFirstParents(entityIds),
+    getInheritedCategoriesBatch(entityIds),
+  ])
+
+  const rows: UncategorizedEntity[] = filtered.map(e => {
+    const parent = parentsMap.get(e.id)
+    return {
+      id:         e.id,
+      name:       e.name,
+      type:       e.type,
+      parent_id:  parent?.id ?? null,
+      parent_name: parent?.name ?? null,
+      inherited_category_ids: inheritedMap.get(e.id) ?? [],
+    }
+  })
+
+  return { rows, total: count ?? rows.length }
+}
+
+// Helper: first parent for each entity ID (for display)
+async function getFirstParents(entityIds: string[]): Promise<Map<string, { id: string; name: string }>> {
+  if (entityIds.length === 0) return new Map()
+  const { data, error } = await supabase
+    .from('ownership')
+    .select('child_id, parent_id, entity:entities!ownership_parent_id_fkey (id, name)')
+    .in('child_id', entityIds)
+    .is('divested_date', null)
+  if (error) throw error
+
+  const map = new Map<string, { id: string; name: string }>()
+  for (const row of (data ?? []) as any[]) {
+    if (!map.has(row.child_id) && row.entity) {
+      map.set(row.child_id, { id: row.entity.id, name: row.entity.name })
+    }
+  }
+  return map
+}
+
+// Helper: inherited category IDs for a batch of entities.
+// This calls entity_effective_categories per ID since Supabase rpc doesn't
+// natively support multi-input batching. For the admin UI (typically <50
+// entities per page load) the overhead is acceptable. If you ever need to
+// batch thousands, we'd add a batch variant of the SQL function.
+async function getInheritedCategoriesBatch(entityIds: string[]): Promise<Map<string, string[]>> {
+  const results = await Promise.all(
+    entityIds.map(async id => {
+      const { data } = await supabase.rpc('entity_effective_categories', { target_entity_id: id })
+      return { id, cats: (data ?? []) as EffectiveCategory[] }
+    })
+  )
+
+  const map = new Map<string, string[]>()
+  for (const { id, cats } of results) {
+    map.set(id, cats.filter(c => c.source === 'inherited').map(c => c.category_id))
+  }
+  return map
+}
+
+// ── Mutations (admin only — called from /api/admin/* routes) ─────────────────
+
+export async function assignCategory(
+  entityId:   string,
+  categoryId: string,
+  isPrimary:  boolean
+): Promise<{ success: boolean; error?: string }> {
+  // If setting primary, first clear any existing primary for this entity
+  // (the partial unique index would reject otherwise).
+  if (isPrimary) {
+    const { error: clearErr } = await supabase
+      .from('entity_categories')
+      .update({ is_primary: false })
+      .eq('entity_id', entityId)
+      .eq('is_primary', true)
+    if (clearErr) return { success: false, error: clearErr.message }
+  }
+
+  // Upsert the assignment
+  const { error } = await supabase
+    .from('entity_categories')
+    .upsert(
+      { entity_id: entityId, category_id: categoryId, is_primary: isPrimary },
+      { onConflict: 'entity_id,category_id' }
+    )
+  if (error) return { success: false, error: error.message }
+  return { success: true }
+}
+
+export async function unassignCategory(
+  entityId:   string,
+  categoryId: string
+): Promise<{ success: boolean; error?: string }> {
+  const { error } = await supabase
+    .from('entity_categories')
+    .delete()
+    .eq('entity_id', entityId)
+    .eq('category_id', categoryId)
+  if (error) return { success: false, error: error.message }
+  return { success: true }
+}
+
+// Bulk assign — apply one category to many entities. Optionally set as primary
+// for all of them (useful when categorizing a cluster of similar brands).
+export async function bulkAssignCategory(
+  entityIds:  string[],
+  categoryId: string,
+  isPrimary:  boolean
+): Promise<{ success: boolean; inserted: number; error?: string }> {
+  if (entityIds.length === 0) return { success: true, inserted: 0 }
+
+  // If marking primary, clear existing primaries on all target entities first
+  if (isPrimary) {
+    const { error: clearErr } = await supabase
+      .from('entity_categories')
+      .update({ is_primary: false })
+      .in('entity_id', entityIds)
+      .eq('is_primary', true)
+    if (clearErr) return { success: false, inserted: 0, error: clearErr.message }
+  }
+
+  const rows = entityIds.map(entity_id => ({
+    entity_id,
+    category_id: categoryId,
+    is_primary:  isPrimary,
+  }))
+
+  const { error, count } = await supabase
+    .from('entity_categories')
+    .upsert(rows, { onConflict: 'entity_id,category_id', count: 'exact' })
+
+  if (error) return { success: false, inserted: 0, error: error.message }
+  return { success: true, inserted: count ?? rows.length }
 }

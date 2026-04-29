@@ -5,6 +5,7 @@ import type { GraphSnapshot } from '@/lib/data'
 import { buildEntityMap, buildCategoryTree, descendantCategoryIds, type CategoryTree } from '@/lib/graph'
 import type { Entity, Ownership } from '@/lib/supabase'
 import styles from './CategoriesClient.module.css'
+import CategoryIcon from './CategoryIcon'  // or wherever you put it
 
 interface Props { snapshot: GraphSnapshot }
 
@@ -14,29 +15,10 @@ interface Props { snapshot: GraphSnapshot }
 
 // Hardcoded category assignments matching the seed data
 // In production this comes from the entity_categories table via getGraphSnapshot()
-const ENTITY_CATEGORIES: Record<string, string[]> = {
-  'lunchables':    ['food-kids-lunch'],
-  'oscar-mayer':   ['food-meat-deli'],
-  'bologna':       ['food-meat-deli'],
-  'heinz':         ['food-condiments-ketchup'],
-  'heinz-ketchup': ['food-condiments-ketchup'],
-  'coca-cola':     ['food-bev-soda'],
-  'coke-zero':     ['food-bev-soda'],
-  'tag-heuer':     ['luxury-watches-swiss'],
-  'carrera':       ['luxury-watches-lines'],
-  'bvlgari':       ['luxury-watches-italian'],
-  'bvlgari-octo':  ['luxury-watches-lines'],
-  'dior':          ['luxury-fashion-couture'],
-  'dior-beauty':   ['luxury-fashion-beauty'],
-  'hermes':        ['luxury-leather-heritage'],
-  'cottonelle':    ['pc-tissue-toilet'],
-  'kleenex':       ['pc-tissue-facial'],
-  'huggies':       ['pc-baby-nappies'],
-  'geico':         ['ins-auto-personal'],
-}
+
 
 export default function CategoriesClient({ snapshot }: Props) {
-  const { entities, ownership, categories } = snapshot
+  const { entities, ownership, categories, entityCategories } = snapshot
   const entityMap  = useMemo(() => buildEntityMap(entities), [entities])
   const catTree    = useMemo(() => buildCategoryTree(categories), [categories])
 
@@ -72,12 +54,12 @@ export default function CategoriesClient({ snapshot }: Props) {
 
 
 
-  function entitiesInCat(catId: string): Entity[] {
-    const descIds = descendantCategoryIds(catId, categories)
-    return entities.filter(e =>
-      ENTITY_CATEGORIES[e.id]?.some(cid => descIds.includes(cid))
-    )
-  }
+	  function entitiesInCat(catId: string): Entity[] {
+	  const descIds = descendantCategoryIds(catId, categories)
+	  return entities.filter(e =>
+		entityCategories[e.id]?.some(cid => descIds.includes(cid))
+	  )
+	}
 
   function selectCat(l1: string | null, l2: string | null, l3: string | null) {
     if (l1 !== null) { setActiveL1(prev => prev === l1 && !l2 && !l3 ? null : l1); setActiveL2(null); setActiveL3(null) }
@@ -133,7 +115,13 @@ export default function CategoriesClient({ snapshot }: Props) {
                   l2.children.some(l3 => l3.category.name.toLowerCase().includes(catSearch.toLowerCase()))
                 )) return null
 
-            const isOpenL1 = activeL1 === l1.id
+            const search = catSearch.toLowerCase()
+			const l1Matches = search && l1.name.toLowerCase().includes(search)
+			const l2HasMatch = search && l1node.children.some(l2 =>
+					l2.category.name.toLowerCase().includes(search) ||
+					l2.children.some(l3 => l3.category.name.toLowerCase().includes(search))
+					)
+			const isOpenL1 = activeL1 === l1.id || (search && l2HasMatch)
             const l1count  = entitiesInCat(l1.id).length
 
             return (
@@ -142,7 +130,9 @@ export default function CategoriesClient({ snapshot }: Props) {
                   className={`${styles.l1Header} ${isOpenL1 ? styles.l1Active : ''}`}
                   onClick={() => selectCat(l1.id, null, null)}
                 >
-                  <div className={styles.l1Icon}>{l1.icon || '◈'}</div>
+                  <div className={styles.l1Icon}>
+					<CategoryIcon name={l1.icon || 'circle-dot'} size={14} />
+				  </div>
                   <div className={styles.l1Name}>{l1.name}</div>
                   <div className={styles.l1Count}>{l1count}</div>
                   <div className={`${styles.chevron} ${isOpenL1 ? styles.chevronOpen : ''}`}>›</div>
@@ -152,15 +142,19 @@ export default function CategoriesClient({ snapshot }: Props) {
                   <div>
                     {l1node.children.map(l2node => {
                       const l2 = l2node.category
-                      const isOpenL2 = activeL2 === l2.id
+                      const l2Match = search && l2.name.toLowerCase().includes(search)
+					  const l3HasMatch = search && l2node.children.some(l3 =>
+								l3.category.name.toLowerCase().includes(search)
+								)	
+					  const isOpenL2 = activeL2 === l2.id || (search && l3HasMatch)
                       const l2count  = entitiesInCat(l2.id).length
 
                       return (
                         <div key={l2.id}>
                           <div
-                            className={`${styles.l2Header} ${isOpenL2 ? styles.l2Active : ''}`}
-                            onClick={() => selectCat(null, l2.id, null)}
-                          >
+							className={`${styles.l2Header} ${isOpenL2 ? styles.l2Active : ''} ${l2Match ? styles.l2Match : ''}`}
+							onClick={() => selectCat(null, l2.id, null)}
+						  >
                             <div className={styles.l2Name}>{l2.name}</div>
                             <div className={styles.l2Count}>{l2count}</div>
                             {l2node.children.length > 0 && (
@@ -169,14 +163,15 @@ export default function CategoriesClient({ snapshot }: Props) {
                           </div>
 
                           {isOpenL2 && l2node.children.map(l3node => {
-                            const l3 = l3node.category
-                            const l3count = entitiesInCat(l3.id).length
-                            return (
-                              <div
-                                key={l3.id}
-                                className={`${styles.l3Row} ${activeL3 === l3.id ? styles.l3Active : ''}`}
-                                onClick={() => selectCat(null, null, l3.id)}
-                              >
+							  const l3 = l3node.category
+							  const l3count = entitiesInCat(l3.id).length
+							  const l3Match = search && l3.name.toLowerCase().includes(search)
+							  return (
+								<div
+								  key={l3.id}
+								  className={`${styles.l3Row} ${activeL3 === l3.id ? styles.l3Active : ''} ${l3Match ? styles.l3Match : ''}`}
+								  onClick={() => selectCat(null, null, l3.id)}
+								>
                                 <div className={styles.l3Dot} />
                                 <div className={styles.l3Name}>{l3.name}</div>
                                 <div className={styles.l3Count}>{l3count}</div>
@@ -222,11 +217,13 @@ export default function CategoriesClient({ snapshot }: Props) {
               </div>
 
               <div className={styles.mainTitle}>
-                {activeL1 && catMap.get(activeL1)?.icon && (
-                  <span className={styles.mainIcon}>{catMap.get(activeL1)?.icon}</span>
-                )}
-                {activeCat.name}
-              </div>
+				  {activeL1 && catMap.get(activeL1)?.icon && (
+					<span className={styles.mainIcon}>
+					  <CategoryIcon name={catMap.get(activeL1)!.icon} size={24} />
+					</span>
+				  )}
+				  {activeCat.name}
+			  </div>
 
               {activeCat.description && (
                 <div className={styles.mainDesc}>{activeCat.description}</div>
@@ -263,7 +260,7 @@ export default function CategoriesClient({ snapshot }: Props) {
                 : brandList.map(entity => {
                     const edge   = ownership.find(o => o.child_id === entity.id)
                     const owner  = edge ? entityMap.get(edge.parent_id) : null
-                    const catIds = ENTITY_CATEGORIES[entity.id] ?? []
+                    const catIds = entityCategories[entity.id] ?? []
                     const leafCat = catIds.length ? catMap.get(catIds[0]) : null
                     const l2cat  = leafCat?.parent_id ? catMap.get(leafCat.parent_id) : null
 

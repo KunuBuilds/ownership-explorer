@@ -46,7 +46,7 @@ export default function ExploreClient({ snapshot }: { snapshot: GraphSnapshot })
  
   
   const groupingRoots = filteredRoots.filter(c =>  GROUPING_IDS.has(c.id))
-
+  
   function toggleNode(key: string) {
     setExpandedNodes(prev => {
       const next = new Set(prev)

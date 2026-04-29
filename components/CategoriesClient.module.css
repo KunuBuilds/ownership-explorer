@@ -185,3 +185,10 @@
     padding: 5px 10px;
   }
 }
+
+.l2Match,
+.l3Match {
+  background: rgba(200, 169, 110, 0.08);
+  border-left: 2px solid var(--accent);
+  padding-left: 10px;
+}

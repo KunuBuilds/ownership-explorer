@@ -58,49 +58,55 @@ export async function POST(req: NextRequest) {
     let updated = 0
 
     for (const entity_id of entity_ids) {
-      // Check if an edge already exists from new_parent_id to this entity
-      // If so, just delete the old edge — don't create a duplicate
-      const { data: existingNewEdge } = await supabase
-        .from('ownership')
-        .select('id')
-        .eq('parent_id', new_parent_id)
-        .eq('child_id', entity_id)
-        .maybeSingle()
+	  // Safety: skip self-reparenting (entity reparented under itself)
+	  if (entity_id === new_parent_id) continue
 
-      if (existingNewEdge) {
-        // Already under new parent — just remove the old edge
-        await supabase
-          .from('ownership')
-          .delete()
-          .eq('parent_id', old_parent_id)
-          .eq('child_id', entity_id)
-      } else {
-        // Redirect the edge from old parent to new parent
-        const { error: updateErr } = await supabase
-          .from('ownership')
-          .update({ parent_id: new_parent_id })
-          .eq('parent_id', old_parent_id)
-          .eq('child_id', entity_id)
+	  // No-op case: old parent and new parent are the same. Only type change needed.
+	  const isNoopReparent = old_parent_id === new_parent_id
 
-        if (updateErr) {
-          // Non-fatal — continue with others but log
-          console.error(`Failed to reparent ${entity_id}:`, updateErr)
-          continue
-        }
-      }
+	  if (!isNoopReparent) {
+		// Check if an edge already exists from new_parent_id to this entity
+		const { data: existingNewEdge } = await supabase
+		  .from('ownership')
+		  .select('id')
+		  .eq('parent_id', new_parent_id)
+		  .eq('child_id', entity_id)
+		  .maybeSingle()
 
-      // Update entity type if requested (and not "keep")
-      if (new_type && new_type !== '__keep__') {
-        const { error: typeErr } = await supabase
-          .from('entities')
-          .update({ type: new_type })
-          .eq('id', entity_id)
+		if (existingNewEdge) {
+		  // Already under new parent — just remove the old edge
+		  await supabase
+			.from('ownership')
+			.delete()
+			.eq('parent_id', old_parent_id)
+			.eq('child_id', entity_id)
+		} else {
+		  // Redirect the edge from old parent to new parent
+		  const { error: updateErr } = await supabase
+			.from('ownership')
+			.update({ parent_id: new_parent_id })
+			.eq('parent_id', old_parent_id)
+			.eq('child_id', entity_id)
 
-        if (typeErr) console.error(`Failed to update type of ${entity_id}:`, typeErr)
-      }
+		  if (updateErr) {
+			console.error(`Failed to reparent ${entity_id}:`, updateErr)
+			continue
+		  }
+		}
+	  }
 
-      updated++
-    }
+	  // Update entity type if requested
+	  if (new_type && new_type !== '__keep__') {
+		const { error: typeErr } = await supabase
+		  .from('entities')
+		  .update({ type: new_type })
+		  .eq('id', entity_id)
+
+		if (typeErr) console.error(`Failed to update type of ${entity_id}:`, typeErr)
+	  }
+
+	  updated++
+	}
 
     return NextResponse.json({ updated })
   }

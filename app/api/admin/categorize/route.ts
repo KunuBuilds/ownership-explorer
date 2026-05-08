@@ -30,6 +30,14 @@ function isAuthed(req: NextRequest): boolean {
   return Boolean(header) && header === ADMIN_PASSWORD
 }
 
+// Helper: set intersection. Returns a new set containing only IDs in both inputs.
+function intersectSets<T>(a: Set<T>, b: Set<T>): Set<T> {
+  const [smaller, larger] = a.size < b.size ? [a, b] : [b, a]
+  const out = new Set<T>()
+  for (const item of smaller) if (larger.has(item)) out.add(item)
+  return out
+}
+
 export async function GET(req: NextRequest) {
   if (!isAuthed(req)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -40,41 +48,97 @@ export async function GET(req: NextRequest) {
 
   try {
     if (action === 'queue') {
-      const typesParam = url.searchParams.get('types')
-      const search     = url.searchParams.get('search') ?? undefined
-      const limit      = Number(url.searchParams.get('limit') ?? 50)
-      const offset     = Number(url.searchParams.get('offset') ?? 0)
+      const typesParam        = url.searchParams.get('types')
+      const search            = url.searchParams.get('search') ?? undefined
+      const limit             = Number(url.searchParams.get('limit') ?? 50)
+      const offset            = Number(url.searchParams.get('offset') ?? 0)
+      const parentIdParam     = url.searchParams.get('parent_id') ?? undefined
+      const parentScopeParam  = (url.searchParams.get('parent_scope') ?? 'subtree') as 'direct' | 'subtree'
+      const categoryIdParam   = url.searchParams.get('category_id') ?? undefined
+      const includeCategorized = url.searchParams.get('include_categorized') === '1'
       const types = typesParam ? typesParam.split(',') : ['brand', 'conglomerate']
 
-      // Inline version of getUncategorizedEntities — the admin route can
-      // access it via the shared lib if you prefer, but duplicating keeps
-      // the auth boundary tight.
+      // ── Step A: figure out the entity ID universe based on parent / category filters
+      // We collect "allowed IDs" sets from each filter that's active. If two filters
+      // are both active we intersect them.
+      let allowedIds: Set<string> | null = null  // null means "no filter, allow all"
+
+      // Parent filter
+      if (parentIdParam) {
+        const parentSet = new Set<string>()
+        if (parentScopeParam === 'direct') {
+          // Direct children only — one query against ownership
+          const { data: kids } = await supabase
+            .from('ownership')
+            .select('child_id')
+            .eq('parent_id', parentIdParam)
+            .is('divested_date', null)
+          for (const r of kids ?? []) parentSet.add(r.child_id)
+        } else {
+          // Whole subtree — use the SQL recursive function
+          const { data: descs } = await supabase.rpc('entity_descendants', {
+            target_entity_id: parentIdParam,
+          })
+          for (const r of (descs ?? []) as any[]) parentSet.add(r.entity_id)
+        }
+        allowedIds = parentSet
+      }
+
+      // Category filter — entities effectively in this category (explicit or via cascade)
+      if (categoryIdParam) {
+        const { data: catEntities } = await supabase.rpc('entities_in_category', {
+          target_category_id: categoryIdParam,
+        })
+        const catSet = new Set<string>((catEntities ?? []).map((r: any) => r.entity_id))
+        allowedIds = allowedIds === null ? catSet : intersectSets(allowedIds, catSet)
+      }
+
+      // ── Step B: figure out which entities have explicit categories (always needed)
       const { data: tagged } = await supabase
         .from('entity_categories')
-        .select('entity_id')
-      const taggedIds = new Set((tagged ?? []).map(r => r.entity_id))
+        .select('entity_id, category_id, is_primary')
+      const taggedMap = new Map<string, { category_id: string; is_primary: boolean }[]>()
+      for (const r of tagged ?? []) {
+        const arr = taggedMap.get(r.entity_id) ?? []
+        arr.push({ category_id: r.category_id, is_primary: r.is_primary })
+        taggedMap.set(r.entity_id, arr)
+      }
 
+      // ── Step C: fetch candidate entities, applying type + search + allowedIds filters
       let query = supabase
         .from('entities')
         .select('id, name, type', { count: 'exact' })
         .in('type', types)
         .order('name')
       if (search) query = query.ilike('name', `%${search}%`)
+      if (allowedIds !== null) {
+        if (allowedIds.size === 0) {
+          // No matches possible — short-circuit
+          return NextResponse.json({ rows: [], total: 0 })
+        }
+        // Postgres IN list: pass the set as an array. There's no hard limit on
+        // size but performance degrades past ~10k. For the admin tool it's fine.
+        query = query.in('id', [...allowedIds])
+      }
 
-      const { data: candidates, count } = await query
-        .range(offset, offset + limit * 2)
+      // We over-fetch to give ourselves room to filter out tagged entities client-side
+      // when include_categorized = false. With the toggle on, we don't need to over-fetch.
+      const fetchSize = includeCategorized ? limit : limit * 2
+      const { data: candidates, count } = await query.range(offset, offset + fetchSize)
 
       const filtered = (candidates ?? [])
-        .filter(e => !taggedIds.has(e.id))
+        .filter(e => includeCategorized || !taggedMap.has(e.id))
         .slice(0, limit)
       const entityIds = filtered.map(e => e.id)
 
-      // Parent context
-      const { data: parentRows } = await supabase
-        .from('ownership')
-        .select('child_id, parent:entities!ownership_parent_id_fkey (id, name)')
-        .in('child_id', entityIds)
-        .is('divested_date', null)
+      // ── Step D: parent context (one parent per entity for display)
+      const { data: parentRows } = entityIds.length === 0
+        ? { data: [] }
+        : await supabase
+            .from('ownership')
+            .select('child_id, parent:entities!ownership_parent_id_fkey (id, name)')
+            .in('child_id', entityIds)
+            .is('divested_date', null)
       const parentMap = new Map<string, { id: string; name: string }>()
       for (const row of (parentRows ?? []) as any[]) {
         if (!parentMap.has(row.child_id) && row.parent) {
@@ -82,9 +146,12 @@ export async function GET(req: NextRequest) {
         }
       }
 
-      // Inherited categories — batched rpc calls
+      // ── Step E: inherited categories per entity (for the queue UI hint)
+      // Skip the rpc roundtrip for entities that already have explicit assignments —
+      // they don't inherit anything (override semantics).
+      const needsInheritedLookup = entityIds.filter(id => !taggedMap.has(id))
       const inheritedResults = await Promise.all(
-        entityIds.map(async id => {
+        needsInheritedLookup.map(async id => {
           const { data } = await supabase.rpc('entity_effective_categories', { target_entity_id: id })
           const inherited = ((data ?? []) as any[])
             .filter(c => c.source === 'inherited')
@@ -95,12 +162,13 @@ export async function GET(req: NextRequest) {
       const inheritedMap = new Map(inheritedResults.map(r => [r.id, r.inherited]))
 
       const rows = filtered.map(e => ({
-        id:        e.id,
-        name:      e.name,
-        type:      e.type,
-        parent_id: parentMap.get(e.id)?.id ?? null,
-        parent_name: parentMap.get(e.id)?.name ?? null,
-        inherited_category_ids: inheritedMap.get(e.id) ?? [],
+        id:                       e.id,
+        name:                     e.name,
+        type:                     e.type,
+        parent_id:                parentMap.get(e.id)?.id ?? null,
+        parent_name:              parentMap.get(e.id)?.name ?? null,
+        inherited_category_ids:   inheritedMap.get(e.id) ?? [],
+        explicit_categories:      taggedMap.get(e.id) ?? [],
       }))
 
       return NextResponse.json({ rows, total: count ?? rows.length })

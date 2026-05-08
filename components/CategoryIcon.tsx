@@ -18,6 +18,7 @@ import {
   Landmark,
   Gem,
   Sparkles,
+  Mailbox,
   type LucideIcon,
 } from 'lucide-react'
 
@@ -41,6 +42,7 @@ const ICON_MAP: Record<string, LucideIcon> = {
   'landmark':     Landmark,
   'gem':          Gem,
   'sparkles':     Sparkles,
+  'mailbox':      Mailbox,
 }
 
 interface CategoryIconProps {

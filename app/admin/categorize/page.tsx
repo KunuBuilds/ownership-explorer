@@ -21,6 +21,7 @@ interface QueueEntity {
   parent_id:              string | null
   parent_name:            string | null
   inherited_category_ids: string[]
+  explicit_categories:    { category_id: string; is_primary: boolean }[]
 }
 
 type Mode = 'queue' | 'bulk'
@@ -61,6 +62,18 @@ export default function CategorizePage() {
     const t = setTimeout(() => setDebouncedSearch(search), 200)
     return () => clearTimeout(t)
   }, [search])
+
+  // Parent filter — entity ID (e.g. 'mondelez') and scope ('direct' | 'subtree')
+  const [parentFilter, setParentFilter] = useState<string>('')
+  const [parentScope, setParentScope]   = useState<'direct' | 'subtree'>('subtree')
+  // Category filter — show entities effectively in this category
+  const [categoryFilter, setCategoryFilter] = useState<string>('')
+  // When true, the queue includes entities that already have explicit categories,
+  // so the admin can recategorize them instead of just adding to uncategorized ones.
+  const [includeCategorized, setIncludeCategorized] = useState(false)
+  // Lightweight list of all entities — used to populate the parent filter datalist.
+  // Loaded once on auth so the user can autocomplete by name or slug.
+  const [allEntities, setAllEntities] = useState<{ id: string; name: string; type: string }[]>([])
 
   // ── Queue state ─────────────────────────────────────────────────────────
   const [queue, setQueue] = useState<QueueEntity[]>([])
@@ -161,6 +174,10 @@ export default function CategorizePage() {
         limit: '100',
       })
       if (debouncedSearch) params.set('search', debouncedSearch)
+      if (parentFilter)    params.set('parent_id', parentFilter)
+      if (parentFilter)    params.set('parent_scope', parentScope)
+      if (categoryFilter)  params.set('category_id', categoryFilter)
+      if (includeCategorized) params.set('include_categorized', '1')
       const res = await fetch(`/api/admin/categorize?${params}`, {
         headers: { 'x-admin-password': password },
       })
@@ -173,7 +190,21 @@ export default function CategorizePage() {
     } finally {
       setQueueLoading(false)
     }
-  }, [authed, password, typeFilter, debouncedSearch])
+  }, [authed, password, typeFilter, debouncedSearch, parentFilter, parentScope, categoryFilter, includeCategorized])
+
+  // Load the full entity list once for the parent autocomplete datalist.
+  // Reuses the existing /api/admin/entities?list=parents route from /admin/entities.
+  useEffect(() => {
+    if (!authed) return
+    fetch('/api/admin/entities?list=parents', {
+      headers: { 'x-admin-password': password },
+    })
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if (data?.allEntities) setAllEntities(data.allEntities)
+      })
+      .catch(() => { /* non-fatal */ })
+  }, [authed, password])
 
   useEffect(() => { if (authed) { loadCoverage(); loadQueue() } }, [authed, loadCoverage, loadQueue])
 
@@ -270,17 +301,64 @@ export default function CategorizePage() {
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Request failed')
 
-      // Success — remove this entity from the queue and advance the cursor
       setStatus({
         msg: `✓ ${currentQueueEntity.name} → ${categoriesById.get(categoryId)?.name ?? categoryId}`,
         kind: 'success',
       })
-      setQueue(prev => prev.filter((_, i) => i !== cursorIndex))
-      setQueueTotal(t => Math.max(0, t - 1))
-      // Cursor stays at same index — what was next is now here
+
+      if (includeCategorized) {
+        // Edit-in-place: update this row's explicit_categories so the user can
+        // continue refining without losing their cursor position.
+        setQueue(prev => prev.map((q, i) => {
+          if (i !== cursorIndex) return q
+          const filteredOut = q.explicit_categories.filter(ec =>
+            !(isPrimary && ec.is_primary)  // primary flag swap clears any prior primary
+          )
+          const existing = filteredOut.find(ec => ec.category_id === categoryId)
+          const next = existing
+            ? filteredOut.map(ec => ec.category_id === categoryId ? { ...ec, is_primary: isPrimary } : ec)
+            : [...filteredOut, { category_id: categoryId, is_primary: isPrimary }]
+          return { ...q, explicit_categories: next, inherited_category_ids: [] }
+        }))
+      } else {
+        // Original behavior: drop the entity from the queue, advance cursor implicitly.
+        setQueue(prev => prev.filter((_, i) => i !== cursorIndex))
+        setQueueTotal(t => Math.max(0, t - 1))
+      }
+
       setSelectedCategoryId('')
       setTimeout(() => categoryInputRef.current?.focus(), 10)
-      // Refresh coverage in background
+      loadCoverage()
+    } catch (err: any) {
+      setStatus({ msg: 'Error: ' + err.message, kind: 'error' })
+    }
+  }
+
+  async function unassignFromCurrent(categoryId: string) {
+    if (!currentQueueEntity) return
+    try {
+      const res = await fetch('/api/admin/categorize', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-admin-password': password },
+        body: JSON.stringify({
+          action: 'unassign',
+          entity_id: currentQueueEntity.id,
+          category_id: categoryId,
+        }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Request failed')
+
+      setStatus({
+        msg: `✓ Removed ${categoriesById.get(categoryId)?.name ?? categoryId} from ${currentQueueEntity.name}`,
+        kind: 'success',
+      })
+
+      setQueue(prev => prev.map((q, i) =>
+        i === cursorIndex
+          ? { ...q, explicit_categories: q.explicit_categories.filter(ec => ec.category_id !== categoryId) }
+          : q
+      ))
       loadCoverage()
     } catch (err: any) {
       setStatus({ msg: 'Error: ' + err.message, kind: 'error' })
@@ -575,8 +653,8 @@ export default function CategorizePage() {
             ))}
           </div>
 
-          {/* Shared filters */}
-          <div style={{ display: 'flex', gap: 12, marginBottom: 20, flexWrap: 'wrap' }}>
+          {/* Shared filters — primary row */}
+          <div style={{ display: 'flex', gap: 12, marginBottom: 12, flexWrap: 'wrap' }}>
             <div style={{ flex: 1, minWidth: 200 }}>
               <label style={labelStyle}>Search</label>
               <input
@@ -601,6 +679,81 @@ export default function CategorizePage() {
                 <option value="brand,conglomerate,subsidiary,product,legal-entity">All types</option>
               </select>
             </div>
+          </div>
+
+          {/* Shared filters — refinement row */}
+          <div style={{ display: 'flex', gap: 12, marginBottom: 20, flexWrap: 'wrap', alignItems: 'flex-end' }}>
+            <div style={{ flex: 1, minWidth: 220 }}>
+              <label style={labelStyle}>Parent company</label>
+              <input
+                type="text"
+                list="parent-filter-options"
+                value={parentFilter}
+                onChange={e => setParentFilter(e.target.value)}
+                placeholder="e.g. mondelez (or any entity slug)"
+                style={{ ...inputStyle, width: '100%', padding: '8px 10px', fontSize: 14 }}
+              />
+              <datalist id="parent-filter-options">
+                {allEntities.map(e => (
+                  <option key={e.id} value={e.id}>{e.name} ({e.type})</option>
+                ))}
+              </datalist>
+            </div>
+            <div>
+              <label style={labelStyle}>Scope</label>
+              <select
+                value={parentScope}
+                onChange={e => setParentScope(e.target.value as 'direct' | 'subtree')}
+                disabled={!parentFilter}
+                style={{ ...inputStyle, padding: '8px 10px', fontSize: 14, opacity: parentFilter ? 1 : 0.5 }}
+              >
+                <option value="subtree">Anywhere in subtree</option>
+                <option value="direct">Direct children only</option>
+              </select>
+            </div>
+            <div style={{ flex: 1, minWidth: 200 }}>
+              <label style={labelStyle}>Current category</label>
+              <input
+                type="text"
+                list="cat-filter-options"
+                value={categoryFilter}
+                onChange={e => setCategoryFilter(e.target.value)}
+                placeholder="Filter by effective category"
+                style={{ ...inputStyle, width: '100%', padding: '8px 10px', fontSize: 14 }}
+              />
+              <datalist id="cat-filter-options">
+                {categoryPickerOptions.map((c: Category) => (
+                  <option key={c.id} value={c.id}>{c.name} (L{c.level})</option>
+                ))}
+              </datalist>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', height: 38 }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: colors.textMuted, cursor: 'pointer', whiteSpace: 'nowrap' }}>
+                <input
+                  type="checkbox"
+                  checked={includeCategorized}
+                  onChange={e => setIncludeCategorized(e.target.checked)}
+                />
+                Include categorized
+              </label>
+            </div>
+            {(parentFilter || categoryFilter || includeCategorized) && (
+              <button
+                onClick={() => {
+                  setParentFilter('')
+                  setCategoryFilter('')
+                  setIncludeCategorized(false)
+                }}
+                style={{
+                  padding: '8px 12px', fontSize: 12,
+                  background: colors.bg, color: colors.textMuted,
+                  border: `1px solid ${colors.border}`, borderRadius: 4,
+                  cursor: 'pointer', height: 38,
+                }}
+              >
+                Clear filters
+              </button>
+            )}
           </div>
 
           {/* Status */}
@@ -639,6 +792,7 @@ export default function CategorizePage() {
               categoriesById={categoriesById}
               categoryInputRef={categoryInputRef}
               onAssign={assignToCurrent}
+              onUnassign={unassignFromCurrent}
               onSkip={skipCurrent}
               onAcceptInherited={acceptInherited}
               colors={colors}
@@ -677,7 +831,7 @@ function QueueMode({
   selectedCategoryId, setSelectedCategoryId,
   markAsPrimary, setMarkAsPrimary,
   categoryPickerOptions, categoriesById, categoryInputRef,
-  onAssign, onSkip, onAcceptInherited,
+  onAssign, onUnassign, onSkip, onAcceptInherited,
   colors, inputStyle,
 }: any) {
   const current = queue[cursorIndex]
@@ -722,6 +876,40 @@ function QueueMode({
             borderRadius: 3, textTransform: 'uppercase', letterSpacing: '0.05em',
           }}>{current.type}</span>
         </div>
+
+        {/* Existing explicit categories — only shown when entity already has assignments
+            (i.e. when admin is editing rather than tagging fresh from queue) */}
+        {current.explicit_categories?.length > 0 && (
+          <div style={{ padding: 10, background: '#fff8dc', borderRadius: 4, marginBottom: 16, fontSize: 13 }}>
+            <div style={{ fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', color: colors.textMuted, marginBottom: 4 }}>
+              Already categorized
+            </div>
+            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
+              {current.explicit_categories.map((ec: { category_id: string; is_primary: boolean }) => (
+                <span key={ec.category_id} style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 4,
+                  padding: '2px 4px 2px 8px', background: '#fff',
+                  border: `1px solid ${ec.is_primary ? colors.accent : colors.border}`,
+                  borderRadius: 3, fontSize: 12,
+                }}>
+                  {ec.is_primary && (
+                    <span style={{ fontSize: 9, color: colors.accent, fontWeight: 600, marginRight: 2 }}>★</span>
+                  )}
+                  {categoriesById.get(ec.category_id)?.name ?? ec.category_id}
+                  <button
+                    onClick={() => onUnassign(ec.category_id)}
+                    title="Remove this assignment"
+                    style={{
+                      marginLeft: 2, padding: '0 6px',
+                      background: 'transparent', color: colors.muted,
+                      border: 0, fontSize: 14, lineHeight: 1, cursor: 'pointer',
+                    }}
+                  >×</button>
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Inherited hint */}
         {current.inherited_category_ids.length > 0 && (
@@ -895,7 +1083,7 @@ function BulkMode({
             <th style={{ padding: '10px 12px', textAlign: 'left', color: colors.textMuted, fontWeight: 600, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Name</th>
             <th style={{ padding: '10px 12px', textAlign: 'left', color: colors.textMuted, fontWeight: 600, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Parent</th>
             <th style={{ padding: '10px 12px', textAlign: 'left', width: 110, color: colors.textMuted, fontWeight: 600, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Type</th>
-            <th style={{ padding: '10px 12px', textAlign: 'left', color: colors.textMuted, fontWeight: 600, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Inherits</th>
+            <th style={{ padding: '10px 12px', textAlign: 'left', color: colors.textMuted, fontWeight: 600, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Categories</th>
           </tr>
         </thead>
         <tbody>
@@ -923,9 +1111,23 @@ function BulkMode({
                 }}>{e.type}</span>
               </td>
               <td style={{ padding: '8px 12px', fontSize: 12, color: colors.textMuted }}>
-                {e.inherited_category_ids.length > 0
-                  ? e.inherited_category_ids.map(cid => categoriesById.get(cid)?.name ?? cid).join(', ')
-                  : '—'}
+                {e.explicit_categories?.length > 0 ? (
+                  // Explicit: show with star for primary, no prefix
+                  <span>
+                    {e.explicit_categories.map((ec, i) => (
+                      <span key={ec.category_id}>
+                        {i > 0 && ', '}
+                        {ec.is_primary && <span style={{ color: colors.accent }}>★ </span>}
+                        {categoriesById.get(ec.category_id)?.name ?? ec.category_id}
+                      </span>
+                    ))}
+                  </span>
+                ) : e.inherited_category_ids.length > 0 ? (
+                  // Inherited: prefix with "inherits:" for clarity
+                  <span style={{ fontStyle: 'italic' }}>
+                    inherits: {e.inherited_category_ids.map(cid => categoriesById.get(cid)?.name ?? cid).join(', ')}
+                  </span>
+                ) : '—'}
               </td>
             </tr>
           ))}

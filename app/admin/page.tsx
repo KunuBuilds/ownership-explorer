@@ -35,13 +35,19 @@ export default function AdminIndex() {
               Review user-submitted corrections and data additions
             </div>
           </Link>
+          <Link href="/admin/add" style={cardStyle}>
+            <strong style={{ color: '#0066cc' }}>Add Entities →</strong>
+            <div style={{ fontSize: 13, color: '#555', marginTop: 4 }}>
+              Create new entities in bulk or link existing entities as children
+            </div>
+          </Link>
           <Link href="/admin/entities" style={cardStyle}>
             <strong style={{ color: '#0066cc' }}>Entity Management →</strong>
             <div style={{ fontSize: 13, color: '#555', marginTop: 4 }}>
               Reparent sub-brands, clean up duplicates, manage entity types
             </div>
           </Link>
-		  <Link href="/admin/categorize" style={cardStyle}>
+          <Link href="/admin/categorize" style={cardStyle}>
             <strong style={{ color: '#0066cc' }}>Categorize →</strong>
             <div style={{ fontSize: 13, color: '#555', marginTop: 4 }}>
               Categorize entities

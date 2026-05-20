@@ -159,6 +159,19 @@ export default async function EntityPage({ params }: { params: { id: string } })
         )}
       </div>
 
+      {/* ── Alternatives strip ── */}
+      {alternatives.length > 0 && (
+        <div className={styles.altStrip}>
+          <span className={styles.altStripLabel}>Try instead</span>
+          {alternatives.map(({ alternative, reason }) => (
+            <Link key={alternative.id} href={`/entity/${alternative.id}`} className={styles.altChip}>
+              {alternative.name}
+              {reason && <span className={styles.altChipReason}>{reason}</span>}
+            </Link>
+          ))}
+        </div>
+      )}
+
       {/* ── Ownership chain ── */}
       {chain.length > 1 && (
         <section className={styles.section}>

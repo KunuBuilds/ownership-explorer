@@ -53,6 +53,12 @@ export default function AdminIndex() {
               Categorize entities
             </div>
           </Link>
+          <Link href="/admin/alternatives" style={cardStyle}>
+            <strong style={{ color: '#0066cc' }}>Alternatives →</strong>
+            <div style={{ fontSize: 13, color: '#555', marginTop: 4 }}>
+              Link entities as independent alternatives to corporate brands
+            </div>
+          </Link>
         </div>
       </div>
     </div>

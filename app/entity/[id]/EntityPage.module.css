@@ -250,6 +250,55 @@
   }
 }
 
+/* Alternatives strip (above the fold, after hero) */
+.altStrip {
+  display:     flex;
+  align-items: center;
+  flex-wrap:   wrap;
+  gap:         8px;
+  margin-bottom: 40px;
+  padding:     14px 18px;
+  background:  var(--surface);
+  border:      1px solid var(--border);
+  border-left: 3px solid var(--accent2);
+}
+
+.altStripLabel {
+  font-size:      9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color:          var(--muted);
+  white-space:    nowrap;
+}
+
+.altChip {
+  display:     inline-flex;
+  align-items: center;
+  gap:         6px;
+  padding:     4px 10px;
+  background:  var(--tag-bg);
+  border:      1px solid var(--border);
+  font-size:   12px;
+  color:       var(--text);
+  transition:  all 0.15s;
+}
+
+.altChip:hover {
+  border-color: var(--accent2);
+  background:   rgba(126,184,164,.08);
+  color:        var(--accent2);
+}
+
+.altChipReason {
+  font-size:      8px;
+  padding:        1px 5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border:         1px solid rgba(126,184,164,.4);
+  color:          var(--accent2);
+  background:     rgba(126,184,164,.08);
+}
+
 /* Alternatives */
 .alternativesGrid {
   display:               grid;

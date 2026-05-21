@@ -223,12 +223,13 @@ export async function getEntityCategories(entityId: string): Promise<string[]> {
 // ── Compound queries (used by entity profile page) ────────────────────────────
 
 export interface EntityPageData {
-  entity:     Entity
-  children:   (Ownership & { entity: Entity })[]
-  parents:    (Ownership & { entity: Entity })[]
-  sources:    { source: Source; ownershipId: number; note: string | null }[]
-  categories: string[]
-  alternatives: { alternative: Entity; reason: string | null; directional: boolean }[]
+  entity:          Entity
+  children:        (Ownership & { entity: Entity })[]
+  parents:         (Ownership & { entity: Entity })[]
+  sources:         { source: Source; ownershipId: number; note: string | null }[]
+  categories:      string[]
+  categoryObjects: { id: string; name: string; level: number; is_primary: boolean }[]
+  alternatives:    { alternative: Entity; reason: string | null; directional: boolean }[]
 }
 
 export async function getEntityPageData(id: string): Promise<EntityPageData | null> {
@@ -238,10 +239,22 @@ export async function getEntityPageData(id: string): Promise<EntityPageData | nu
     getParents(id),
     getEntitySources(id),
     getEntityCategories(id),
-	getAlternatives(id)
+    getAlternatives(id),
   ])
   if (!entity) return null
-  return { entity, children, parents, sources, categories, alternatives }
+
+  const { data: catRows } = await supabase
+    .from('entity_categories')
+    .select('is_primary, category:categories!entity_categories_category_id_fkey(id, name, level)')
+    .eq('entity_id', id)
+
+  const categoryObjects = ((catRows ?? []) as any[])
+    .map(r => r.category ? { ...r.category, is_primary: r.is_primary } : null)
+    .filter(Boolean) as { id: string; name: string; level: number; is_primary: boolean }[]
+
+  categoryObjects.sort((a, b) => Number(b.is_primary) - Number(a.is_primary) || a.level - b.level)
+
+  return { entity, children, parents, sources, categories, categoryObjects, alternatives }
 }
 
 // ── Full graph snapshot (used by client-side pages: explore, timeline) ────────

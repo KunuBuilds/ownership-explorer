@@ -797,6 +797,8 @@ export default function CategorizePage() {
               onAcceptInherited={acceptInherited}
               colors={colors}
               inputStyle={inputStyle}
+              password={password}
+              allCategories={categories}
             />
           ) : (
             <BulkMode
@@ -833,8 +835,108 @@ function QueueMode({
   categoryPickerOptions, categoriesById, categoryInputRef,
   onAssign, onUnassign, onSkip, onAcceptInherited,
   colors, inputStyle,
+  password, allCategories,
 }: any) {
   const current = queue[cursorIndex]
+  const [aiLoading, setAiLoading] = useState(false)
+  const [aiSuggestion, setAiSuggestion] = useState<{ category_id: string; category_name: string; reason: string } | null>(null)
+  const [aiError, setAiError] = useState<string | null>(null)
+
+  const [descText, setDescText]       = useState('')
+  const [descLoading, setDescLoading] = useState(false)
+  const [descSaved, setDescSaved]     = useState(false)
+  const [descError, setDescError]     = useState<string | null>(null)
+
+  // Clear AI state when the current entity changes
+  useEffect(() => {
+    setAiSuggestion(null)
+    setAiError(null)
+    setDescText('')
+    setDescSaved(false)
+    setDescError(null)
+  }, [current?.id])
+
+  async function handleDescGenerate() {
+    if (!current) return
+    setDescLoading(true)
+    setDescError(null)
+    // Resolve best available category name for context
+    const catId =
+      selectedCategoryId ||
+      current.explicit_categories?.[0]?.category_id ||
+      current.inherited_category_ids?.[0] ||
+      null
+    const category = catId ? (categoriesById.get(catId)?.name ?? null) : null
+    try {
+      const res = await fetch('/api/admin/entity-description/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-admin-password': password },
+        body: JSON.stringify({
+          action:      'generate',
+          entity_name: current.name,
+          entity_type: current.type,
+          parent_name: current.parent_name ?? null,
+          category,
+        }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Request failed')
+      setDescText(data.description)
+      setDescSaved(false)
+    } catch (err: any) {
+      setDescError(err.message)
+    } finally {
+      setDescLoading(false)
+    }
+  }
+
+  async function handleDescSave() {
+    if (!current || !descText.trim()) return
+    setDescLoading(true)
+    setDescError(null)
+    try {
+      const res = await fetch('/api/admin/entity-description/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-admin-password': password },
+        body: JSON.stringify({ action: 'save', entity_id: current.id, description: descText.trim() }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Request failed')
+      setDescSaved(true)
+    } catch (err: any) {
+      setDescError(err.message)
+    } finally {
+      setDescLoading(false)
+    }
+  }
+
+  async function handleAiSuggest() {
+    if (!current) return
+    setAiLoading(true)
+    setAiSuggestion(null)
+    setAiError(null)
+    try {
+      const res = await fetch('/api/admin/categorize-suggest', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-admin-password': password },
+        body: JSON.stringify({
+          entity_name: current.name,
+          entity_type: current.type,
+          parent_name: current.parent_name ?? null,
+          categories:  allCategories,
+        }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Request failed')
+      setAiSuggestion(data)
+      // Auto-populate the category picker
+      setSelectedCategoryId(data.category_id)
+    } catch (err: any) {
+      setAiError(err.message)
+    } finally {
+      setAiLoading(false)
+    }
+  }
 
   if (!queue.length) {
     return (
@@ -933,12 +1035,38 @@ function QueueMode({
           </div>
         )}
 
+        {/* AI suggestion banner */}
+        {aiSuggestion && (
+          <div style={{ padding: '10px 14px', background: '#f0f7ff', border: '1px solid #b3d4f5', borderLeft: '3px solid #0066cc', borderRadius: 4, marginBottom: 14, fontSize: 13 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+              <span style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#0066cc' }}>AI Suggestion</span>
+              <strong style={{ color: '#1a1a1a' }}>{aiSuggestion.category_name}</strong>
+              {aiSuggestion.reason && (
+                <>
+                  <span style={{ color: '#555', fontSize: 12 }}>— {aiSuggestion.reason}</span>
+                  <button
+                    onClick={() => { setDescText(aiSuggestion.reason); setDescSaved(false) }}
+                    style={{ marginLeft: 4, padding: '2px 8px', fontSize: 11, background: '#fff', color: '#0055aa', border: '1px solid #b3d4f5', borderRadius: 3, cursor: 'pointer', whiteSpace: 'nowrap' }}
+                  >
+                    Use as description
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
+        )}
+        {aiError && (
+          <div style={{ padding: '8px 12px', background: '#fdeaea', border: '1px solid #f5c2c2', borderRadius: 4, marginBottom: 14, fontSize: 12, color: '#c62828' }}>
+            AI error: {aiError}
+          </div>
+        )}
+
         {/* Category picker */}
         <div>
           <label style={{ display: 'block', fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.1em', color: colors.textMuted, marginBottom: 6, fontWeight: 600 }}>
             Assign category
           </label>
-          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
             <input
               ref={categoryInputRef}
               type="text"
@@ -947,17 +1075,31 @@ function QueueMode({
               onChange={e => setSelectedCategoryId(e.target.value)}
               placeholder="Type to search or click in sidebar…"
               autoFocus
-              style={{ ...inputStyle, flex: 1, padding: '8px 10px', fontSize: 14 }}
+              style={{ ...inputStyle, flex: 1, minWidth: 200, padding: '8px 10px', fontSize: 14 }}
             />
             <datalist id="queue-cat-options">
               {categoryPickerOptions.map((c: Category) => (
                 <option key={c.id} value={c.id}>{c.name} (L{c.level})</option>
               ))}
             </datalist>
-            <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: colors.textMuted, cursor: 'pointer' }}>
+            <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: colors.textMuted, cursor: 'pointer', whiteSpace: 'nowrap' }}>
               <input type="checkbox" checked={markAsPrimary} onChange={e => setMarkAsPrimary(e.target.checked)} />
               Primary
             </label>
+            <button
+              onClick={handleAiSuggest}
+              disabled={aiLoading}
+              style={{
+                padding: '8px 14px', fontSize: 13, fontWeight: 500,
+                background: aiLoading ? colors.surface : '#f0f7ff',
+                color: aiLoading ? colors.muted : '#0055aa',
+                border: '1px solid #b3d4f5', borderRadius: 4,
+                cursor: aiLoading ? 'not-allowed' : 'pointer',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {aiLoading ? 'Thinking…' : '✦ AI Suggest'}
+            </button>
             <button
               onClick={() => {
                 const value = selectedCategoryId.trim()
@@ -973,17 +1115,67 @@ function QueueMode({
                 color: selectedCategoryId ? '#fff' : colors.muted,
                 border: 0, borderRadius: 4,
                 cursor: selectedCategoryId ? 'pointer' : 'not-allowed',
+                whiteSpace: 'nowrap',
               }}
             >
               Assign
             </button>
             <button
               onClick={onSkip}
-              style={{ padding: '8px 12px', fontSize: 13, background: colors.bg, color: colors.textMuted, border: `1px solid ${colors.border}`, borderRadius: 4, cursor: 'pointer' }}
+              style={{ padding: '8px 12px', fontSize: 13, background: colors.bg, color: colors.textMuted, border: `1px solid ${colors.border}`, borderRadius: 4, cursor: 'pointer', whiteSpace: 'nowrap' }}
             >
               Skip (s)
             </button>
           </div>
+        </div>
+
+        {/* Description */}
+        <div style={{ marginTop: 20, paddingTop: 16, borderTop: `1px solid ${colors.border}` }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+            <label style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.1em', color: colors.textMuted, fontWeight: 600 }}>
+              Description
+            </label>
+            <div style={{ display: 'flex', gap: 6 }}>
+              <button
+                onClick={handleDescGenerate}
+                disabled={descLoading}
+                style={{
+                  padding: '4px 10px', fontSize: 12, fontWeight: 500,
+                  background: descLoading ? colors.surface : '#f0f7ff',
+                  color: descLoading ? colors.muted : '#0055aa',
+                  border: '1px solid #b3d4f5', borderRadius: 3,
+                  cursor: descLoading ? 'not-allowed' : 'pointer',
+                }}
+              >
+                {descLoading ? 'Thinking…' : '✦ Generate'}
+              </button>
+              {descText && (
+                <button
+                  onClick={handleDescSave}
+                  disabled={descLoading || descSaved}
+                  style={{
+                    padding: '4px 10px', fontSize: 12, fontWeight: 500,
+                    background: descSaved ? '#e8f5e9' : colors.accent,
+                    color: descSaved ? colors.success : '#fff',
+                    border: 0, borderRadius: 3,
+                    cursor: descLoading || descSaved ? 'default' : 'pointer',
+                  }}
+                >
+                  {descSaved ? '✓ Saved' : 'Save'}
+                </button>
+              )}
+            </div>
+          </div>
+          <textarea
+            value={descText}
+            onChange={e => { setDescText(e.target.value); setDescSaved(false) }}
+            placeholder="Click ✦ Generate or type a description…"
+            rows={3}
+            style={{ ...inputStyle, width: '100%', padding: '8px 10px', fontSize: 13, resize: 'vertical', lineHeight: 1.6 }}
+          />
+          {descError && (
+            <div style={{ fontSize: 11, color: colors.danger, marginTop: 4 }}>Error: {descError}</div>
+          )}
         </div>
       </div>
 

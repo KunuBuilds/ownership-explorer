@@ -12,6 +12,7 @@ CREATE TABLE entities (
   hq_country     TEXT,
   founded_date   DATE,
   flags          TEXT[] DEFAULT '{}',
+  description    TEXT,
   created_at     TIMESTAMPTZ DEFAULT NOW()
 );
 

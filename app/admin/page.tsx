@@ -59,6 +59,12 @@ export default function AdminIndex() {
               Link entities as independent alternatives to corporate brands
             </div>
           </Link>
+          <Link href="/admin/descriptions" style={cardStyle}>
+            <strong style={{ color: '#0066cc' }}>Descriptions →</strong>
+            <div style={{ fontSize: 13, color: '#555', marginTop: 4 }}>
+              Generate and save AI descriptions for entities
+            </div>
+          </Link>
         </div>
       </div>
     </div>

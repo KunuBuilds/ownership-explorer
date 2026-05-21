@@ -20,6 +20,7 @@ export interface Entity {
   hq_country:   string | null
   founded_date: string | null
   flags:        string[]
+  description:  string | null
 }
 
 export interface Ownership {

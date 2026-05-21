@@ -47,6 +47,39 @@
   line-height:   1.1;
   margin-bottom: 16px;
 }
+.description {
+  font-size:     14px;
+  line-height:   1.65;
+  color:         var(--muted);
+  margin-bottom: 16px;
+  max-width:     560px;
+}
+
+.categoryRow {
+  display:       flex;
+  flex-wrap:     wrap;
+  gap:           6px;
+  margin-bottom: 12px;
+}
+
+.categoryTag {
+  font-size:      10px;
+  padding:        3px 10px;
+  border:         1px solid var(--border);
+  color:          var(--muted);
+  background:     var(--surface);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition:     color 0.15s, border-color 0.15s;
+}
+.categoryTag:hover { color: var(--accent2); border-color: rgba(126,184,164,.4); }
+
+.categoryTagPrimary {
+  color:        var(--accent2);
+  border-color: rgba(126,184,164,.4);
+  background:   rgba(126,184,164,.08);
+}
+
 .metaRow  { display: flex; gap: 10px; flex-wrap: wrap; }
 
 .tag {

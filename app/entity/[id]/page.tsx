@@ -57,7 +57,7 @@ export default async function EntityPage({ params }: { params: { id: string } })
     )
   }
 
-  const { entity, children, parents, sources, categories, alternatives } = data
+  const { entity, children, parents, sources, categories, categoryObjects, alternatives } = data
 
   // Build graph context for chain traversal
   const allEntities  = await getAllEntities()
@@ -116,8 +116,20 @@ export default async function EntityPage({ params }: { params: { id: string } })
             {entity.type}{entity.hq_country ? ` · ${entity.hq_country}` : ''}
           </div>
           <h1 className={styles.title}>{entity.name}</h1>
+          {entity.description && (
+            <p className={styles.description}>{entity.description}</p>
+          )}
+          {categoryObjects.length > 0 && (
+            <div className={styles.categoryRow}>
+              {categoryObjects.map(cat => (
+                <Link key={cat.id} href={`/categories?cat=${cat.id}`} className={`${styles.categoryTag} ${cat.is_primary ? styles.categoryTagPrimary : ''}`}>
+                  {cat.name}
+                </Link>
+              ))}
+            </div>
+          )}
           <div className={styles.metaRow}>
-            {entity.category && <span className={styles.tag}>{entity.category}</span>}
+            {categoryObjects.length === 0 && entity.category && <span className={styles.tag}>{entity.category}</span>}
             {directEdge
               ? <span className={`${styles.tag} ${isPartial ? styles.tagRed : styles.tagGreen}`}>
                   {directEdge.share_pct ?? 100}% owned

@@ -338,6 +338,47 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: true })
     }
 
+    if (action === 'create_category') {
+      const { name, parent_id } = body
+      if (!name || !parent_id) {
+        return NextResponse.json({ error: 'name and parent_id are required' }, { status: 400 })
+      }
+
+      const { data: parent, error: parentErr } = await supabase
+        .from('categories')
+        .select('level')
+        .eq('id', parent_id)
+        .single()
+      if (parentErr || !parent) {
+        return NextResponse.json({ error: 'Parent category not found' }, { status: 400 })
+      }
+
+      // Generate slug, avoid collisions
+      const base = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+      let id = base
+      let suffix = 2
+      while (true) {
+        const { data: existing } = await supabase.from('categories').select('id').eq('id', id).maybeSingle()
+        if (!existing) break
+        id = `${base}-${suffix++}`
+      }
+
+      const { count } = await supabase
+        .from('categories')
+        .select('id', { count: 'exact', head: true })
+        .eq('parent_id', parent_id)
+      const sort_order = (count ?? 0) + 1
+
+      const { data: created, error: insertErr } = await supabase
+        .from('categories')
+        .insert({ id, name, parent_id, level: parent.level + 1, sort_order })
+        .select()
+        .single()
+
+      if (insertErr) throw insertErr
+      return NextResponse.json({ success: true, category: created })
+    }
+
     return NextResponse.json({ error: 'Unknown action' }, { status: 400 })
   } catch (err: any) {
     return NextResponse.json({ error: err.message ?? 'Server error' }, { status: 500 })

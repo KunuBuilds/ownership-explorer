@@ -799,6 +799,7 @@ export default function CategorizePage() {
               inputStyle={inputStyle}
               password={password}
               allCategories={categories}
+              onCategoryCreated={loadCoverage}
             />
           ) : (
             <BulkMode
@@ -835,7 +836,7 @@ function QueueMode({
   categoryPickerOptions, categoriesById, categoryInputRef,
   onAssign, onUnassign, onSkip, onAcceptInherited,
   colors, inputStyle,
-  password, allCategories,
+  password, allCategories, onCategoryCreated,
 }: any) {
   const current = queue[cursorIndex]
   const [aiLoading, setAiLoading] = useState(false)
@@ -847,6 +848,13 @@ function QueueMode({
   const [descSaved, setDescSaved]     = useState(false)
   const [descError, setDescError]     = useState<string | null>(null)
 
+  const [newCatLoading, setNewCatLoading] = useState(false)
+  const [newCatProposal, setNewCatProposal] = useState<{
+    name: string; parent_id: string; parent_name: string; level: number; reason: string
+  } | null>(null)
+  const [newCatError, setNewCatError]     = useState<string | null>(null)
+  const [newCatCreating, setNewCatCreating] = useState(false)
+
   // Clear AI state when the current entity changes
   useEffect(() => {
     setAiSuggestion(null)
@@ -854,7 +862,62 @@ function QueueMode({
     setDescText('')
     setDescSaved(false)
     setDescError(null)
+    setNewCatProposal(null)
+    setNewCatError(null)
   }, [current?.id])
+
+  async function handleSuggestNew() {
+    if (!current) return
+    setNewCatLoading(true)
+    setNewCatProposal(null)
+    setNewCatError(null)
+    try {
+      const res = await fetch('/api/admin/categorize-suggest/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-admin-password': password },
+        body: JSON.stringify({
+          action:      'suggest_new',
+          entity_name: current.name,
+          entity_type: current.type,
+          parent_name: current.parent_name ?? null,
+          categories:  allCategories,
+        }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Request failed')
+      setNewCatProposal(data)
+    } catch (err: any) {
+      setNewCatError(err.message)
+    } finally {
+      setNewCatLoading(false)
+    }
+  }
+
+  async function handleCreateCategory() {
+    if (!newCatProposal) return
+    setNewCatCreating(true)
+    try {
+      const res = await fetch('/api/admin/categorize/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-admin-password': password },
+        body: JSON.stringify({
+          action:    'create_category',
+          name:      newCatProposal.name,
+          parent_id: newCatProposal.parent_id,
+        }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Request failed')
+      // Reload category list in parent, then auto-select the new category
+      await onCategoryCreated()
+      setSelectedCategoryId(data.category.id)
+      setNewCatProposal(null)
+    } catch (err: any) {
+      setNewCatError(err.message)
+    } finally {
+      setNewCatCreating(false)
+    }
+  }
 
   async function handleDescGenerate() {
     if (!current) return
@@ -1061,6 +1124,55 @@ function QueueMode({
           </div>
         )}
 
+        {/* New category proposal */}
+        {newCatProposal && (
+          <div style={{ padding: '10px 14px', background: '#f8f3ff', border: '1px solid #c9b3f5', borderLeft: '3px solid #7c4dca', borderRadius: 4, marginBottom: 14, fontSize: 13 }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
+              <div style={{ flex: 1 }}>
+                <span style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#7c4dca' }}>New category proposal</span>
+                <div style={{ marginTop: 4, display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+                  <strong style={{ color: '#1a1a1a', fontSize: 14 }}>{newCatProposal.name}</strong>
+                  <span style={{ color: '#888', fontSize: 12 }}>under</span>
+                  <span style={{ padding: '1px 7px', background: '#ede8ff', border: '1px solid #c9b3f5', borderRadius: 3, fontSize: 11, color: '#5b3fa0' }}>{newCatProposal.parent_name}</span>
+                  <span style={{ fontSize: 10, color: '#888' }}>L{newCatProposal.level}</span>
+                </div>
+                {newCatProposal.reason && (
+                  <div style={{ fontSize: 11, color: '#555', marginTop: 4 }}>{newCatProposal.reason}</div>
+                )}
+              </div>
+              <div style={{ display: 'flex', gap: 6, flexShrink: 0, alignItems: 'center' }}>
+                <button
+                  onClick={handleCreateCategory}
+                  disabled={newCatCreating}
+                  style={{
+                    padding: '5px 12px', fontSize: 12, fontWeight: 600,
+                    background: newCatCreating ? colors.surface : '#7c4dca',
+                    color: newCatCreating ? colors.muted : '#fff',
+                    border: 0, borderRadius: 3,
+                    cursor: newCatCreating ? 'not-allowed' : 'pointer',
+                  }}
+                >
+                  {newCatCreating ? 'Creating…' : 'Create & select'}
+                </button>
+                <button
+                  onClick={() => { setNewCatProposal(null); setNewCatError(null) }}
+                  style={{ padding: '5px 10px', fontSize: 12, background: 'transparent', color: colors.muted, border: `1px solid ${colors.border}`, borderRadius: 3, cursor: 'pointer' }}
+                >
+                  Dismiss
+                </button>
+              </div>
+            </div>
+            {newCatError && (
+              <div style={{ marginTop: 8, fontSize: 11, color: '#c62828' }}>Error: {newCatError}</div>
+            )}
+          </div>
+        )}
+        {!newCatProposal && newCatError && (
+          <div style={{ padding: '8px 12px', background: '#fdeaea', border: '1px solid #f5c2c2', borderRadius: 4, marginBottom: 14, fontSize: 12, color: '#c62828' }}>
+            {newCatError}
+          </div>
+        )}
+
         {/* Category picker */}
         <div>
           <label style={{ display: 'block', fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.1em', color: colors.textMuted, marginBottom: 6, fontWeight: 600 }}>
@@ -1088,17 +1200,32 @@ function QueueMode({
             </label>
             <button
               onClick={handleAiSuggest}
-              disabled={aiLoading}
+              disabled={aiLoading || newCatLoading}
               style={{
                 padding: '8px 14px', fontSize: 13, fontWeight: 500,
                 background: aiLoading ? colors.surface : '#f0f7ff',
                 color: aiLoading ? colors.muted : '#0055aa',
                 border: '1px solid #b3d4f5', borderRadius: 4,
-                cursor: aiLoading ? 'not-allowed' : 'pointer',
+                cursor: (aiLoading || newCatLoading) ? 'not-allowed' : 'pointer',
                 whiteSpace: 'nowrap',
               }}
             >
               {aiLoading ? 'Thinking…' : '✦ AI Suggest'}
+            </button>
+            <button
+              onClick={handleSuggestNew}
+              disabled={aiLoading || newCatLoading}
+              title="Ask Claude to propose a new category not yet in the taxonomy"
+              style={{
+                padding: '8px 14px', fontSize: 13, fontWeight: 500,
+                background: newCatLoading ? colors.surface : '#f5f0ff',
+                color: newCatLoading ? colors.muted : '#5b3fa0',
+                border: '1px solid #c9b3f5', borderRadius: 4,
+                cursor: (aiLoading || newCatLoading) ? 'not-allowed' : 'pointer',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {newCatLoading ? 'Thinking…' : '✦ Suggest new'}
             </button>
             <button
               onClick={() => {

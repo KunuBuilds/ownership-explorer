@@ -849,9 +849,11 @@ function QueueMode({
   const [descError, setDescError]     = useState<string | null>(null)
 
   const [newCatLoading, setNewCatLoading] = useState(false)
-  const [newCatProposal, setNewCatProposal] = useState<{
-    name: string; parent_id: string; parent_name: string; level: number; reason: string
-  } | null>(null)
+  const [newCatResult, setNewCatResult] = useState<
+    | { verdict: 'existing'; category_id: string; category_name: string; reason: string }
+    | { verdict: 'new'; name: string; parent_id: string; parent_name: string; level: number; reason: string }
+    | null
+  >(null)
   const [newCatError, setNewCatError]     = useState<string | null>(null)
   const [newCatCreating, setNewCatCreating] = useState(false)
 
@@ -862,14 +864,14 @@ function QueueMode({
     setDescText('')
     setDescSaved(false)
     setDescError(null)
-    setNewCatProposal(null)
+    setNewCatResult(null)
     setNewCatError(null)
   }, [current?.id])
 
   async function handleSuggestNew() {
     if (!current) return
     setNewCatLoading(true)
-    setNewCatProposal(null)
+    setNewCatResult(null)
     setNewCatError(null)
     try {
       const res = await fetch('/api/admin/categorize-suggest/', {
@@ -885,7 +887,7 @@ function QueueMode({
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Request failed')
-      setNewCatProposal(data)
+      setNewCatResult(data)
     } catch (err: any) {
       setNewCatError(err.message)
     } finally {
@@ -894,7 +896,7 @@ function QueueMode({
   }
 
   async function handleCreateCategory() {
-    if (!newCatProposal) return
+    if (!newCatResult || newCatResult.verdict !== 'new') return
     setNewCatCreating(true)
     try {
       const res = await fetch('/api/admin/categorize/', {
@@ -902,16 +904,15 @@ function QueueMode({
         headers: { 'Content-Type': 'application/json', 'x-admin-password': password },
         body: JSON.stringify({
           action:    'create_category',
-          name:      newCatProposal.name,
-          parent_id: newCatProposal.parent_id,
+          name:      newCatResult.name,
+          parent_id: newCatResult.parent_id,
         }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Request failed')
-      // Reload category list in parent, then auto-select the new category
       await onCategoryCreated()
       setSelectedCategoryId(data.category.id)
-      setNewCatProposal(null)
+      setNewCatResult(null)
     } catch (err: any) {
       setNewCatError(err.message)
     } finally {
@@ -1124,20 +1125,49 @@ function QueueMode({
           </div>
         )}
 
-        {/* New category proposal */}
-        {newCatProposal && (
+        {/* Suggest-new result banner */}
+        {newCatResult?.verdict === 'existing' && (
+          <div style={{ padding: '10px 14px', background: '#f0fdf4', border: '1px solid #86efac', borderLeft: '3px solid #16a34a', borderRadius: 4, marginBottom: 14, fontSize: 13 }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
+              <div style={{ flex: 1 }}>
+                <span style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#16a34a' }}>Existing category is sufficient</span>
+                <div style={{ marginTop: 4, display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+                  <strong style={{ color: '#1a1a1a', fontSize: 14 }}>{newCatResult.category_name}</strong>
+                </div>
+                {newCatResult.reason && (
+                  <div style={{ fontSize: 11, color: '#555', marginTop: 4 }}>{newCatResult.reason}</div>
+                )}
+              </div>
+              <div style={{ display: 'flex', gap: 6, flexShrink: 0, alignItems: 'center' }}>
+                <button
+                  onClick={() => { setSelectedCategoryId(newCatResult.category_id); setNewCatResult(null) }}
+                  style={{ padding: '5px 12px', fontSize: 12, fontWeight: 600, background: '#16a34a', color: '#fff', border: 0, borderRadius: 3, cursor: 'pointer' }}
+                >
+                  Use it
+                </button>
+                <button
+                  onClick={() => { setNewCatResult(null); setNewCatError(null) }}
+                  style={{ padding: '5px 10px', fontSize: 12, background: 'transparent', color: colors.muted, border: `1px solid ${colors.border}`, borderRadius: 3, cursor: 'pointer' }}
+                >
+                  Dismiss
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+        {newCatResult?.verdict === 'new' && (
           <div style={{ padding: '10px 14px', background: '#f8f3ff', border: '1px solid #c9b3f5', borderLeft: '3px solid #7c4dca', borderRadius: 4, marginBottom: 14, fontSize: 13 }}>
             <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
               <div style={{ flex: 1 }}>
                 <span style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#7c4dca' }}>New category proposal</span>
                 <div style={{ marginTop: 4, display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
-                  <strong style={{ color: '#1a1a1a', fontSize: 14 }}>{newCatProposal.name}</strong>
+                  <strong style={{ color: '#1a1a1a', fontSize: 14 }}>{newCatResult.name}</strong>
                   <span style={{ color: '#888', fontSize: 12 }}>under</span>
-                  <span style={{ padding: '1px 7px', background: '#ede8ff', border: '1px solid #c9b3f5', borderRadius: 3, fontSize: 11, color: '#5b3fa0' }}>{newCatProposal.parent_name}</span>
-                  <span style={{ fontSize: 10, color: '#888' }}>L{newCatProposal.level}</span>
+                  <span style={{ padding: '1px 7px', background: '#ede8ff', border: '1px solid #c9b3f5', borderRadius: 3, fontSize: 11, color: '#5b3fa0' }}>{newCatResult.parent_name}</span>
+                  <span style={{ fontSize: 10, color: '#888' }}>L{newCatResult.level}</span>
                 </div>
-                {newCatProposal.reason && (
-                  <div style={{ fontSize: 11, color: '#555', marginTop: 4 }}>{newCatProposal.reason}</div>
+                {newCatResult.reason && (
+                  <div style={{ fontSize: 11, color: '#555', marginTop: 4 }}>{newCatResult.reason}</div>
                 )}
               </div>
               <div style={{ display: 'flex', gap: 6, flexShrink: 0, alignItems: 'center' }}>
@@ -1155,7 +1185,7 @@ function QueueMode({
                   {newCatCreating ? 'Creating…' : 'Create & select'}
                 </button>
                 <button
-                  onClick={() => { setNewCatProposal(null); setNewCatError(null) }}
+                  onClick={() => { setNewCatResult(null); setNewCatError(null) }}
                   style={{ padding: '5px 10px', fontSize: 12, background: 'transparent', color: colors.muted, border: `1px solid ${colors.border}`, borderRadius: 3, cursor: 'pointer' }}
                 >
                   Dismiss
@@ -1167,7 +1197,7 @@ function QueueMode({
             )}
           </div>
         )}
-        {!newCatProposal && newCatError && (
+        {!newCatResult && newCatError && (
           <div style={{ padding: '8px 12px', background: '#fdeaea', border: '1px solid #f5c2c2', borderRadius: 4, marginBottom: 14, fontSize: 12, color: '#c62828' }}>
             {newCatError}
           </div>

@@ -98,53 +98,83 @@ Respond with valid JSON only — no markdown, no explanation outside the JSON:
     }
   }
 
-  // ── Suggest a brand-new category ────────────────────────────────────────────
+  // ── Suggest a brand-new category (or confirm an existing one is sufficient) ──
   if (action === 'suggest_new') {
-    const prompt = `You are extending a corporate ownership category taxonomy.
+    const prompt = `You are a taxonomy curator for a corporate ownership database.
 
-Entity that doesn't fit any existing category:
+Entity to classify:
   Name: ${entity_name}
   Type: ${entity_type ?? 'unknown'}${parent_name ? `\n  Parent company: ${parent_name}` : ''}
 
-Existing taxonomy (do NOT suggest any of these, and do NOT use their IDs as your answer):
+Existing taxonomy (format: [id] Name, indented by level):
 ${tree}
 
-Propose ONE new leaf category that does not yet exist but would accurately and specifically classify this entity. It must fit naturally under an existing parent in the taxonomy above.
+Your task has two steps:
 
-Rules:
-- The new category must be genuinely missing — not a duplicate or near-duplicate of an existing one
-- Prefer adding at the deepest level that makes sense (level 3 if there is a suitable level-2 parent)
-- The name should be concise (2–4 words), title-cased, consistent with the existing naming style
-- parent_id must be the exact ID of an existing category from the list above
+STEP 1 — Evaluate the existing taxonomy honestly. Is there already a category that accurately and specifically classifies this entity? A category is "good enough" if it captures what this entity IS, even if imperfect. Err toward reusing existing categories — only recommend a new one if the existing taxonomy has a genuine gap.
 
-Respond with valid JSON only — no markdown, no explanation outside the JSON:
-{"name":"<new category name>","parent_id":"<existing parent id from the list>","reason":"<one sentence why this is the right addition>"}`
+STEP 2 — Based on step 1, respond with exactly one of these two JSON shapes:
+
+If an existing category is good enough:
+{"verdict":"existing","category_id":"<exact id from the list>","reason":"<one sentence why this category fits>"}
+
+If no existing category fits well and a new one is genuinely needed:
+{"verdict":"new","name":"<new category name, 2-4 words, title-cased>","parent_id":"<exact id of existing parent>","reason":"<one sentence why a new category is needed and why this name fits>"}
+
+Rules for "new":
+- Must be genuinely missing, not a near-duplicate of an existing category
+- parent_id must be an exact id from the taxonomy above
+- Prefer level 3 (deepest) when a suitable level-2 parent exists
+
+Respond with valid JSON only — no markdown, no preamble.`
 
     try {
       const message = await client.messages.create({
         model:     'claude-haiku-4-5',
-        max_tokens: 256,
+        max_tokens: 300,
         messages:  [{ role: 'user', content: prompt }],
       })
       const raw = (message.content[0] as any).text?.trim() ?? ''
-      let parsed: { name: string; parent_id: string; reason: string }
+      let parsed: any
       try { parsed = parseJson(raw) } catch {
         return NextResponse.json({ error: 'Claude returned unparseable JSON', raw }, { status: 502 })
       }
-      if (!parsed.name || !parsed.parent_id) {
-        return NextResponse.json({ error: 'Claude did not return name and parent_id', raw }, { status: 502 })
+
+      if (parsed.verdict === 'existing') {
+        if (!parsed.category_id) {
+          return NextResponse.json({ error: 'Claude did not return category_id for existing verdict', raw }, { status: 502 })
+        }
+        const cat = categories.find((c: any) => c.id === parsed.category_id)
+        if (!cat) {
+          return NextResponse.json({ error: `Claude returned unknown category_id: ${parsed.category_id}`, raw }, { status: 502 })
+        }
+        return NextResponse.json({
+          verdict:       'existing',
+          category_id:   parsed.category_id,
+          category_name: cat.name,
+          reason:        parsed.reason ?? '',
+        })
       }
-      const parent = categories.find((c: any) => c.id === parsed.parent_id)
-      if (!parent) {
-        return NextResponse.json({ error: `Claude returned unknown parent_id: ${parsed.parent_id}`, raw }, { status: 502 })
+
+      if (parsed.verdict === 'new') {
+        if (!parsed.name || !parsed.parent_id) {
+          return NextResponse.json({ error: 'Claude did not return name and parent_id for new verdict', raw }, { status: 502 })
+        }
+        const parent = categories.find((c: any) => c.id === parsed.parent_id)
+        if (!parent) {
+          return NextResponse.json({ error: `Claude returned unknown parent_id: ${parsed.parent_id}`, raw }, { status: 502 })
+        }
+        return NextResponse.json({
+          verdict:     'new',
+          name:        parsed.name,
+          parent_id:   parsed.parent_id,
+          parent_name: parent.name,
+          level:       (parent.level ?? 1) + 1,
+          reason:      parsed.reason ?? '',
+        })
       }
-      return NextResponse.json({
-        name:        parsed.name,
-        parent_id:   parsed.parent_id,
-        parent_name: parent.name,
-        level:       (parent.level ?? 1) + 1,
-        reason:      parsed.reason ?? '',
-      })
+
+      return NextResponse.json({ error: `Claude returned unknown verdict: ${parsed.verdict}`, raw }, { status: 502 })
     } catch (err: any) {
       return NextResponse.json({ error: err.message ?? 'Anthropic API error' }, { status: 500 })
     }

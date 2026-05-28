@@ -1,6 +1,7 @@
 node_modules/
 .next/
 .env.local
+tsconfig.tsbuildinfo
 scripts/import-seed.mjs
 scripts/*-raw.json
 scripts/*-supabase.json

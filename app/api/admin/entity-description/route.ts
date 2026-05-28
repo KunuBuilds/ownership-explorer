@@ -41,6 +41,20 @@ function sourceIdFromUrl(url: string): string {
   return 'src-' + createHash('sha1').update(url.trim().toLowerCase()).digest('hex').slice(0, 12)
 }
 
+// Reject URLs that point at a search/index shell rather than a specific document.
+// These are a common AI-hallucination tell (e.g. sec.gov/cgi-bin/browse-edgar search forms).
+function isAcceptableSourceUrl(raw: string): boolean {
+  if (!/^https?:\/\//i.test(raw)) return false
+  let url: URL
+  try { url = new URL(raw) } catch { return false }
+  const path = url.pathname.toLowerCase()
+  const search = url.search.toLowerCase()
+  if (path.includes('/cgi-bin/browse-edgar')) return false
+  if (/(^|\/)(search|results|find)(\/|$)/.test(path)) return false
+  if (/[?&](q|query|s|action)=/.test(search)) return false
+  return true
+}
+
 export async function GET(req: NextRequest) {
   if (!isAuthed(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
@@ -184,7 +198,7 @@ ${responseShape}`
         if (
           s &&
           typeof s.title === 'string' && s.title.trim() &&
-          typeof s.url === 'string' && /^https?:\/\//i.test(s.url) &&
+          typeof s.url === 'string' && isAcceptableSourceUrl(s.url) &&
           ['primary', 'filing', 'secondary'].includes(s.source_type)
         ) {
           source = {
@@ -221,6 +235,11 @@ ${responseShape}`
     let wrote_date = false
     let wrote_source = false
 
+    // A date without an acceptable source URL never lands — the citation is the whole point.
+    if (ownership_id && isValidDateString(acquired_date) && (!source?.url || !isAcceptableSourceUrl(source.url))) {
+      return NextResponse.json({ error: 'acquired_date requires a source with a specific document URL (not a search shell)' }, { status: 400 })
+    }
+
     if (ownership_id && isValidDateString(acquired_date)) {
       const { data: existing, error: readErr } = await supabase
         .from('ownership')
@@ -238,7 +257,7 @@ ${responseShape}`
         wrote_date = true
       }
 
-      if (source && typeof source.url === 'string' && /^https?:\/\//i.test(source.url) && source.title) {
+      if (source && typeof source.url === 'string' && isAcceptableSourceUrl(source.url) && source.title) {
         // Dedupe by URL: reuse an existing source row if one already cites this URL.
         const { data: existingSource } = await supabase
           .from('sources')

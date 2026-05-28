@@ -3,12 +3,26 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 
 interface QueueEntity {
-  id:          string
-  name:        string
-  type:        string
-  parent_name: string | null
-  category:    string | null
+  id:            string
+  name:          string
+  type:          string
+  parent_name:   string | null
+  ownership_id:  number | null
+  acquired_date: string | null
+  category:      string | null
 }
+
+type SourceType = 'primary' | 'filing' | 'secondary'
+
+interface SourceDraft {
+  title:          string
+  publisher:      string
+  url:            string
+  published_date: string
+  source_type:    SourceType
+}
+
+const EMPTY_SOURCE: SourceDraft = { title: '', publisher: '', url: '', published_date: '', source_type: 'secondary' }
 
 const colors = {
   bg:        '#ffffff',
@@ -39,6 +53,8 @@ export default function DescriptionsPage() {
   const [debouncedSearch, setDebouncedSearch] = useState('')
 
   const [description, setDescription] = useState('')
+  const [acquiredDate, setAcquiredDate] = useState('')
+  const [source, setSource]             = useState<SourceDraft>(EMPTY_SOURCE)
   const [aiLoading, setAiLoading]     = useState(false)
   const [saveLoading, setSaveLoading] = useState(false)
   const [status, setStatus] = useState<{ msg: string; kind: 'info' | 'success' | 'error' } | null>(null)
@@ -113,15 +129,20 @@ export default function DescriptionsPage() {
 
   useEffect(() => { if (authed) loadQueue() }, [authed, loadQueue])
 
-  // Clear textarea when entity changes
+  // Clear textarea + date/source fields when entity changes
   const current = queue[cursorIndex]
   const prevId = useRef<string | null>(null)
   useEffect(() => {
     if (current?.id !== prevId.current) {
       setDescription('')
+      setAcquiredDate('')
+      setSource(EMPTY_SOURCE)
       prevId.current = current?.id ?? null
     }
   }, [current?.id])
+
+  // Whether we should ask the AI for / let the admin edit an acquisition date.
+  const acquisitionEditable = Boolean(current?.ownership_id) && !current?.acquired_date
 
   async function handleGenerate() {
     if (!current) return
@@ -131,16 +152,34 @@ export default function DescriptionsPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'x-admin-password': password },
         body: JSON.stringify({
-          action:      'generate',
-          entity_name: current.name,
-          entity_type: current.type,
-          parent_name: current.parent_name,
-          category:    current.category,
+          action:                  'generate',
+          entity_name:             current.name,
+          entity_type:             current.type,
+          parent_name:             current.parent_name,
+          category:                current.category,
+          existing_acquired_date:  current.acquired_date,
         }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Request failed')
-      setDescription(data.description)
+      setDescription(data.description ?? '')
+      if (acquisitionEditable) {
+        setAcquiredDate(data.acquired_date ?? '')
+        if (data.source) {
+          setSource({
+            title:          data.source.title ?? '',
+            publisher:      data.source.publisher ?? '',
+            url:            data.source.url ?? '',
+            published_date: data.source.published_date ?? '',
+            source_type:    data.source.source_type ?? 'secondary',
+          })
+        } else {
+          setSource(EMPTY_SOURCE)
+        }
+        if (!data.acquired_date || !data.source) {
+          setStatus({ msg: 'AI could not verify the acquisition date — enter it manually or skip.', kind: 'info' })
+        }
+      }
       setTimeout(() => textareaRef.current?.focus(), 10)
     } catch (err: any) {
       setStatus({ msg: 'AI error: ' + err.message, kind: 'error' })
@@ -151,23 +190,48 @@ export default function DescriptionsPage() {
 
   async function handleSave() {
     if (!current || !description.trim()) return
+
+    // Only submit date/source when the slot is editable, a date was entered,
+    // and (if a source is provided) at minimum URL + title are filled.
+    const dateOk = acquisitionEditable && /^\d{4}-\d{2}-\d{2}$/.test(acquiredDate)
+    const sourceOk = dateOk && source.url.trim() && source.title.trim()
+    if (acquisitionEditable && acquiredDate && !sourceOk) {
+      setStatus({ msg: 'A date needs a source (URL + title) to save. Clear the date or fill in the source.', kind: 'error' })
+      return
+    }
+
     setSaveLoading(true)
     try {
       const res = await fetch('/api/admin/entity-description/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'x-admin-password': password },
         body: JSON.stringify({
-          action:      'save',
-          entity_id:   current.id,
-          description: description.trim(),
+          action:        'save',
+          entity_id:     current.id,
+          description:   description.trim(),
+          ownership_id:  sourceOk ? current.ownership_id : null,
+          acquired_date: sourceOk ? acquiredDate : null,
+          source:        sourceOk ? {
+            title:          source.title.trim(),
+            publisher:      source.publisher.trim() || null,
+            url:            source.url.trim(),
+            published_date: /^\d{4}-\d{2}-\d{2}$/.test(source.published_date) ? source.published_date : null,
+            source_type:    source.source_type,
+          } : null,
         }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Request failed')
-      setStatus({ msg: `✓ Saved description for ${current.name}`, kind: 'success' })
+      const extras = [data.wrote_date && 'acquisition date', data.wrote_source && 'source'].filter(Boolean).join(' + ')
+      setStatus({
+        msg:  extras ? `✓ Saved ${current.name} (description + ${extras})` : `✓ Saved description for ${current.name}`,
+        kind: 'success',
+      })
       setQueue(prev => prev.filter((_, i) => i !== cursorIndex))
       setQueueTotal(t => Math.max(0, t - 1))
       setDescription('')
+      setAcquiredDate('')
+      setSource(EMPTY_SOURCE)
     } catch (err: any) {
       setStatus({ msg: 'Save error: ' + err.message, kind: 'error' })
     } finally {
@@ -178,6 +242,8 @@ export default function DescriptionsPage() {
   function handleSkip() {
     setQueue(prev => prev.filter((_, i) => i !== cursorIndex))
     setDescription('')
+    setAcquiredDate('')
+    setSource(EMPTY_SOURCE)
   }
 
   const inputStyle = {
@@ -327,6 +393,92 @@ export default function DescriptionsPage() {
                   {description.length} chars
                 </div>
               </div>
+
+              {/* Acquisition date + source */}
+              {current.parent_name && (
+                <div style={{ marginBottom: 12, padding: 12, background: colors.surface, border: `1px solid ${colors.border}`, borderRadius: 4 }}>
+                  <div style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.1em', color: colors.textMuted, marginBottom: 8, fontWeight: 600 }}>
+                    Acquisition by {current.parent_name}
+                  </div>
+
+                  {!acquisitionEditable ? (
+                    <div style={{ fontSize: 12, color: colors.textMuted }}>
+                      {current.acquired_date
+                        ? <>Already recorded: <strong style={{ color: colors.text }}>{current.acquired_date}</strong> · not editable here.</>
+                        : <>No live ownership edge linked — can&apos;t attach a date.</>}
+                    </div>
+                  ) : (
+                    <>
+                      <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 8 }}>
+                        <label style={{ fontSize: 12, color: colors.textMuted, minWidth: 110 }}>Acquired date</label>
+                        <input
+                          type="date"
+                          value={acquiredDate}
+                          onChange={e => setAcquiredDate(e.target.value)}
+                          placeholder="YYYY-MM-DD"
+                          style={{ ...inputStyle, padding: '6px 8px', fontSize: 13, width: 160 }}
+                        />
+                        {acquiredDate && (
+                          <button
+                            onClick={() => { setAcquiredDate(''); setSource(EMPTY_SOURCE) }}
+                            style={{ fontSize: 11, color: colors.textMuted, background: 'transparent', border: 0, cursor: 'pointer', textDecoration: 'underline' }}
+                          >
+                            clear
+                          </button>
+                        )}
+                      </div>
+
+                      <div style={{ display: 'grid', gridTemplateColumns: '110px 1fr', gap: 8, alignItems: 'center' }}>
+                        <label style={{ fontSize: 12, color: colors.textMuted }}>Source URL</label>
+                        <input
+                          type="url"
+                          value={source.url}
+                          onChange={e => setSource(s => ({ ...s, url: e.target.value }))}
+                          placeholder="https://…"
+                          style={{ ...inputStyle, padding: '6px 8px', fontSize: 13 }}
+                        />
+                        <label style={{ fontSize: 12, color: colors.textMuted }}>Source title</label>
+                        <input
+                          type="text"
+                          value={source.title}
+                          onChange={e => setSource(s => ({ ...s, title: e.target.value }))}
+                          placeholder="e.g. LVMH completes Bulgari acquisition"
+                          style={{ ...inputStyle, padding: '6px 8px', fontSize: 13 }}
+                        />
+                        <label style={{ fontSize: 12, color: colors.textMuted }}>Publisher</label>
+                        <input
+                          type="text"
+                          value={source.publisher}
+                          onChange={e => setSource(s => ({ ...s, publisher: e.target.value }))}
+                          placeholder="e.g. Reuters"
+                          style={{ ...inputStyle, padding: '6px 8px', fontSize: 13 }}
+                        />
+                        <label style={{ fontSize: 12, color: colors.textMuted }}>Published</label>
+                        <input
+                          type="date"
+                          value={source.published_date}
+                          onChange={e => setSource(s => ({ ...s, published_date: e.target.value }))}
+                          style={{ ...inputStyle, padding: '6px 8px', fontSize: 13, width: 160 }}
+                        />
+                        <label style={{ fontSize: 12, color: colors.textMuted }}>Type</label>
+                        <select
+                          value={source.source_type}
+                          onChange={e => setSource(s => ({ ...s, source_type: e.target.value as SourceType }))}
+                          style={{ ...inputStyle, padding: '6px 8px', fontSize: 13, width: 160 }}
+                        >
+                          <option value="primary">primary (company)</option>
+                          <option value="filing">filing (regulator)</option>
+                          <option value="secondary">secondary (news)</option>
+                        </select>
+                      </div>
+
+                      <div style={{ fontSize: 11, color: colors.muted, marginTop: 8 }}>
+                        Verify the URL before saving — the AI does not browse the web.
+                      </div>
+                    </>
+                  )}
+                </div>
+              )}
 
               {/* Actions */}
               <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>

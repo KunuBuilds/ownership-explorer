@@ -223,6 +223,12 @@ ${responseShape}`
     const { entity_id, description, ownership_id, acquired_date, source } = body
     if (!entity_id) return NextResponse.json({ error: 'entity_id is required' }, { status: 400 })
 
+    // A date without an acceptable source URL never lands — the citation is the whole point.
+    // Validate before any writes so a bad payload doesn't mutate entities.description first.
+    if (ownership_id && isValidDateString(acquired_date) && (!source?.url || !isAcceptableSourceUrl(source.url))) {
+      return NextResponse.json({ error: 'acquired_date requires a source with a specific document URL (not a search shell)' }, { status: 400 })
+    }
+
     const supabase = getAdminClient()
 
     const { error: descErr } = await supabase
@@ -234,11 +240,6 @@ ${responseShape}`
     // Optionally write acquired_date + citation. Only fills in if currently null (server-side guard).
     let wrote_date = false
     let wrote_source = false
-
-    // A date without an acceptable source URL never lands — the citation is the whole point.
-    if (ownership_id && isValidDateString(acquired_date) && (!source?.url || !isAcceptableSourceUrl(source.url))) {
-      return NextResponse.json({ error: 'acquired_date requires a source with a specific document URL (not a search shell)' }, { status: 400 })
-    }
 
     if (ownership_id && isValidDateString(acquired_date)) {
       const { data: existing, error: readErr } = await supabase

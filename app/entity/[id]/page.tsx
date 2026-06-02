@@ -8,6 +8,12 @@ import SubmissionForm from '@/components/SubmissionForm'
 // Tell Next.js which entity pages to generate at build time
 export const dynamicParams = true
 
+// Without this, an entity page is rendered once and cached in the Full Route
+// Cache indefinitely — newly-added holdings (e.g. coca-cola's brands) never
+// appear until the next deploy. Re-render at most once per hour so admin edits
+// surface without re-fetching the whole graph on every request.
+export const revalidate = 3600
+
 export async function generateStaticParams() {
   return [
     { id: 'kraft-heinz' },

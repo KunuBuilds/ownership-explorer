@@ -7,6 +7,9 @@ export const metadata = {
   description: 'Browse brands and subsidiaries by sector, category, and subcategory.',
 }
 
+// Re-render at most hourly so newly-categorized entities surface without redeploying.
+export const revalidate = 3600
+
 export async function generateStaticParams() {
   const categories = await getAllCategories()
   return [

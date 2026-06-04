@@ -9,7 +9,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnon)
 
 // ── Types matching the database schema ───────────────────────────────────────
 
-export type EntityType = 'conglomerate' | 'subsidiary' | 'brand' | 'product'
+export type EntityType = 'conglomerate' | 'subsidiary' | 'brand' | 'product' | 'legal-entity'
 export type SourceType = 'primary' | 'secondary' | 'filing'
 
 export interface Entity {
@@ -21,6 +21,7 @@ export interface Entity {
   founded_date: string | null
   flags:        string[]
   description:  string | null
+  logo_url:     string | null
 }
 
 export interface Ownership {

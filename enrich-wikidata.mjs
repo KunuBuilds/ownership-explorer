@@ -55,12 +55,16 @@ const COMPANY_LABEL_RE = /\b(company|business|enterprise|brand|corporation|manuf
 
 // ─── CLI ──────────────────────────────────────────────────────────────────
 function parseArgs() {
-  const a = { dryRun: false, limit: null, width: 128, verbose: false }
+  // Default excludes legal-entity: SEC Exhibit 21 filers are ~72% of the table,
+  // almost never on Wikidata, and their generic names are the most likely to
+  // mis-match. Pass --type to override (e.g. --type legal-entity, or --type all).
+  const a = { dryRun: false, limit: null, width: 128, verbose: false, types: ['brand', 'conglomerate', 'subsidiary', 'product'] }
   for (let i = 2; i < argv.length; i++) {
     const f = argv[i]
     if (f === '--dry-run') a.dryRun = true
     else if (f === '--limit') a.limit = Number(argv[++i])
     else if (f === '--width') a.width = Number(argv[++i])
+    else if (f === '--type') a.types = argv[++i] === 'all' ? null : argv[i].split(',').map(s => s.trim()).filter(Boolean)
     else if (f === '--verbose' || f === '-v') a.verbose = true
     else if (f === '--help' || f === '-h') { printHelp(); exit(0) }
   }
@@ -76,6 +80,8 @@ enrich-wikidata.mjs — match entities to Wikidata, auto-apply confident logos, 
 Flags:
   --dry-run     Resolve + classify and print a summary; write nothing
   --limit N     Only process the first N entities (testing)
+  --type CSV    Entity types to process (default: brand,conglomerate,subsidiary,product;
+                use "all" to include legal-entity)
   --width N     Logo thumbnail width in px (default 128)
   --verbose     Per-entity detail
 `)
@@ -161,7 +167,7 @@ function isCompanyType(instanceOfQids, typeLabels) {
 // ─── DB ───────────────────────────────────────────────────────────────────
 // Entities needing enrichment: no logo, no qid, and not already in the review
 // queue (so re-runs are cheap and don't clobber prior review decisions).
-async function fetchCandidates(supabase) {
+async function fetchCandidates(supabase, types) {
   const queued = new Set()
   {
     let from = 0
@@ -179,13 +185,13 @@ async function fetchCandidates(supabase) {
   const all = []
   let from = 0
   while (true) {
-    const { data, error } = await supabase
+    let q = supabase
       .from('entities')
       .select('id, name, type, hq_country')
       .is('logo_url', null)
       .is('wikidata_qid', null)
-      .order('id')
-      .range(from, from + PAGE_SIZE - 1)
+    if (types) q = q.in('type', types)
+    const { data, error } = await q.order('id').range(from, from + PAGE_SIZE - 1)
     if (error) throw error
     if (!data || data.length === 0) break
     all.push(...data)
@@ -268,8 +274,8 @@ async function main() {
   }
   const supabase = createClient(url, key, { auth: { persistSession: false } })
 
-  console.log('Fetching entities with no logo_url and no wikidata_qid (excluding already-queued) ...')
-  let candidates = await fetchCandidates(supabase)
+  console.log(`Fetching entities (types: ${args.types ? args.types.join(', ') : 'all'}) with no logo_url and no wikidata_qid (excluding already-queued) ...`)
+  let candidates = await fetchCandidates(supabase, args.types)
   if (args.limit) candidates = candidates.slice(0, args.limit)
   console.log(`-> ${candidates.length} entities to process\n`)
   if (candidates.length === 0) { console.log('Nothing to do.'); return }

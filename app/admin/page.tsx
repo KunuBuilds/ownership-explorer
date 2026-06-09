@@ -65,6 +65,12 @@ export default function AdminIndex() {
               Generate and save AI descriptions for entities
             </div>
           </Link>
+          <Link href="/admin/logos" style={cardStyle}>
+            <strong style={{ color: '#0066cc' }}>Logo Review →</strong>
+            <div style={{ fontSize: 13, color: '#555', marginTop: 4 }}>
+              Approve Wikidata logo matches queued by enrich-wikidata.mjs
+            </div>
+          </Link>
         </div>
       </div>
     </div>

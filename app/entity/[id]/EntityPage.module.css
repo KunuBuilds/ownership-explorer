@@ -28,6 +28,21 @@
   border-bottom:   1px solid var(--border);
 }
 .heroLeft  { flex: 1; }
+.titleRow {
+  display:       flex;
+  align-items:   center;
+  gap:           16px;
+  margin-bottom: 16px;
+}
+.heroLogo {
+  flex-shrink: 0;
+  width:       56px;
+  height:      56px;
+  object-fit:  contain;
+  background:  #fff;
+  border:      1px solid var(--border);
+  padding:     7px;
+}
 .eyebrow {
   font-size:      10px;
   letter-spacing: 0.2em;
@@ -45,7 +60,6 @@
   font-weight:   700;
   color:         var(--text);
   line-height:   1.1;
-  margin-bottom: 16px;
 }
 .description {
   font-size:     14px;

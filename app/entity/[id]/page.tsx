@@ -215,7 +215,12 @@ export default async function EntityPage({ params }: { params: { id: string } })
             <div className={styles.typeDot} style={{ background: TYPE_COLORS[entity.type] }} />
             {entity.type}{entity.hq_country ? ` · ${entity.hq_country}` : ''}
           </div>
-          <h1 className={styles.title}>{entity.name}</h1>
+          <div className={styles.titleRow}>
+            {entity.logo_url && (
+              <img className={styles.heroLogo} src={entity.logo_url} alt={`${entity.name} logo`} />
+            )}
+            <h1 className={styles.title}>{entity.name}</h1>
+          </div>
           {entity.description && (
             <p className={styles.description}>{entity.description}</p>
           )}

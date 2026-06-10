@@ -17,6 +17,7 @@ interface QueueRow {
   entity_id:   string
   entity_name: string
   entity_type: string | null
+  chain:       { id: string; name: string }[]   // ancestors, root → immediate parent
   candidates:  Candidate[]
 }
 
@@ -224,9 +225,23 @@ export default function LogosPage() {
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 14 }}>
                     <div>
                       <div style={{ fontSize: 18, fontWeight: 600 }}>{row.entity_name}</div>
-                      <div style={{ fontSize: 11, color: colors.muted, fontFamily: 'monospace' }}>
+                      <div style={{ fontSize: 11, color: colors.muted, fontFamily: 'monospace', marginTop: 2 }}>
                         {row.entity_id}{row.entity_type && <> · {row.entity_type}</>}
                       </div>
+                      {row.chain.length > 0 ? (
+                        <div style={{ fontSize: 12, color: colors.textMuted, marginTop: 4 }}>
+                          {row.chain.map((node, i) => (
+                            <span key={node.id}>
+                              {i > 0 && <span style={{ color: colors.muted, margin: '0 5px' }}>›</span>}
+                              {node.name}
+                            </span>
+                          ))}
+                          <span style={{ color: colors.muted, margin: '0 5px' }}>›</span>
+                          <span style={{ color: colors.text, fontWeight: 600 }}>{row.entity_name}</span>
+                        </div>
+                      ) : (
+                        <div style={{ fontSize: 12, color: colors.muted, marginTop: 4, fontStyle: 'italic' }}>no recorded owner</div>
+                      )}
                     </div>
                     <button
                       onClick={() => reject(row.entity_id)}

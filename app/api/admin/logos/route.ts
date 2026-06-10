@@ -54,6 +54,46 @@ export async function GET(req: NextRequest) {
       .in('id', entityIds)
     const meta = new Map((ents ?? []).map(e => [e.id, e]))
 
+    // Walk the ownership tree upward so each entity shows its full chain to the
+    // root — the context that makes a brand identifiable. Level-by-level keeps
+    // this to a few small queries (chains are only a handful deep).
+    const parentOf = new Map<string, { id: string; name: string }>()  // child_id -> first live parent
+    {
+      let frontier = entityIds
+      const seen = new Set<string>(entityIds)
+      let depth = 0
+      while (frontier.length > 0 && depth < 25) {
+        const { data: edges } = await supabase
+          .from('ownership')
+          .select('child_id, parent:entities!ownership_parent_id_fkey(id, name)')
+          .in('child_id', frontier)
+          .is('divested_date', null)
+        const next: string[] = []
+        for (const row of (edges ?? []) as any[]) {
+          if (!row.parent) continue
+          if (!parentOf.has(row.child_id)) parentOf.set(row.child_id, { id: row.parent.id, name: row.parent.name })
+          if (!seen.has(row.parent.id)) { seen.add(row.parent.id); next.push(row.parent.id) }
+        }
+        frontier = next
+        depth++
+      }
+    }
+
+    // Ancestors ordered root → immediate parent (cycle-guarded).
+    const chainFor = (id: string): { id: string; name: string }[] => {
+      const chain: { id: string; name: string }[] = []
+      const guard = new Set<string>([id])
+      let cur = id
+      while (parentOf.has(cur)) {
+        const p = parentOf.get(cur)!
+        if (guard.has(p.id)) break
+        chain.unshift(p)
+        guard.add(p.id)
+        cur = p.id
+      }
+      return chain
+    }
+
     // Group by entity, preserving the most-pending entities first.
     const grouped: any[] = []
     const indexByEntity = new Map<string, number>()
@@ -63,7 +103,13 @@ export async function GET(req: NextRequest) {
         idx = grouped.length
         indexByEntity.set(c.entity_id, idx)
         const m = meta.get(c.entity_id)
-        grouped.push({ entity_id: c.entity_id, entity_name: m?.name ?? c.entity_id, entity_type: m?.type ?? null, candidates: [] })
+        grouped.push({
+          entity_id: c.entity_id,
+          entity_name: m?.name ?? c.entity_id,
+          entity_type: m?.type ?? null,
+          chain: chainFor(c.entity_id),
+          candidates: [],
+        })
       }
       grouped[idx].candidates.push({
         id: c.id, wikidata_qid: c.wikidata_qid, label: c.label, description: c.description,

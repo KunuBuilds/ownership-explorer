@@ -12,8 +12,6 @@ npm run lint      # ESLint via Next.js
 
 There are no automated tests. TypeScript checking runs as part of `next build`.
 
-> **In flight:** see `HANDOFF-entity-page-holdings.md` (repo root) for the current entity-page work — cascade categories, grouped/redesigned Holdings, brand-logo backfill. Check it before touching `app/entity/[id]/`.
-
 ## Environment
 
 Copy `.env.example` to `.env.local` and fill in:
@@ -58,6 +56,9 @@ Tables in Supabase (see `supabase/schema.sql`):
 - `sources` + `ownership_sources` — citation tracking per ownership edge
 - `alternatives` — related/alternative entities (directional flag)
 - `submissions` — user-submitted corrections/suggestions surfaced in `/admin`
+- `logo_candidates` — review queue for uncertain Wikidata logo matches (populated by
+  `enrich-wikidata.mjs`, resolved at `/admin/logos`). Entities also carry `logo_url` +
+  `wikidata_qid`; the latter keys both logo scripts.
 
 Row Level Security is enabled on all tables: public reads, authenticated-only writes. Admin API routes
 bypass RLS by using `SUPABASE_SECRET_KEY` (service role).
@@ -89,6 +90,7 @@ All admin writes go through `/api/admin/*` and require `x-admin-password`:
 | `GET/POST /api/admin/entities` | Entity management (reparent, type changes) |
 | `GET/POST /api/admin/actions` | Bulk entity operations |
 | `GET/POST /api/admin/categorize` | Category assignment workflow |
+| `GET/POST /api/admin/logos` | Wikidata logo review queue (approve/reject candidates) |
 
 ### Entity ID convention
 
@@ -115,6 +117,9 @@ ESM scripts in the **repo root**, run with `node <script>.mjs` (Node 18+):
 
 - `scraper.mjs` — SEC EDGAR Exhibit 21 / 20-F subsidiary lists → JSON
 - `wiki-brands.mjs` — Wikipedia brand-portfolio lists → JSON (same shape as the EDGAR output)
+- `enrich-wikidata.mjs` — matches entities to Wikidata by name; auto-applies high-confidence
+  `wikidata_qid` + `logo_url`, queues uncertain matches in `logo_candidates` for `/admin/logos`.
+  `--type` defaults to non-`legal-entity`; `--dry-run` to preview.
 - `fetch-logos.mjs` — backfills `entities.logo_url` from Wikidata P154 (keys off `wikidata_qid`)
 - `import-seed.mjs` — ingests the JSON above into Supabase
 

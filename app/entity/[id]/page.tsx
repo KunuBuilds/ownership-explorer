@@ -1,9 +1,11 @@
-import { getAllEntityIds, getEntityPageData, getAllOwnership, getAllEntities } from '@/lib/data'
+import { getAllEntityIds, getEntityPageData, getAllOwnership, getAllEntities, getAllCategories, getEffectivePrimaryCategoryBatch } from '@/lib/data'
 import { getOwnershipChains, countDescendants, buildEntityMap, childrenOf } from '@/lib/graph'
+import type { Ownership } from '@/lib/supabase'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import styles from './EntityPage.module.css'
 import SubmissionForm from '@/components/SubmissionForm'
+import HoldingsGroup, { HoldingItem } from './HoldingsGroup'
 
 // Tell Next.js which entity pages to generate at build time
 export const dynamicParams = true
@@ -63,12 +65,16 @@ export default async function EntityPage({ params }: { params: { id: string } })
     )
   }
 
-  const { entity, children, parents, sources, categories, categoryObjects, alternatives } = data
+  const { entity, children, parents, sources, categories, categoryMeta, alternatives } = data
 
   // Build graph context for chain traversal
   const allEntities  = await getAllEntities()
   const allOwnership = await getAllOwnership()
   const entityMap    = buildEntityMap(allEntities)
+
+  // Effective-category metadata carries only IDs; resolve display names.
+  const allCategories = await getAllCategories()
+  const catNameById   = new Map(allCategories.map(c => [c.id, c.name]))
 
   const chains    = getOwnershipChains(entity.id, allOwnership, entityMap)
   const chain     = chains[0] ?? []
@@ -105,6 +111,94 @@ export default async function EntityPage({ params }: { params: { id: string } })
     primary: 'Primary', secondary: 'Secondary', filing: 'Filing'
   }
 
+  // ── Grouped holdings (Brands first, with brand roll-up) ──
+  // Index children by parent once to avoid O(E) re-scans during traversal.
+  const childrenByParent = new Map<string, ReturnType<typeof childrenOf>>()
+  for (const o of allOwnership) {
+    const ent = entityMap.get(o.child_id)
+    if (!ent) continue
+    const arr = childrenByParent.get(o.parent_id) ?? []
+    arr.push({ ...o, entity: ent })
+    childrenByParent.set(o.parent_id, arr)
+  }
+
+  type RawBrand = { entity: typeof entity; edge: Ownership; via: { id: string; name: string } | null }
+  function collectBrandHoldings(rootId: string): RawBrand[] {
+    const out: RawBrand[] = []
+    const seenBrands = new Set<string>()
+    const walked = new Set<string>()
+    function walk(parentId: string) {
+      if (walked.has(parentId)) return
+      walked.add(parentId)
+      for (const edge of childrenByParent.get(parentId) ?? []) {
+        const child = edge.entity!
+        if (child.type === 'brand') {
+          if (!seenBrands.has(child.id)) {
+            seenBrands.add(child.id)
+            out.push({
+              entity: child, edge,
+              via: parentId === rootId ? null : { id: parentId, name: entityMap.get(parentId)?.name ?? parentId },
+            })
+          }
+        } else {
+          walk(child.id)
+        }
+      }
+    }
+    walk(rootId)
+    return out
+  }
+
+  const rawBrands       = collectBrandHoldings(entity.id)
+  const companyChildren = children.filter(c => ['subsidiary', 'conglomerate'].includes(c.entity.type))
+  const productChildren = children.filter(c => c.entity.type === 'product')
+  const legalChildren   = children.filter(c => c.entity.type === 'legal-entity')
+  const knownTypes      = new Set(['brand', 'subsidiary', 'conglomerate', 'product', 'legal-entity'])
+  const otherChildren   = children.filter(c => !knownTypes.has(c.entity.type))
+
+  const holdingIds = [
+    ...rawBrands.map(h => h.entity.id),
+    ...companyChildren.map(c => c.entity.id),
+    ...productChildren.map(c => c.entity.id),
+    ...legalChildren.map(c => c.entity.id),
+    ...otherChildren.map(c => c.entity.id),
+  ]
+  const primaryCat = await getEffectivePrimaryCategoryBatch(holdingIds)
+  const catName = (id: string, fallback: string | null) => primaryCat.get(id)?.name ?? fallback ?? null
+
+  const byCategory = (a: HoldingItem, b: HoldingItem) => {
+    const ca = a.category, cb = b.category
+    if (ca && cb) { const d = ca.localeCompare(cb); if (d) return d }
+    else if (ca && !cb) return -1
+    else if (!ca && cb) return 1
+    return a.name.localeCompare(b.name)
+  }
+
+  const brandItems: HoldingItem[] = rawBrands.map(h => ({
+    id: h.entity.id, name: h.entity.name, type: h.entity.type,
+    category: catName(h.entity.id, h.entity.category),
+    share_pct: h.edge.share_pct ?? null,
+    region: h.edge.region ?? null,
+    acquired_year: h.edge.acquired_date ? h.edge.acquired_date.slice(0, 4) : null,
+    via: h.via,
+    logo_url: h.entity.logo_url ?? null,
+  })).sort(byCategory)
+
+  const mapChild = (c: typeof children[number]): HoldingItem => ({
+    id: c.entity.id, name: c.entity.name, type: c.entity.type,
+    category: catName(c.entity.id, c.entity.category),
+    share_pct: c.share_pct ?? null,
+    region: c.region ?? null,
+    acquired_year: c.acquired_date ? c.acquired_date.slice(0, 4) : null,
+    via: null,
+    logo_url: c.entity.logo_url ?? null,
+  })
+
+  const companyItems = companyChildren.map(mapChild).sort(byCategory)
+  const productItems = productChildren.map(mapChild).sort(byCategory)
+  const legalItems   = legalChildren.map(mapChild).sort(byCategory)
+  const otherItems   = otherChildren.map(mapChild).sort(byCategory)
+
   return (
     <article className={styles.page}>
       <Link href={`/?company=${rootId}`} className={styles.back}>← Browse all</Link>
@@ -121,21 +215,29 @@ export default async function EntityPage({ params }: { params: { id: string } })
             <div className={styles.typeDot} style={{ background: TYPE_COLORS[entity.type] }} />
             {entity.type}{entity.hq_country ? ` · ${entity.hq_country}` : ''}
           </div>
-          <h1 className={styles.title}>{entity.name}</h1>
+          <div className={styles.titleRow}>
+            {entity.logo_url && (
+              <img className={styles.heroLogo} src={entity.logo_url} alt={`${entity.name} logo`} />
+            )}
+            <h1 className={styles.title}>{entity.name}</h1>
+          </div>
           {entity.description && (
             <p className={styles.description}>{entity.description}</p>
           )}
-          {categoryObjects.length > 0 && (
+          {categoryMeta.length > 0 && (
             <div className={styles.categoryRow}>
-              {categoryObjects.map(cat => (
-                <Link key={cat.id} href={`/categories?cat=${cat.id}`} className={`${styles.categoryTag} ${cat.is_primary ? styles.categoryTagPrimary : ''}`}>
-                  {cat.name}
+              {categoryMeta.map(cat => (
+                <Link key={cat.category_id} href={`/categories?cat=${cat.category_id}`} className={`${styles.categoryTag} ${cat.is_primary ? styles.categoryTagPrimary : ''}`}>
+                  {catNameById.get(cat.category_id) ?? cat.category_id}
+                  {cat.source === 'inherited' && (
+                    <span style={{ opacity: 0.55, marginLeft: 4, fontSize: '0.85em' }} title="Inherited from parent">↑</span>
+                  )}
                 </Link>
               ))}
             </div>
           )}
           <div className={styles.metaRow}>
-            {categoryObjects.length === 0 && entity.category && <span className={styles.tag}>{entity.category}</span>}
+            {categoryMeta.length === 0 && entity.category && <span className={styles.tag}>{entity.category}</span>}
             {directEdge
               ? <span className={`${styles.tag} ${isPartial ? styles.tagRed : styles.tagGreen}`}>
                   {directEdge.share_pct ?? 100}% owned
@@ -241,23 +343,12 @@ export default async function EntityPage({ params }: { params: { id: string } })
       {/* ── Holdings ── */}
       {children.length > 0 && (
         <section className={styles.section}>
-          <div className="section-label">Direct Holdings ({children.length})</div>
-          <div className={styles.holdingsGrid}>
-            {children.map(({ entity: child, share_pct, region, acquired_date }) => (
-              <Link key={child.id} href={`/entity/${child.id}`} className={`${styles.holdingCard} ${styles['type-' + child.type]}`}>
-                <div className={styles.holdingName}>{child.name}</div>
-                <div className={styles.holdingMeta}>
-                  <span className={`${styles.badge} ${(share_pct ?? 100) < 100 ? styles.badgePartial : styles.badgeFull}`}>
-                    {share_pct ?? 100}%
-                  </span>
-                  {child.type !== 'product' && <span className={styles.badge}>{child.type}</span>}
-                  {child.category && <span className={styles.badge}>{child.category}</span>}
-                  {region && <span className={styles.badge}>{region}</span>}
-                  {acquired_date && <span className={styles.badge}>{acquired_date.slice(0, 4)}</span>}
-                </div>
-              </Link>
-            ))}
-          </div>
+          <div className="section-label">Holdings</div>
+          {brandItems.length   > 0 && <HoldingsGroup label="Brands"                   items={brandItems} />}
+          {companyItems.length > 0 && <HoldingsGroup label="Companies & Subsidiaries" items={companyItems} />}
+          {productItems.length > 0 && <HoldingsGroup label="Products"                 items={productItems} />}
+          {legalItems.length   > 0 && <HoldingsGroup label="Legal Entities"           items={legalItems} cap={24} />}
+          {otherItems.length   > 0 && <HoldingsGroup label="Other Holdings"           items={otherItems} />}
         </section>
       )}
 

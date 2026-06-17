@@ -139,3 +139,27 @@ CREATE INDEX ON categories (parent_id);
 CREATE INDEX ON submissions (status);
 CREATE INDEX ON alternatives (entity_id);
 CREATE INDEX ON alternatives (alternative_id);
+
+-- ── LOGO ENRICHMENT (Wikidata) ────────────────────────────────────────────────
+-- wikidata_qid links an entity to its Wikidata item; fetch-logos.mjs and
+-- enrich-wikidata.mjs both key off it. logo_candidates is the human-review queue
+-- for uncertain name→Wikidata matches surfaced at /admin/logos.
+ALTER TABLE entities ADD COLUMN IF NOT EXISTS wikidata_qid TEXT;
+
+CREATE TABLE IF NOT EXISTS logo_candidates (
+  id            BIGSERIAL PRIMARY KEY,
+  entity_id     TEXT NOT NULL REFERENCES entities(id) ON DELETE CASCADE,
+  wikidata_qid  TEXT NOT NULL,
+  label         TEXT,
+  description   TEXT,
+  instance_of   TEXT,
+  logo_url      TEXT,
+  score         REAL NOT NULL DEFAULT 0,
+  is_suggested  BOOLEAN NOT NULL DEFAULT FALSE,
+  status        TEXT NOT NULL DEFAULT 'pending',   -- pending | approved | rejected
+  created_at    TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  UNIQUE (entity_id, wikidata_qid)
+);
+CREATE INDEX IF NOT EXISTS logo_candidates_status_idx ON logo_candidates (status);
+-- Admin-only: RLS on with no public policies; the admin API uses the service key.
+ALTER TABLE logo_candidates ENABLE ROW LEVEL SECURITY;

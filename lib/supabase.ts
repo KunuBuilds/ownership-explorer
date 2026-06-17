@@ -9,7 +9,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnon)
 
 // ── Types matching the database schema ───────────────────────────────────────
 
-export type EntityType = 'conglomerate' | 'subsidiary' | 'brand' | 'product'
+export type EntityType = 'conglomerate' | 'subsidiary' | 'brand' | 'product' | 'legal-entity'
 export type SourceType = 'primary' | 'secondary' | 'filing'
 
 export interface Entity {
@@ -21,6 +21,23 @@ export interface Entity {
   founded_date: string | null
   flags:        string[]
   description:  string | null
+  logo_url:     string | null
+  wikidata_qid: string | null
+}
+
+// Human-review queue for uncertain Wikidata logo matches (admin only).
+export interface LogoCandidate {
+  id:           number
+  entity_id:    string
+  wikidata_qid: string
+  label:        string | null
+  description:  string | null
+  instance_of:  string | null
+  logo_url:     string | null
+  score:        number
+  is_suggested: boolean
+  status:       'pending' | 'approved' | 'rejected'
+  created_at:   string
 }
 
 export interface Ownership {

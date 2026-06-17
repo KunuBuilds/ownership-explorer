@@ -223,38 +223,34 @@ export async function getEntityCategories(entityId: string): Promise<string[]> {
 // ── Compound queries (used by entity profile page) ────────────────────────────
 
 export interface EntityPageData {
-  entity:          Entity
-  children:        (Ownership & { entity: Entity })[]
-  parents:         (Ownership & { entity: Entity })[]
-  sources:         { source: Source; ownershipId: number; note: string | null }[]
-  categories:      string[]
-  categoryObjects: { id: string; name: string; level: number; is_primary: boolean }[]
-  alternatives:    { alternative: Entity; reason: string | null; directional: boolean }[]
+  entity:       Entity
+  children:     (Ownership & { entity: Entity })[]
+  parents:      (Ownership & { entity: Entity })[]
+  sources:      { source: Source; ownershipId: number; note: string | null }[]
+  categories:   string[]
+  categoryMeta: EffectiveCategory[]   // ← NEW: full metadata (source, is_primary)
+  alternatives: { alternative: Entity; reason: string | null; directional: boolean }[]
 }
 
 export async function getEntityPageData(id: string): Promise<EntityPageData | null> {
-  const [entity, children, parents, sources, categories, alternatives] = await Promise.all([
+  const [entity, children, parents, sources, categoryMeta, alternatives] = await Promise.all([
     getEntity(id),
     getChildren(id),
     getParents(id),
     getEntitySources(id),
-    getEntityCategories(id),
+    getEffectiveCategories(id),   // ← was: getEntityCategories(id)
     getAlternatives(id),
   ])
   if (!entity) return null
-
-  const { data: catRows } = await supabase
-    .from('entity_categories')
-    .select('is_primary, category:categories!entity_categories_category_id_fkey(id, name, level)')
-    .eq('entity_id', id)
-
-  const categoryObjects = ((catRows ?? []) as any[])
-    .map(r => r.category ? { ...r.category, is_primary: r.is_primary } : null)
-    .filter(Boolean) as { id: string; name: string; level: number; is_primary: boolean }[]
-
-  categoryObjects.sort((a, b) => Number(b.is_primary) - Number(a.is_primary) || a.level - b.level)
-
-  return { entity, children, parents, sources, categories, categoryObjects, alternatives }
+  return {
+    entity,
+    children,
+    parents,
+    sources,
+    categories:   categoryMeta.map(c => c.category_id),   // keep backward-compat shape
+    categoryMeta,
+    alternatives,
+  }
 }
 
 // ── Full graph snapshot (used by client-side pages: explore, timeline) ────────
@@ -375,6 +371,41 @@ export async function getEffectiveCategories(entityId: string): Promise<Effectiv
   })
   if (error) throw error
   return (data ?? []) as EffectiveCategory[]
+}
+
+// Convenience wrapper — returns just the category IDs (explicit + inherited).
+// Use this on public pages where you want the full cascade but only need IDs.
+export async function getEffectiveCategoryIds(entityId: string): Promise<string[]> {
+  const cats = await getEffectiveCategories(entityId)
+  return cats.map(c => c.category_id)
+}
+
+// Effective PRIMARY category per entity as { id, name }. Prefers explicit primary,
+// then any primary, then any explicit, then first effective. One rpc per id —
+// used to sort grouped holdings on the public entity page by category.
+export async function getEffectivePrimaryCategoryBatch(
+  entityIds: string[]
+): Promise<Map<string, { id: string; name: string }>> {
+  if (entityIds.length === 0) return new Map()
+  const cats = await getAllCategories()
+  const nameById = new Map(cats.map(c => [c.id, c.name]))
+  const results = await Promise.all(
+    entityIds.map(async id => {
+      const { data } = await supabase.rpc('entity_effective_categories', { target_entity_id: id })
+      const rows = (data ?? []) as EffectiveCategory[]
+      const pick =
+        rows.find(r => r.is_primary && r.source === 'explicit') ??
+        rows.find(r => r.is_primary) ??
+        rows.find(r => r.source === 'explicit') ??
+        rows[0]
+      return { id, pick }
+    })
+  )
+  const map = new Map<string, { id: string; name: string }>()
+  for (const { id, pick } of results) {
+    if (pick) map.set(id, { id: pick.category_id, name: nameById.get(pick.category_id) ?? pick.category_id })
+  }
+  return map
 }
 
 // Entities in a category, including those that inherit from an ancestor.

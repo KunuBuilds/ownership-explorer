@@ -10,7 +10,6 @@ export default function Nav() {
   const links = [
     { href: '/',           label: 'Browse' },
     { href: '/categories', label: 'Categories' },
-    { href: '/timeline',   label: 'Timeline' },
 	{ href: '/feedback',  label: 'Suggest' },
   ]
 

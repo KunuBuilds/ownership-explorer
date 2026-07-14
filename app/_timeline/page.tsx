@@ -1,3 +1,5 @@
+// Parked, not deleted: the underscore prefix excludes this folder from routing.
+// To bring the timeline back, rename to app/timeline and re-add the Nav link.
 import { getGraphSnapshot } from '@/lib/data'
 import TimelineClient from '@/components/TimelineClient'
 

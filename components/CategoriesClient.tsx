@@ -2,25 +2,24 @@
 import { useState, useMemo, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import type { GraphSnapshot } from '@/lib/data'
-import { buildEntityMap, buildCategoryTree, descendantCategoryIds, type CategoryTree } from '@/lib/graph'
+import { buildEntityMap, buildCategoryTree, resolveEffectiveCategories, type CategoryTree } from '@/lib/graph'
 import type { Entity, Ownership } from '@/lib/supabase'
 import styles from './CategoriesClient.module.css'
 import CategoryIcon from './CategoryIcon'  // or wherever you put it
 
 interface Props { snapshot: GraphSnapshot }
 
-// entity_categories isn't in GraphSnapshot — we'd fetch it separately in a real app.
-// For now we include it inline as a prop-compatible structure by extending the snapshot type.
-// In production: add `entityCategories: Record<string, string[]>` to GraphSnapshot.
-
-// Hardcoded category assignments matching the seed data
-// In production this comes from the entity_categories table via getGraphSnapshot()
-
-
 export default function CategoriesClient({ snapshot }: Props) {
   const { entities, ownership, categories, entityCategories } = snapshot
   const entityMap  = useMemo(() => buildEntityMap(entities), [entities])
   const catTree    = useMemo(() => buildCategoryTree(categories), [categories])
+
+  // snapshot.entityCategories holds explicit assignments only; resolve the
+  // inheritance cascade so entities without their own assignment still surface.
+  const effectiveCategories = useMemo(
+    () => resolveEffectiveCategories(entities, ownership, entityCategories),
+    [entities, ownership, entityCategories]
+  )
 
   const [activeL1,  setActiveL1]  = useState<string | null>(null)
   const [activeL2,  setActiveL2]  = useState<string | null>(null)
@@ -54,11 +53,28 @@ export default function CategoriesClient({ snapshot }: Props) {
 
 
 
-	  function entitiesInCat(catId: string): Entity[] {
-	  const descIds = descendantCategoryIds(catId, categories)
-	  return entities.filter(e =>
-		entityCategories[e.id]?.some(cid => descIds.includes(cid))
-	  )
+	// Membership per category, ancestors included: an entity effectively in a
+	// subcategory also counts toward its parent category and sector.
+	const entitiesByCategory = useMemo(() => {
+	  const map = new Map<string, Entity[]>()
+	  for (const e of entities) {
+		const seen = new Set<string>()
+		for (const cid of effectiveCategories[e.id] ?? []) {
+		  let cur = catMap.get(cid)
+		  while (cur && !seen.has(cur.id)) {
+			seen.add(cur.id)
+			const arr = map.get(cur.id) ?? []
+			arr.push(e)
+			map.set(cur.id, arr)
+			cur = cur.parent_id ? catMap.get(cur.parent_id) : undefined
+		  }
+		}
+	  }
+	  return map
+	}, [entities, effectiveCategories, catMap])
+
+	function entitiesInCat(catId: string): Entity[] {
+	  return entitiesByCategory.get(catId) ?? []
 	}
 
   function selectCat(l1: string | null, l2: string | null, l3: string | null) {
@@ -260,7 +276,7 @@ export default function CategoriesClient({ snapshot }: Props) {
                 : brandList.map(entity => {
                     const edge   = ownership.find(o => o.child_id === entity.id)
                     const owner  = edge ? entityMap.get(edge.parent_id) : null
-                    const catIds = entityCategories[entity.id] ?? []
+                    const catIds = effectiveCategories[entity.id] ?? []
                     const leafCat = catIds.length ? catMap.get(catIds[0]) : null
                     const l2cat  = leafCat?.parent_id ? catMap.get(leafCat.parent_id) : null
 

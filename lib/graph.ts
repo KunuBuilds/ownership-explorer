@@ -139,6 +139,49 @@ export function descendantCategoryIds(
   return ids
 }
 
+// ── Effective categories (cascade) ────────────────────────────────────────────
+// Client-side mirror of the entity_effective_categories RPC: an entity with any
+// explicit assignment uses only those; otherwise it inherits the union of its
+// current (non-divested) parents' effective categories.
+
+export function resolveEffectiveCategories(
+  entities: Entity[],
+  ownership: Ownership[],
+  explicit: Record<string, string[]>
+): Record<string, string[]> {
+  const parentsByChild = new Map<string, string[]>()
+  for (const o of ownership) {
+    if (o.divested_date != null) continue
+    const arr = parentsByChild.get(o.child_id) ?? []
+    arr.push(o.parent_id)
+    parentsByChild.set(o.child_id, arr)
+  }
+
+  const memo = new Map<string, string[]>()
+  const visiting = new Set<string>()
+
+  function resolve(id: string): string[] {
+    const own = explicit[id]
+    if (own && own.length > 0) return own
+    const cached = memo.get(id)
+    if (cached) return cached
+    if (visiting.has(id)) return []   // cycle guard — shouldn't happen, but don't hang
+    visiting.add(id)
+    const inherited = new Set<string>()
+    for (const parentId of parentsByChild.get(id) ?? []) {
+      for (const cid of resolve(parentId)) inherited.add(cid)
+    }
+    visiting.delete(id)
+    const result = [...inherited]
+    memo.set(id, result)
+    return result
+  }
+
+  const out: Record<string, string[]> = {}
+  for (const e of entities) out[e.id] = resolve(e.id)
+  return out
+}
+
 // ── Timeline events ───────────────────────────────────────────────────────────
 
 export interface TimelineEvent {

@@ -8,10 +8,15 @@ export default function Nav() {
   const path = usePathname()
 
   const links = [
-    { href: '/',           label: 'Browse' },
+    { href: '/',           label: 'Look up' },
+    { href: '/browse',     label: 'Browse companies' },
     { href: '/categories', label: 'Categories' },
-	{ href: '/feedback',  label: 'Suggest' },
+    { href: '/feedback',   label: 'Suggest a fix' },
   ]
+
+  // The landing page's hero is itself the search field — a second one in the
+  // nav would be redundant.
+  const showSearch = path !== '/'
 
   return (
     <nav className={styles.nav}>
@@ -27,7 +32,7 @@ export default function Nav() {
           </Link>
         ))}
       </div>
-      <LookupSearch />
+      {showSearch && <LookupSearch />}
     </nav>
   )
 }

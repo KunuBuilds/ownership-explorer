@@ -118,6 +118,37 @@ export async function getAllSources(): Promise<Source[]> {
 }
 
 // Sources for a specific entity's page (its incoming edge + all outgoing edges)
+// Citation counts per ownership edge, for the "N sources" pill on holdings.
+// getEntitySources only covers edges touching one entity, so brands rolled up
+// via an intermediate would otherwise look uncited.
+//
+// Reads the whole (small) junction table in one paginated pass rather than
+// filtering by edge id: a big conglomerate can have thousands of holdings, and
+// chunked `in` filters meant ~40 sequential round-trips per page — enough to
+// time the build out. Paginated against the 1,000-row cap like getAllOwnership.
+export async function getSourceCountsByOwnership(): Promise<Map<number, number>> {
+  const PAGE_SIZE = 1000
+  const counts = new Map<number, number>()
+  let from = 0
+
+  while (true) {
+    const { data, error } = await supabase
+      .from('ownership_sources')
+      .select('ownership_id')
+      .order('ownership_id')
+      .range(from, from + PAGE_SIZE - 1)
+
+    if (error) throw error
+    if (!data || data.length === 0) break
+    for (const row of data) {
+      counts.set(row.ownership_id, (counts.get(row.ownership_id) ?? 0) + 1)
+    }
+    if (data.length < PAGE_SIZE) break
+    from += PAGE_SIZE
+  }
+  return counts
+}
+
 export async function getEntitySources(entityId: string): Promise<{
   source: Source
   ownershipId: number

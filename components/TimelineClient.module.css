@@ -1,7 +1,7 @@
 .layout {
   display:               grid;
   grid-template-columns: 220px 1fr;
-  min-height:            calc(100vh - 56px);
+  min-height:            calc(100vh - 64px);
 }
 
 .sidebar {
@@ -10,8 +10,8 @@
   display:        flex;
   flex-direction: column;
   position:       sticky;
-  top:            56px;
-  height:         calc(100vh - 56px);
+  top:            64px;
+  height:         calc(100vh - 64px);
   overflow-y:     auto;
 }
 .sidebar::-webkit-scrollbar       { width: 3px; }
@@ -54,7 +54,7 @@
 .statRow  { display: flex; justify-content: space-between; align-items: baseline; padding: 5px 0; font-size: 10px; border-bottom: 1px solid var(--border); }
 .statRow:last-child { border-bottom: none; }
 .statLabel{ color: var(--muted); }
-.statVal  { color: var(--accent); font-family: 'Playfair Display', serif; font-size: 15px; }
+.statVal  { color: var(--accent); font-family: var(--font-display), serif; font-size: 15px; }
 
 /* Main */
 .main   { display: flex; flex-direction: column; overflow: hidden; }
@@ -124,7 +124,7 @@
   gap:            2px;
 }
 
-.laneName  { font-family: 'Playfair Display', serif; font-size: 13px; }
+.laneName  { font-family: var(--font-display), serif; font-size: 13px; }
 .laneCount { font-size: 9px; color: var(--muted); letter-spacing: 0.08em; }
 
 .laneEvents { position: relative; flex: 1; }
@@ -161,12 +161,12 @@
 }
 .event:hover .eventCard { border-color: var(--accent); background: var(--surface2); }
 
-.eventName   { font-family: 'Playfair Display', serif; font-size: 11px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.eventName   { font-family: var(--font-display), serif; font-size: 11px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .eventDate   { font-size: 9px; color: var(--muted); margin-top: 2px; }
 .eventBadges { display: flex; gap: 4px; margin-top: 4px; flex-wrap: wrap; }
 .eventBadge  { font-size: 8px; padding: 1px 5px; border: 1px solid var(--border); color: var(--muted); background: var(--tag-bg); }
-.badgePartial{ color: var(--danger);  border-color: rgba(200,110,110,.3); }
-.badgeFull   { color: var(--accent2); border-color: rgba(126,184,164,.3); }
+.badgePartial{ color: var(--danger);  border-color: rgba(163,58,42,.3); }
+.badgeFull   { color: var(--accent2); border-color: rgba(76,122,107,.3); }
 
 /* Tooltip */
 .tooltip {
@@ -177,10 +177,10 @@
   z-index:    9000;
   min-width:  200px;
   max-width:  280px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+  box-shadow: 0 12px 32px rgba(26,23,19,0.12);
   pointer-events: none;
 }
-.tooltipName   { font-family: 'Playfair Display', serif; font-size: 15px; color: var(--text); margin-bottom: 8px; }
+.tooltipName   { font-family: var(--font-display), serif; font-size: 15px; color: var(--text); margin-bottom: 8px; }
 .tooltipRow    { display: flex; justify-content: space-between; font-size: 10px; padding: 3px 0; border-bottom: 1px solid var(--border); }
 .tooltipRow:last-of-type { border: none; }
 .tooltipLabel  { color: var(--muted); }

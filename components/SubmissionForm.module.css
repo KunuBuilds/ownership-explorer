@@ -5,7 +5,7 @@
 }
 
 .entityLabel {
-  font-size:   11px;
+  font-size:   13px;
   color:       var(--muted);
   padding:     8px 12px;
   background:  var(--tag-bg);
@@ -17,13 +17,13 @@
 
 .field        { display: flex; flex-direction: column; gap: 6px; }
 .fieldRow     { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.label        { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.label        { font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
 
 .input, .select, .textarea {
   background:  var(--bg);
   border:      1px solid var(--border);
   color:       var(--text);
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--font-sans), sans-serif;
   font-size:   12px;
   padding:     8px 12px;
   outline:     none;
@@ -43,11 +43,11 @@
 }
 
 .error {
-  font-size:   11px;
+  font-size:   13px;
   color:       var(--danger);
   padding:     8px 12px;
-  background:  rgba(200,110,110,.07);
-  border:      1px solid rgba(200,110,110,.25);
+  background:  rgba(163,58,42,.07);
+  border:      1px solid rgba(163,58,42,.25);
 }
 
 .actions {
@@ -61,8 +61,8 @@
   background:     var(--accent);
   border:         1px solid var(--accent);
   color:          var(--bg);
-  font-family:    'IBM Plex Mono', monospace;
-  font-size:      11px;
+  font-family:    var(--font-sans), sans-serif;
+  font-size:      13px;
   padding:        8px 20px;
   cursor:         pointer;
   letter-spacing: 0.08em;
@@ -76,8 +76,8 @@
   background:     transparent;
   border:         1px solid var(--border);
   color:          var(--muted);
-  font-family:    'IBM Plex Mono', monospace;
-  font-size:      11px;
+  font-family:    var(--font-sans), sans-serif;
+  font-size:      13px;
   padding:        8px 16px;
   cursor:         pointer;
   letter-spacing: 0.08em;
@@ -96,16 +96,16 @@
 }
 
 .successIcon  { font-size: 28px; color: var(--accent2); }
-.successTitle { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--text); }
-.successDesc  { font-size: 11px; color: var(--muted); line-height: 1.6; max-width: 320px; }
+.successTitle { font-family: var(--font-display), serif; font-size: 20px; color: var(--text); }
+.successDesc  { font-size: 13px; color: var(--muted); line-height: 1.6; max-width: 320px; }
 
 .closeBtn {
   margin-top:     8px;
   background:     transparent;
   border:         1px solid var(--border);
   color:          var(--muted);
-  font-family:    'IBM Plex Mono', monospace;
-  font-size:      11px;
+  font-family:    var(--font-sans), sans-serif;
+  font-size:      13px;
   padding:        6px 16px;
   cursor:         pointer;
   transition:     all 0.15s;

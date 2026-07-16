@@ -1,5 +1,5 @@
-import { getAllEntityIds, getEntityPageData, getAllOwnership, getAllEntities, getAllCategories, getEffectivePrimaryCategoryBatch } from '@/lib/data'
-import { getOwnershipChains, countDescendants, buildEntityMap, childrenOf } from '@/lib/graph'
+import { getAllEntityIds, getEntityPageData, getAllOwnership, getAllEntities, getAllCategories, getEffectivePrimaryCategoryBatch, getSourceCountsByOwnership } from '@/lib/data'
+import { getOwnershipChains, countDescendants, buildEntityMap, childrenOf, rollUpToCategoryLevel } from '@/lib/graph'
 import type { Ownership } from '@/lib/supabase'
 import Link from 'next/link'
 import type { Metadata } from 'next'
@@ -48,8 +48,8 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
 const TYPE_COLORS: Record<string, string> = {
   conglomerate: 'var(--accent)',
   subsidiary:   'var(--accent2)',
-  brand:        '#a07eb8',
-  product:      '#7e8eb8',
+  brand:        'var(--type-brand)',
+  product:      'var(--type-product)',
 }
 
 export default async function EntityPage({ params }: { params: { id: string } }) {
@@ -60,7 +60,7 @@ export default async function EntityPage({ params }: { params: { id: string } })
       <div className="empty-state">
         <div className="icon">◈</div>
         <p>Entity not found: {params.id}</p>
-        <Link href="/" style={{ color: 'var(--accent)', marginTop: 8, fontSize: 11 }}>← Browse all</Link>
+        <Link href="/browse" style={{ color: 'var(--accent)', marginTop: 8, fontSize: 13 }}>← Browse all</Link>
       </div>
     )
   }
@@ -164,34 +164,53 @@ export default async function EntityPage({ params }: { params: { id: string } })
     ...otherChildren.map(c => c.entity.id),
   ]
   const primaryCat = await getEffectivePrimaryCategoryBatch(holdingIds)
-  const catName = (id: string, fallback: string | null) => primaryCat.get(id)?.name ?? fallback ?? null
+  const catById    = new Map(allCategories.map(c => [c.id, c]))
 
+  // Holdings group by the level-2 "product category" ("Paper Products"); the
+  // level-3 leaf ("Facial Tissue") stays on the row as its subtitle. Entities
+  // with no taxonomy assignment fall back to the legacy entities.category
+  // string, which isn't in the tree and so can't be rolled up.
+  const holdingCats = (id: string, fallback: string | null) => {
+    const pick = primaryCat.get(id)
+    if (!pick) return { category: fallback ?? null, subcategory: null }
+    const group = rollUpToCategoryLevel(pick.id, catById)
+    if (!group || group.id === pick.id) return { category: pick.name, subcategory: null }
+    return { category: group.name, subcategory: pick.name }
+  }
+
+  // Citation counts keyed by ownership edge, for the per-holding "N sources" pill.
+  const sourceCounts = await getSourceCountsByOwnership()
+
+  // Group label first (uncategorised last), then leaf, then name — so equal
+  // categories land adjacent for HoldingsGroup's single-pass bucketing.
   const byCategory = (a: HoldingItem, b: HoldingItem) => {
     const ca = a.category, cb = b.category
     if (ca && cb) { const d = ca.localeCompare(cb); if (d) return d }
     else if (ca && !cb) return -1
     else if (!ca && cb) return 1
+    const d2 = (a.subcategory ?? '').localeCompare(b.subcategory ?? '')
+    if (d2) return d2
     return a.name.localeCompare(b.name)
   }
 
   const brandItems: HoldingItem[] = rawBrands.map(h => ({
     id: h.entity.id, name: h.entity.name, type: h.entity.type,
-    category: catName(h.entity.id, h.entity.category),
+    ...holdingCats(h.entity.id, h.entity.category),
     share_pct: h.edge.share_pct ?? null,
     region: h.edge.region ?? null,
     acquired_year: h.edge.acquired_date ? h.edge.acquired_date.slice(0, 4) : null,
     via: h.via,
-    logo_url: h.entity.logo_url ?? null,
+    source_count: sourceCounts.get(h.edge.id) ?? 0,
   })).sort(byCategory)
 
   const mapChild = (c: typeof children[number]): HoldingItem => ({
     id: c.entity.id, name: c.entity.name, type: c.entity.type,
-    category: catName(c.entity.id, c.entity.category),
+    ...holdingCats(c.entity.id, c.entity.category),
     share_pct: c.share_pct ?? null,
     region: c.region ?? null,
     acquired_year: c.acquired_date ? c.acquired_date.slice(0, 4) : null,
     via: null,
-    logo_url: c.entity.logo_url ?? null,
+    source_count: sourceCounts.get(c.id) ?? 0,
   })
 
   const companyItems = companyChildren.map(mapChild).sort(byCategory)
@@ -201,7 +220,7 @@ export default async function EntityPage({ params }: { params: { id: string } })
 
   return (
     <article className={styles.page}>
-      <Link href={`/?company=${rootId}`} className={styles.back}>← Browse all</Link>
+      <Link href={`/browse?company=${rootId}`} className={styles.back}>← Browse all</Link>
 	  {entityCatId && (
       <Link href={`/categories?cat=${entityCatId}`} className={styles.back} style={{ marginLeft: 16 }}>
 		← Categories
@@ -216,9 +235,6 @@ export default async function EntityPage({ params }: { params: { id: string } })
             {entity.type}{entity.hq_country ? ` · ${entity.hq_country}` : ''}
           </div>
           <div className={styles.titleRow}>
-            {entity.logo_url && (
-              <img className={styles.heroLogo} src={entity.logo_url} alt={`${entity.name} logo`} />
-            )}
             <h1 className={styles.title}>{entity.name}</h1>
           </div>
           {entity.description && (
@@ -343,7 +359,10 @@ export default async function EntityPage({ params }: { params: { id: string } })
       {/* ── Holdings ── */}
       {children.length > 0 && (
         <section className={styles.section}>
-          <div className="section-label">Holdings</div>
+          <div className={`section-label ${styles.holdingsLabel}`}>
+            <span>Holdings</span>
+            <span className={styles.holdingsHint}>grouped by category</span>
+          </div>
           {brandItems.length   > 0 && <HoldingsGroup label="Brands"                   items={brandItems} />}
           {companyItems.length > 0 && <HoldingsGroup label="Companies & Subsidiaries" items={companyItems} />}
           {productItems.length > 0 && <HoldingsGroup label="Products"                 items={productItems} />}

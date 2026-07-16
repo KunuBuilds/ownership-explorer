@@ -50,7 +50,12 @@ Tables in Supabase (see `supabase/schema.sql`):
     Prefer the cascade (below); the legacy field still appears on some surfaces and is being phased out.
 - `ownership` — directed edge list (parent→child). `divested_date IS NULL` means currently owned.
   `share_pct NULL` means assumed 100%. The field is `share_pct` — **never** `ownership_percentage`.
-- `categories` — three-level self-referential taxonomy (level 1=sector, 2=category, 3=subcategory)
+- `categories` — self-referential taxonomy. Levels 1=sector, 2=category, 3=subcategory are the
+  intended shape, but the data also contains **level-4 (41 rows) and level-5 (1 row)** categories —
+  don't assume a max depth of 3. Assignments in `entity_categories` are mostly level-3 leaves
+  (~756 of a 1,000-row sample; ~151 level-2, ~92 level-1), which is why grouping UI rolls up to
+  level 2 via `rollUpToCategoryLevel()` in `lib/graph.ts` — grouping on the raw leaf yields
+  one-item buckets.
 - `entity_categories` — many-to-many entity↔category; includes `is_primary` flag
 - `legal_entity_brands` — junction mapping legal entities to the consumer brands they roll up to
 - `sources` + `ownership_sources` — citation tracking per ownership edge
@@ -67,16 +72,35 @@ bypass RLS by using `SUPABASE_SECRET_KEY` (service role).
 
 All `/admin/*` pages use a client-side password gate that stores the password in `sessionStorage`. The
 password is sent as `x-admin-password` header to all `/api/admin/*` routes. There is no Supabase auth —
-it's a single shared `ADMIN_PASSWORD` env var. Admin pages render on a **forced light background**, not
-the public dark theme.
+it's a single shared `ADMIN_PASSWORD` env var. Admin pages force their own background and palette rather
+than inheriting the public theme; they do share the public font tokens (see **Theming**).
 
 ### Rendering strategy
 
-- **Home page (`/`)** — server component fetches full `GraphSnapshot` at request time, passes it to `<ExploreClient>` (client component with search/filter UI)
+- **Home page (`/`)** — the answer-first lookup. Server component fetches full `GraphSnapshot`, passes it to `<LookupHero>` (client component: typeahead + "who owns X" answer card)
+- **Browse (`/browse`)** — the ownership-tree explorer. Server component fetches full `GraphSnapshot`, passes it to `<ExploreClient>` (client component with search/filter UI). Deep-linked as `/browse?company=<id>` from entity pages
 - **Entity pages (`/entity/[id]`)** — server-rendered with `generateStaticParams` pre-building a seed list; `dynamicParams = true` means all other IDs also SSR on first request
 - **Categories (`/categories/[[...slug]]`)** — server component
-- **Timeline (`/timeline`)** — server component passes `GraphSnapshot` to `<TimelineClient>`
 - **Admin pages** — all `'use client'` components; they call `/api/admin/*` routes directly
+
+The Timeline is **parked**: `<TimelineClient>` and `app/_timeline/page.tsx` still exist but are not routed
+(the `_` prefix opts the directory out). It is dormant, not dead — don't delete it.
+
+### Theming
+
+The public UI is a **light editorial theme** (design comp "option-1a — The Plain Answer"): cream
+`#faf7f2`, ink `#1a1713`, rust accent `#8a4b2a`.
+
+- **All colour lives in `:root` tokens in `app/globals.css`** (`--bg`, `--surface`, `--panel`,
+  `--border`, `--accent`, `--accent-soft`, `--accent2`, `--text`, `--text2`, `--muted`, `--danger`,
+  plus `--type-brand` / `--type-product` for entity-type coding). CSS modules reference the tokens —
+  re-theming happens there, not per-component. Don't hardcode hex or `rgba()` tints in modules; add a
+  token instead.
+- **Fonts are loaded with `next/font/google` in `app/layout.tsx`** and exposed as `--font-sans`
+  (Archivo, body/UI), `--font-display` (Instrument Serif, headings/entity names) and `--font-serif`
+  (Newsreader, prose). **Never re-add an `@import` to `globals.css`** — it was render-blocking, and
+  admin's font stacks depend on these tokens too. Next has no metric fallback for Newsreader, so it
+  logs `Failed to find font override values for font 'Newsreader'` — harmless.
 
 ### API routes
 
@@ -129,8 +153,17 @@ rebuilds on table changes, so a bad import can fail production.
 
 ## Gotchas
 
+- **`npm run build` times out locally but passes on Vercel.** Every entity page refetches the full
+  entities + ownership tables, and the ten big conglomerates in `generateStaticParams` exceed the
+  static-generation timeout on a slow link to Supabase (`kraft-heinz` is usually first to fail).
+  Verified 2026-07-16: identical failure on a clean `main`, while the Vercel build of the same commit
+  went green. **A red local build is not evidence your change broke anything** — confirm against
+  `main` before chasing it. Use `npm run dev` (every route serves in <2s) or the `verify` skill.
 - **Supabase 1,000-row cap.** `getAllEntities()` / `getAllOwnership()` must paginate in a `while` loop
   with an `.order('id')` tiebreaker; a single un-paginated query silently truncates at 1,000 rows.
+  Beware the inverse too: filtering by a long `in (...)` list to avoid reading a small table whole can
+  cost more than it saves — `getSourceCountsByOwnership()` reads all of `ownership_sources` in one
+  paginated pass because chunked `in` filters meant ~40 sequential round-trips per large entity.
 - **Recursive CTEs need the keyword.** Postgres requires `WITH RECURSIVE` explicitly — omitting it errors.
 - **API ↔ frontend field names must match.** A `category_name` vs `name` mismatch previously crashed a
   `.localeCompare`. When changing an API response shape, update the TS interface in the same change.

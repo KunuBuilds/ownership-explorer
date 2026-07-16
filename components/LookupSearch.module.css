@@ -1,56 +1,64 @@
+/* Nav lookup — the comp's rounded "⌕ Who owns…" field. The border lives on the
+   wrapper so the input and icon read as one pill. */
 .wrap {
-  margin-left: auto;
-  position:    relative;
-  display:     flex;
-  align-items: center;
+  margin-left:   auto;
+  position:      relative;
+  display:       flex;
+  align-items:   center;
+  background:    var(--surface);
+  border:        1px solid var(--border2);
+  border-radius: 999px;
+  transition:    border-color 0.2s;
 }
+
+.wrap:focus-within { border-color: var(--accent); }
 
 .input {
-  background:    var(--bg);
-  border:        1px solid var(--border);
-  border-right:  none;
+  background:    transparent;
+  border:        none;
   color:         var(--text);
-  font-family:   'IBM Plex Mono', monospace;
-  font-size:     11px;
-  padding:       6px 14px;
-  width:         220px;
+  font-family:   var(--font-sans), sans-serif;
+  font-size:     13px;
+  padding:       8px 6px 8px 18px;
+  width:         240px;
   outline:       none;
-  transition:    border-color 0.2s, width 0.3s;
+  transition:    width 0.3s;
+  border-radius: 999px 0 0 999px;
 }
 
-.input:focus          { border-color: var(--accent); width: 280px; }
+.input:focus          { width: 280px; }
 .input::placeholder   { color: var(--muted); }
 
 .icon {
-  background: var(--surface2);
-  border:     1px solid var(--border);
   color:      var(--muted);
-  padding:    6px 11px;
-  font-size:  13px;
+  padding:    0 16px 0 4px;
+  font-size:  14px;
   line-height:1;
 }
 
 .dropdown {
-  position:   absolute;
-  top:        calc(100% + 6px);
-  right:      0;
-  width:      380px;
-  background: var(--surface);
-  border:     1px solid var(--border);
-  z-index:    500;
-  max-height: 440px;
-  overflow-y: auto;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  position:      absolute;
+  top:           calc(100% + 8px);
+  right:         0;
+  width:         380px;
+  background:    var(--surface);
+  border:        1px solid var(--border2);
+  border-radius: 6px;
+  z-index:       500;
+  max-height:    440px;
+  overflow-y:    auto;
+  box-shadow:    0 12px 32px rgba(26, 23, 19, 0.12);
 }
 
 .dropdownLabel {
-  padding:        8px 16px 4px;
-  font-size:      9px;
-  letter-spacing: 0.18em;
+  padding:        10px 16px 6px;
+  font-size:      11px;
+  font-weight:    600;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color:          var(--muted);
   border-bottom:  1px solid var(--border);
-  background:     var(--bg);
+  background:     var(--surface);
   position:       sticky;
   top:            0;
 }
@@ -66,12 +74,12 @@
 .result:hover       { background: var(--surface2); }
 
 .resultName {
-  font-family:   'Playfair Display', serif;
-  font-size:     14px;
+  font-family:   var(--font-display), serif;
+  font-size:     17px;
   color:         var(--text);
   margin-bottom: 6px;
   display:       flex;
-  align-items:   center;
+  align-items:   baseline;
   gap:           8px;
 }
 
@@ -81,36 +89,38 @@
   font-style:   normal;
 }
 
-.resultType { font-size: 9px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; }
+.resultType { font-size: 11px; color: var(--muted); font-family: var(--font-sans), sans-serif; }
 
 .chain      { display: flex; align-items: center; flex-wrap: wrap; row-gap: 4px; }
 .chainWrap  { display: flex; align-items: center; }
-.arrow      { font-size: 9px; color: var(--border); padding: 0 3px; }
+.arrow      { font-size: 11px; color: var(--accent); padding: 0 3px; }
 
 .chainNode {
-  font-size:  10px;
-  padding:    2px 7px;
-  background: var(--tag-bg);
-  border:     1px solid var(--border);
-  color:      var(--muted);
+  font-size:     11px;
+  padding:       2px 8px;
+  border-radius: 999px;
+  background:    var(--tag-bg);
+  border:        1px solid var(--border);
+  color:         var(--muted);
 }
 
-.root   { background: rgba(200,169,110,.1); color: var(--accent);  border-color: rgba(200,169,110,.25); }
-.target { background: rgba(126,184,164,.1); color: var(--accent2); border-color: rgba(126,184,164,.25); }
+.root   { background: rgba(138,75,42,.08); color: var(--accent);  border-color: rgba(138,75,42,.25); }
+.target { background: rgba(76,122,107,.08); color: var(--accent2); border-color: rgba(76,122,107,.25); }
 
 .meta   { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
 
 .tag {
-  font-size:      9px;
-  padding:        2px 6px;
-  letter-spacing: 0.06em;
+  font-size:      10px;
+  padding:        2px 8px;
+  border-radius:  999px;
+  letter-spacing: 0.04em;
   border:         1px solid var(--border);
   color:          var(--muted);
   background:     var(--tag-bg);
 }
 
-.partial { color: var(--danger);  border-color: rgba(200,110,110,.3); background: rgba(200,110,110,.07); }
-.full    { color: var(--accent2); border-color: rgba(126,184,164,.3); background: rgba(126,184,164,.07); }
+.partial { color: var(--danger);  border-color: rgba(163,58,42,.3); background: rgba(163,58,42,.06); }
+.full    { color: var(--accent2); border-color: rgba(76,122,107,.3); background: rgba(76,122,107,.06); }
 
 @media (max-width: 768px) {
   .wrap {
@@ -119,13 +129,15 @@
 
   .input {
     width: 140px;
-    font-size: 11px;
-    padding: 5px 10px;
+    font-size: 13px;
+    padding: 6px 4px 6px 14px;
   }
 
   .input:focus {
     width: 180px;
   }
+
+  .icon { padding: 0 12px 0 4px; }
 
   .dropdown {
     width: calc(100vw - 32px);

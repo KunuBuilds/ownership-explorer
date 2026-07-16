@@ -260,8 +260,8 @@ export default function ExploreClient({ snapshot }: { snapshot: GraphSnapshot })
           {[
             { color: 'var(--accent)',  label: 'Conglomerate' },
             { color: 'var(--accent2)', label: 'Subsidiary' },
-            { color: '#a07eb8',        label: 'Brand' },
-            { color: '#7e8eb8',        label: 'Product' },
+            { color: 'var(--type-brand)',   label: 'Brand' },
+            { color: 'var(--type-product)', label: 'Product' },
 			{ color: 'var(--muted)',   label: 'Legal Entity' },
             { color: 'var(--danger)',  label: 'Partial Ownership' },
           ].map(item => (

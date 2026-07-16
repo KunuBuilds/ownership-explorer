@@ -139,6 +139,28 @@ export function descendantCategoryIds(
   return ids
 }
 
+// Roll a category up to its level-2 ancestor — the "product category" level the
+// entity page groups holdings by. Most assignments are level-3 leaves ("Facial
+// Tissue"), which group into one-item buckets; their level-2 parent ("Paper
+// Products") is the level that actually groups. Categories already at level 1 or
+// 2 are returned as-is. The taxonomy nests deeper than the documented three
+// levels (there are level-4/5 rows), so this walks rather than reading parent_id
+// once, with a depth cap in case a parent chain ever cycles.
+export function rollUpToCategoryLevel(
+  categoryId: string,
+  categoryById: Map<string, Category>,
+  targetLevel = 2
+): Category | null {
+  let cat = categoryById.get(categoryId) ?? null
+  let guard = 0
+  while (cat && cat.level > targetLevel && cat.parent_id && guard++ < 10) {
+    const parent = categoryById.get(cat.parent_id)
+    if (!parent) break
+    cat = parent
+  }
+  return cat
+}
+
 // ── Effective categories (cascade) ────────────────────────────────────────────
 // Client-side mirror of the entity_effective_categories RPC: an entity with any
 // explicit assignment uses only those; otherwise it inherits the union of its

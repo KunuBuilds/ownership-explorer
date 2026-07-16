@@ -17,7 +17,7 @@
 }
 
 .loginTitle {
-  font-family:   'Playfair Display', serif;
+  font-family:   var(--font-display), serif;
   font-size:     22px;
   color:         var(--accent);
   margin-bottom: 4px;
@@ -27,7 +27,7 @@
   background:  var(--bg);
   border:      1px solid var(--border);
   color:       var(--text);
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--font-sans), sans-serif;
   font-size:   13px;
   padding:     10px 14px;
   outline:     none;
@@ -45,7 +45,7 @@
   background:     var(--accent);
   border:         1px solid var(--accent);
   color:          var(--bg);
-  font-family:    'IBM Plex Mono', monospace;
+  font-family:    var(--font-sans), sans-serif;
   font-size:      12px;
   padding:        10px;
   cursor:         pointer;
@@ -75,7 +75,7 @@
 }
 
 .title {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-display), serif;
   font-size:   32px;
   font-weight: 700;
   color:       var(--text);
@@ -179,7 +179,7 @@
   background:  var(--surface);
   border:      1px solid var(--border);
   color:       var(--text);
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--font-sans), sans-serif;
   font-size:   11px;
   padding:     6px 10px;
   outline:     none;
@@ -191,7 +191,7 @@
 .actions { display: flex; gap: 6px; flex-wrap: wrap; }
 
 .actionBtn {
-  font-family:    'IBM Plex Mono', monospace;
+  font-family:    var(--font-sans), sans-serif;
   font-size:      9px;
   padding:        5px 12px;
   cursor:         pointer;

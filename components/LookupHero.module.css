@@ -1,0 +1,290 @@
+.wrap {
+  min-height: calc(100vh - 64px);
+  display: flex;
+  flex-direction: column;
+}
+
+.inner {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 36px;
+  padding: 64px 24px;
+}
+
+/* ── Headline ── */
+.headline {
+  font-family: var(--font-display), serif;
+  font-weight: 400;
+  font-size: clamp(38px, 7vw, 76px);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  text-align: center;
+  max-width: 900px;
+}
+
+.fieldWrap {
+  position: relative;
+  display: inline-block;
+  border-bottom: 4px solid var(--accent);
+}
+
+/* Invisible text that gives .fieldWrap the width of the current query. Must
+   carry identical type metrics to .field. */
+.sizer {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: inherit;
+  line-height: inherit;
+  padding: 0 4px;
+  visibility: hidden;
+  white-space: pre;
+  display: block;
+  min-width: 3ch;
+}
+
+.field {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: inherit;
+  line-height: inherit;
+  color: var(--accent);
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 0 4px;
+  caret-color: var(--text);
+  text-align: center;
+}
+
+.field::placeholder { color: var(--accent); opacity: 0.35; }
+
+.qmark { margin-left: 6px; }
+
+/* ── Typeahead ── */
+.dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  min-width: 320px;
+  max-height: 320px;
+  overflow-y: auto;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  box-shadow: 0 12px 32px rgba(26, 23, 19, 0.12);
+  z-index: 50;
+  text-align: left;
+  padding: 6px;
+}
+
+.option {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 9px 12px;
+  background: none;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.12s;
+}
+
+.option:hover { background: var(--surface2); }
+
+.optionName {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.optionType {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: lowercase;
+}
+
+/* ── Answer card ── */
+.card {
+  width: 100%;
+  max-width: 680px;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  box-shadow: 0 12px 32px rgba(26, 23, 19, 0.08);
+  overflow: hidden;
+  animation: fadeIn 0.25s ease;
+}
+
+.cardHead {
+  padding: 10px 24px;
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-sans), sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.cardBody {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 28px 24px;
+}
+
+.side { flex: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.sideRight { text-align: right; }
+
+.sideName {
+  font-family: var(--font-display), serif;
+  font-size: 30px;
+  line-height: 1.15;
+  color: var(--text);
+}
+
+.side:hover .sideName { color: var(--accent); }
+
+.sideMeta {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.inlineLink { color: var(--accent); font-weight: 600; }
+
+/* Relationship connector */
+.rel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.relLabel { font-size: 12px; font-weight: 600; color: var(--accent); white-space: nowrap; }
+.relLine  { width: 90px; height: 2px; background: var(--accent); }
+.relSince { font-size: 11px; color: var(--muted); white-space: nowrap; }
+
+/* ── Family strip ── */
+.family {
+  padding: 16px 24px 18px;
+  border-top: 1px dashed var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.familyLabel {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.familyRow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+.chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 6px 14px 6px 8px;
+  background: var(--bg);
+  transition: border-color 0.15s;
+}
+
+.chip:hover { border-color: var(--accent-soft); }
+
+.chipAvatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display), serif;
+  font-size: 11px;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.chipName { font-size: 13px; font-weight: 500; color: var(--text); }
+.chipMeta { font-size: 11px; color: var(--muted); }
+
+.seeAll {
+  margin-left: auto;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+/* ── Try row ── */
+.tryRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.tryLabel { color: var(--muted); }
+
+.tryChip {
+  border: 1px solid var(--border2);
+  border-radius: 999px;
+  padding: 6px 14px;
+  color: var(--text);
+  background: var(--surface);
+  font-family: var(--font-sans), sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.tryChip:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ── Footer ── */
+.footer {
+  padding: 16px 48px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 36px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.footer b { color: var(--text); font-weight: 600; }
+
+@media (max-width: 768px) {
+  .inner { gap: 26px; padding: 40px 20px; }
+  .headline { text-align: left; align-self: stretch; }
+  .cardBody { flex-direction: column; align-items: stretch; gap: 14px; }
+  .sideRight { text-align: left; }
+  .sideName { font-size: 24px; }
+  .rel { flex-direction: row; align-items: center; gap: 10px; }
+  .relLine { width: 2px; height: 26px; margin-left: 11px; }
+  .seeAll { margin-left: 0; }
+  .footer { gap: 14px; padding: 16px 20px; }
+  .dropdown { min-width: min(320px, 78vw); }
+}

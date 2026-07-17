@@ -194,6 +194,12 @@ export async function GET(req: NextRequest) {
     const excludeParam = req.nextUrl.searchParams.get('exclude') ?? ''
     const excludeIds = new Set([entityId, ...excludeParam.split(',').filter(Boolean)])
 
+    // Only suggest entities of the SAME type as the subject — a brand's alternative
+    // is another brand, a product's is another product; never a parent conglomerate.
+    const { data: subject } = await supabase
+      .from('entities').select('type').eq('id', entityId).single()
+    const subjectType = subject?.type ?? null
+
     // Get this entity's effective categories
     const { data: catRows, error: catErr } = await supabase.rpc('entity_effective_categories', {
       target_entity_id: entityId,
@@ -216,6 +222,7 @@ export async function GET(req: NextRequest) {
     for (const row of (catEntityRows ?? []) as any[]) {
       const e = row.entity
       if (!e || excludeIds.has(e.id) || seen.has(e.id)) continue
+      if (subjectType && e.type !== subjectType) continue   // same level only
       seen.add(e.id)
       suggestions.push({ id: e.id, name: e.name, type: e.type })
     }

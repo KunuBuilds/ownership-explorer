@@ -41,10 +41,11 @@ import fetch from 'node-fetch';
 import * as cheerio from 'cheerio';
 import { writeFileSync } from 'fs';
 import { argv, exit } from 'process';
+import { pathToFileURL } from 'url';
 
 // ---- Filing type definitions -------------------------------------------------
 
-const FILING = {
+export const FILING = {
   DOMESTIC: {
     form:         '10-K',
     formAlt:      '10-K/A',
@@ -72,7 +73,7 @@ const FILING = {
 //   Domestic: https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=<n>&type=10-K
 //   Foreign:  https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=<n>&type=20-F
 
-const CIK_MAP = {
+export const CIK_MAP = {
 
   // == Luxury / Fashion -- Foreign (20-F / Exhibit 8) ========================
   // Deregistered in 2003: LVMUY:  { cik: '0000824046', name: 'LVMH MOET HENNESSY LOUIS VUITTON',      filing: 'FOREIGN' }, // Louis Vuitton, Dior, Bulgari, Tiffany, Sephora, TAG Heuer
@@ -105,7 +106,7 @@ const CIK_MAP = {
   CPB:    { cik: '0000016732', name: 'Campbell Soup Co',                      filing: 'DOMESTIC' }, // Pepperidge Farm, Snyders, Kettle Brand, Pace, V8
   MKC:    { cik: '0000063754', name: 'McCormick & Co',                        filing: 'DOMESTIC' }, // McCormick, Franks RedHot, Frenchs, Cholula
   DEO:    { cik: '0000835403', name: 'DIAGEO PLC', filing: 'FOREIGN' }, // Johnnie Walker, Guinness, Smirnoff, Baileys, Tanqueray
-  STZ:    { cik: '0000016918', name: '', filing: 'DOMESTIC' }, // Corona, Robert Mondavi, Kim Crawford, Meiomi
+  STZ:    { cik: '0000016918', name: 'Constellation Brands Inc',              filing: 'DOMESTIC' }, // Corona, Robert Mondavi, Kim Crawford, Meiomi
   SAM:    { cik: '0000949870', name: 'Boston Beer Co',                        filing: 'DOMESTIC' }, // Samuel Adams, Truly, Twisted Tea, Angry Orchard
   TAP:    { cik: '0000024545', name: 'Molson Coors Beverage Co',              filing: 'DOMESTIC' }, // Coors, Miller, Blue Moon, Leinenkugels
 
@@ -415,7 +416,7 @@ async function edgarSearch({ cik, name, filingType }, verbose) {
  * If edgarSearch finds no filing for the configured form type, retry with
  * the other type (some companies switch between 10-K and 20-F over time).
  */
-async function edgarSearchWithFallback(target, verbose) {
+export async function edgarSearchWithFallback(target, verbose) {
   const primaryResult = await edgarSearch(target, verbose);
   if (primaryResult) return { ...primaryResult, filing_type: target.filingType };
 
@@ -551,7 +552,7 @@ async function parseExhibit(url, verbose) {
 
 // ---- Core scrape function ---------------------------------------------------
 
-async function scrapeCompany({ cik, name, ticker, filingType }, verbose) {
+export async function scrapeCompany({ cik, name, ticker, filingType }, verbose) {
   const result = {
     ticker:           ticker || null,
     cik,
@@ -623,11 +624,11 @@ async function scrapeCompany({ cik, name, ticker, filingType }, verbose) {
 
 // ---- Schema formatter -------------------------------------------------------
 
-function slugify(str = '') {
+export function slugify(str = '') {
   return str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 }
 
-function formatForSupabase(results) {
+export function formatForSupabase(results) {
   const entities  = [];
   const ownership = [];
   const sources   = [];
@@ -783,4 +784,6 @@ async function main() {
   }
 }
 
-main().catch(e => { console.error(e); exit(1); });
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch(e => { console.error(e); exit(1); });
+}

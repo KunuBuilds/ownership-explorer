@@ -192,6 +192,7 @@ export async function getAlternatives(entityId: string): Promise<{
     .from('alternatives')
     .select(`alternative:entities!alternatives_alternative_id_fkey (*), reason, directional`)
     .eq('entity_id', entityId)
+    .eq('status', 'approved')
 
   if (e1) throw e1
 
@@ -201,6 +202,7 @@ export async function getAlternatives(entityId: string): Promise<{
     .select(`alternative:entities!alternatives_entity_id_fkey (*), reason, directional`)
     .eq('alternative_id', entityId)
     .eq('directional', false)
+    .eq('status', 'approved')
 
   if (e2) throw e2
 

@@ -1,0 +1,34 @@
+name: Weekly alternatives cycle
+
+# Generates staged alternative candidates, enriches a bounded batch with Sonnet,
+# and appends to the rolling "Alternatives review queue" issue.
+on:
+  schedule:
+    - cron: '15 10 * * 3'   # Wednesdays 10:15 UTC
+  workflow_dispatch: {}
+
+permissions:
+  issues: write        # create/comment the rolling review issue
+  contents: read
+
+jobs:
+  cycle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # The scripts call Anthropic via plain fetch (no SDK) but import
+      # @supabase/supabase-js from the root package, so deps must be installed.
+      - run: npm ci
+
+      - name: Run alternatives cycle
+        run: node scripts/run-alternatives-cycle.mjs
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

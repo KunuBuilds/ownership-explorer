@@ -15,7 +15,7 @@
 //      GITHUB_TOKEN + GITHUB_REPOSITORY (both auto-provided inside GitHub Actions).
 
 import { spawn } from 'node:child_process'
-import { serviceClient } from './_supabase.mjs'
+import { serviceClient, fetchAll } from './_supabase.mjs'
 
 const ISSUE_TITLE = 'Alternatives review queue'
 const ADMIN_URL = 'https://ownership-explorer.vercel.app/admin/alternatives'
@@ -84,15 +84,30 @@ async function postIssueComment(body) {
 async function main() {
   const date = new Date().toISOString().slice(0, 10)
 
-  // ── 1. Generation (all categories) ──────────────────────────────────────
-  const gen = await sb.rpc('generate_alternative_candidates', { target_category: null })
-  if (gen.error) {
-    console.error('Generation FAILED:', gen.error.message)
-    process.exit(1) // only a generation failure is fatal
+  // ── 1. Generation — one RPC call per category ───────────────────────────
+  // A single all-categories call exceeds Supabase's statement timeout, so we
+  // chunk by category. Each call is small (a leaf category runs in ~2s); pairs
+  // are idempotent (ON CONFLICT), so cascade overlap between levels is free.
+  // Level-1 sectors are skipped: they always exceed the timeout (so they insert
+  // nothing anyway) and their brands are covered via their subcategories.
+  // Any remaining too-heavy category is caught and skipped, not fatal.
+  const catIds = (await fetchAll(sb, 'categories', 'id, level'))
+    .filter(c => (c.level ?? 1) > 1)
+    .map(c => c.id)
+  let inserted = 0, catsWithInserts = 0, okCats = 0, errCats = 0
+  for (const catId of catIds) {
+    const r = await sb.rpc('generate_alternative_candidates', { target_category: catId })
+    if (r.error) { errCats++; console.warn(`  generate(${catId}) skipped: ${r.error.message}`); continue }
+    okCats++
+    const n = Number(r.data?.[0]?.pairs_inserted ?? 0)
+    inserted += n
+    if (n > 0) { catsWithInserts++; console.log(`  ${catId}: +${n}`) }
   }
-  const inserted = Number(gen.data?.[0]?.pairs_inserted ?? 0)
-  const brands = Number(gen.data?.[0]?.brands_processed ?? 0)
-  console.log(`Generation: ${inserted} candidates inserted (${brands} brands scanned).`)
+  if (okCats === 0) {
+    console.error(`Generation FAILED: all ${errCats} category calls errored.`)
+    process.exit(1) // systemic failure (bad connection / permissions) is fatal
+  }
+  console.log(`Generation: ${inserted} candidates across ${catsWithInserts} categories (${errCats} skipped, ${okCats} ok).`)
 
   // ── 2. Enrichment (bounded, best-effort) ────────────────────────────────
   let kept = 0, rejected = 0, enrichmentSkipped = false
@@ -124,8 +139,9 @@ async function main() {
     const lines = [
       `### Weekly alternatives cycle — ${date}`,
       '',
-      `- Candidates generated: **${inserted}** (${brands} brands scanned)`,
+      `- Candidates generated: **${inserted}** across ${catsWithInserts} categories`,
     ]
+    if (errCats > 0) lines.push(`- Categories skipped (too heavy): ${errCats}`)
     if (enrichmentSkipped) lines.push('- Enrichment: ⚠️ skipped (API error)')
     else lines.push(`- Kept by Sonnet: **${kept}**`, `- Rejected by Sonnet: **${rejected}**`)
     lines.push(`- Pending review now: **${pending}**`, '', `Review: ${ADMIN_URL}`)
